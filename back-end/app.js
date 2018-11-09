@@ -3,7 +3,7 @@ var express = require('express'),
     morgan = require('morgan'),
     cors = require('cors');
 
-var datxeCtrl = require('./controller/datxeCtrl');
+var datxeCtrl = require('./controllers/datxeCtrl');
 
 var app = express();
 
