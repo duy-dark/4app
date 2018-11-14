@@ -1,26 +1,37 @@
-var express=require('express');
+var express = require('express');
+var moment = require('moment');
 
-var datxerepo=require('./../repo/datxerepo');
+var datxerepo = require('./../repo/datxerepo');
 
-var router=express.Router();
+var router = express.Router();
 
-router.get('/',(req,res)=>{
-
-});
-router.post('/',(req,res)=>{
-	var state='chưa nhận';
-	var kh={
-		TEN: req.body.TENKH,
-		SDT: req.body.SDTKH,
-		DIEMDI: req.body.DIEMDIKH,
-		DIEMDEN: req.body.DIEMDENKH,
-		GHICHU: req.body.GHICHUKH,
-		STATECD: state
-	}
-	console.log(kh);	
-	datxerepo.savekh(kh);
+router.get('/', (req, res) => {
 
 });
+router.post('/', (req, res) => {
+    var state = 'chưa được định vị';
+    var thoigian = moment().unix();
+    var kh = {
+        TEN: req.body.TENKH,
+        SDT: req.body.SDTKH,
+        DIEMDI: req.body.DIEMDIKH,
+        GHICHU: req.body.GHICHUKH,
+        STATECD: state,
+        THOIGIANDAT: thoigian
+    }
+    datxerepo.savekh(kh)
+        .then(value => {
+            console.log(value);
+            res.statusCode = 201;
+            res.json(req.body);
+        })
+        .catch(err => {
+            console.log(err);
+            res.statusCode = 500;
+            res.end('View error log on console');
+        })
+
+});
 
 
-module.exports=router;
+module.exports = router;

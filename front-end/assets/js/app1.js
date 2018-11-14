@@ -3,7 +3,6 @@ function saveCD() {
     data.TENKH=$('#TEN').val();
     data.SDTKH=$('#SDT').val();
     data.DIEMDIKH= $('#DIEMDI').val();
-    data.DIEMDENKH=$('#DIEMDEN').val();
     data.GHICHUKH=$('#GHICHU').val();
     
     $.ajax({
