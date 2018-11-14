@@ -6,3 +6,7 @@ exports.savekh = KH => {
 				values('${KH.TEN}','${KH.SDT}','${KH.DIEMDI}','${KH.GHICHU}','${KH.STATECD}',${KH.THOIGIANDAT})`;
 	return db.save(sql);
 }
+exports.loadAll = () => {
+	var sql = 'select * from chuyendi';
+	return db.load(sql);
+}
