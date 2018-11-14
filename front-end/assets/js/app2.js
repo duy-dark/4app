@@ -1,6 +1,5 @@
 $(function() {
     
-
     $.ajax({
         url: 'http://localhost:3000/datxe',
         type: 'GET',
@@ -14,3 +13,23 @@ $(function() {
         $('#appcd').html(html);
     })
 });
+function updateaddress() {
+    var data={};
+    data.IDCD=$('#IDCD').val();
+    data.TOADON=$('#TOADON').val();
+    data.TOADOW=$('#TOADOW').val();
+    
+    
+    $.ajax({
+        url: 'http://localhost:3000/datxe/updatetoado',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        timeout: 10000,
+        success: function(data) {
+            console.log(data)
+            alert('update thanh cong');
+        }
+    });
+    
+}
