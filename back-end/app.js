@@ -23,7 +23,8 @@ app.get('/', (req, res) => {
 
 app.use('/datxe/', datxeCtrl);
 app.use('/account/',dangnhapCtrl);
-app.use('/verifytrip',verifyAccessToken,tripCtrl)
+app.use('/verifytrip',verifyAccessToken,tripCtrl);
+
 var port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`QLBH API is running on port ${port}`);

@@ -3,7 +3,7 @@ var express = require('express');
 var dangnhapRepo = require('./../repo/dangnhapRepo');
 var tokenRepo = require('../repos/tokenRepo');
 
-var verifyAccessToken = require('./repos/tokenRepo').verifyAccessToken;
+
 
 
 var router = express.Router();
