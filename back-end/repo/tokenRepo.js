@@ -21,7 +21,7 @@ exports.generateAccessToken = userEntity => {
 }
 
 exports.verifyAccessToken = (req, res, next) => {
-    var token = req.headers['x-access-token'];
+    var token = req.body.token || req.query.token || req.headers['x-access-token'];
     console.log(token);
 
     if (token) {
@@ -53,11 +53,11 @@ exports.generateRefreshToken = () => {
 exports.updateRefreshToken = (userId, rfToken) => {
     return new Promise((resolve, reject) => {
 
-        var sql = `delete from userRefreshTokenExt where ID = ${userId}`;
+        var sql = `delete from userRefreshTokenExt where ID = '${userId}'`;
         db.insert(sql) // delete
             .then(value => {
                 var rdt = moment().format('YYYY-MM-DD HH:mm:ss');
-                sql = `insert into userRefreshTokenExt values(${userId}, '${rfToken}', '${rdt}')`;
+                sql = `insert into userRefreshTokenExt values('${userId}', '${rfToken}', '${rdt}')`;
                 return db.insert(sql);
             })
             .then(value => resolve(value))

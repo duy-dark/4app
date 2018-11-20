@@ -4,6 +4,10 @@ var express = require('express'),
     cors = require('cors');
 
 var datxeCtrl = require('./controllers/datxeCtrl');
+var dangnhapCtrl=require('./controllers/dangnhapCtrl');
+var tripCtrl=require('./controllers/tripCtrl');
+
+var verifyAccessToken = require('./repos/tokenRepo').verifyAccessToken;
 
 var app = express();
 
@@ -18,7 +22,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/datxe/', datxeCtrl);
-
+app.use('/account/',dangnhapCtrl);
+app.use('/verifytrip',verifyAccessToken,tripCtrl)
 var port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`QLBH API is running on port ${port}`);
