@@ -54,11 +54,11 @@ exports.updateRefreshToken = (userId, rfToken) => {
     return new Promise((resolve, reject) => {
 
         var sql = `delete from userRefreshTokenExt where ID = '${userId}'`;
-        db.insert(sql) // delete
+        db.save(sql) // delete
             .then(value => {
                 var rdt = moment().format('YYYY-MM-DD HH:mm:ss');
                 sql = `insert into userRefreshTokenExt values('${userId}', '${rfToken}', '${rdt}')`;
-                return db.insert(sql);
+                return db.save(sql);
             })
             .then(value => resolve(value))
             .catch(err => reject(err));

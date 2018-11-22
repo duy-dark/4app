@@ -7,7 +7,7 @@ var datxeCtrl = require('./controllers/datxeCtrl');
 var dangnhapCtrl=require('./controllers/dangnhapCtrl');
 var tripCtrl=require('./controllers/tripCtrl');
 
-var verifyAccessToken = require('./repos/tokenRepo').verifyAccessToken;
+var verifyAccessToken = require('./repo/tokenRepo').verifyAccessToken;
 
 var app = express();
 

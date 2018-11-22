@@ -9,6 +9,10 @@
 </head>
 
 <body>
+    <form action="">
+        <input type="hidden" id="access-token">
+        <input type="hidden" id="refresh-token">
+    </form>
     <br>
     <div class="container content">
         <div class="row">
@@ -33,19 +37,19 @@
                                 <div class="form-group">
                                     <label for="userName" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name:</label>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="userName" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
+                                        <input type="text" class="form-control" id="fusername" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
                                         <p class="help-block with-errors"> </p>
                                     </div>
                                     <label for="password" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password:</label>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="password" class="form-control" id="password" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
+                                        <input type="password" class="form-control" id="fpassword" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
                                         <p class="help-block with-errors"> </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Đăng Nhập</button>
+                                <button type="button" class="btn btn-primary" onclick="login()">Đăng Nhập</button>
                             </div>
                         </div>
                     </div>
@@ -61,36 +65,35 @@
                                 <div class="form-group">
                                     <label for="hoTen" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Họ Tên:</label>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="hoTen" name="fhoTen" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
+                                        <input type="text" class="form-control" id="hoten" name="fhoTen" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
+                                        <p class="help-block with-errors"> </p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Ngày sinh:</label>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
+                                        <input type="date" class="form-control" id="ngaysinh" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
+                                        <p class="help-block with-errors"> </p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
+                                        <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
                                         <p class="help-block with-errors"> </p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="password" class="form-control" id="passwordDk" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="passwordDk2" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Confirm Password:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="password" class="form-control" id="passwordDk2" placeholder="Nhập lại password của bạn" data-error="Vui lòng nhập lại password của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                        <p id="noMatch" style="color: #B34442;">Password nhập lại không đúng</p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="userNameDk" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
+                                        <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
                                         <p class="help-block with-errors"> </p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="gioiTih" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Giới tính:</label>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                        <select class="form-control" name="fgioiTinh">
+                                        <select class="form-control" name="fgioiTinh" id="gioitinh">
                                             <option value="nam">Nam</option>
                                             <option value="nu">Nữ</option>
                                         </select>
@@ -106,7 +109,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Đăng Ký</button>
+                                <button type="button" class="btn btn-primary" onclick="regist()">Đăng Ký</button>
                             </div>
                         </div>
                     </div>

@@ -20,7 +20,7 @@ exports.load = sql => {
             } else {
                 resolve(rows);
             }
-
+            console.log(rows);
             cn.end();
         });
     });
