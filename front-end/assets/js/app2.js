@@ -1,5 +1,5 @@
 $(function() {
-    
+
     $.ajax({
         url: 'http://localhost:3000/datxe',
         type: 'GET',
@@ -13,13 +13,14 @@ $(function() {
         $('#appcd').html(html);
     })
 });
+
 function updateaddress() {
-    var data={};
-    data.IDCD=$('#IDCD').val();
-    data.TOADON=$('#TOADON').val();
-    data.TOADOW=$('#TOADOW').val();
-    data.STATED="đã cập nhật";
-    
+    var data = {};
+    data.IDCD = $('#IDCD').val();
+    data.TOADON = $('#TOADON').val();
+    data.TOADOW = $('#TOADOW').val();
+    data.STATED = "đã cập nhật";
+
     $.ajax({
         url: 'http://localhost:3000/datxe/updatetoado',
         type: 'POST',
@@ -31,5 +32,5 @@ function updateaddress() {
             alert('update thanh cong');
         }
     });
-    
 }
+
