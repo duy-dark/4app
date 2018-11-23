@@ -11,6 +11,6 @@ exports.loadAll = () => {
 	return db.load(sql);
 }
 exports.updatetoado = obj => {
-	var sql =  `update chuyendi set TOADON = '${obj.TOADON}', TOADOW = '${obj.TOADOW}'where IDCD = ${obj.IDCD}`;
+	var sql =  `update chuyendi set TOADON = '${obj.TOADON}', TOADOW = '${obj.TOADOW}', STATECD = '${obj.STATECD}' where IDCD = ${obj.IDCD}`;
 	return db.save(sql);
 }

@@ -18,7 +18,7 @@ function updateaddress() {
     data.IDCD=$('#IDCD').val();
     data.TOADON=$('#TOADON').val();
     data.TOADOW=$('#TOADOW').val();
-    
+    data.STATED="đã cập nhật";
     
     $.ajax({
         url: 'http://localhost:3000/datxe/updatetoado',

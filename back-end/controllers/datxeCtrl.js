@@ -43,6 +43,7 @@ router.post('/updatetoado',(req,res)=>{
 		IDCD: req.body.IDCD,
 		TOADON: req.body.TOADON,
 		TOADOW: req.body.TOADOW
+        STATECD: req.body.STATED
 	}
 	datxerepo.updatetoado(obj).then(value => {
             console.log(value);

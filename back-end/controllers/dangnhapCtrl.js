@@ -11,10 +11,18 @@ var router = express.Router();
 router.get('/', (req, res) => {
 
 })
-router.get('/me', (req, res) => {
-    res.statusCode = 201;
-    res.json({
-        msg: 'sfaj'
+router.post('/me', (req, res) => {
+    var token=req.body.accesstoken;
+    console.log(token);
+    var decoded=tokenRepo.verifytoken(token);
+    var user=decoded.user;
+    dangnhapRepo.loadid(user.ID).then(rows=>{
+        if(rows.length>0){
+            res.statusCode=201;
+
+        }else{
+            res.statusCode=204;
+        }
     })
 })
 router.post('/login', (req, res) => {
@@ -33,6 +41,7 @@ router.post('/login', (req, res) => {
 
             tokenRepo.updateRefreshToken(userEntity.ID, rftoken)
                 .then(value => {
+                    res.statusCode=201;
                     res.json({
                         auth: true,
                         user: userEntity,

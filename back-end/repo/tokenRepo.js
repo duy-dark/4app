@@ -44,7 +44,10 @@ exports.verifyAccessToken = (req, res, next) => {
         })
     }
 }
-
+exports.verifytoken = token => {
+    var decoded=jwt.verify(token,SECRET);
+    return decoded;
+}
 exports.generateRefreshToken = () => {
     const SIZE = 80;
     return rndToken.generate(SIZE);
