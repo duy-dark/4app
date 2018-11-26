@@ -65,11 +65,32 @@ function login() {
     }).done(function(data) {
         //alert(data.length());
         result = data;
+        user1 = result.user;
         $('#access-token').val(result.access_token);
         $('#refresh-token').val(result.refresh_token);
+        $('#authtoken').val(result.auth);
+        $('#usertoken').val(JSON.stringify(result.user));
+        $('#daidien').val(user1.HOTEN);
+        alert('login thành công');
+
+
     })
-    function
+
 };
+
+function logout() {
+    $('#access-token').val("");
+    $('#refresh-token').val("");
+    $('#authtoken').val(false);
+    $('#usertoken').val("")
+    document.getElementById('dangnhap123').style.display = 'block';
+    document.getElementById('dangnhaproi').style.display = 'none';
+}
+
+function doigiaodien() {
+    document.getElementById('dangnhap123').style.display = 'none';
+    document.getElementById('dangnhaproi').style.display = 'block';
+}
 /*
 var start = function() {
     var data = {};

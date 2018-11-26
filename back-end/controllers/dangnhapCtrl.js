@@ -12,36 +12,35 @@ router.get('/', (req, res) => {
 
 })
 router.post('/me', (req, res) => {
-    var token=req.body.accesstoken;
+    var token = req.body.accesstoken;
     console.log(token);
-    var decoded=tokenRepo.verifytoken(token);
-    var user=decoded.user;
-    dangnhapRepo.loadid(user.ID).then(rows=>{
-        if(rows.length>0){
-            res.statusCode=201;
+    var decoded = tokenRepo.verifytoken(token);
+    var user = decoded.user;
+    dangnhapRepo.loadid(user.ID).then(rows => {
+        if (rows.length > 0) {
+            res.statusCode = 201;
 
-        }else{
-            res.statusCode=204;
+        } else {
+            res.statusCode = 204;
         }
     })
 })
 router.post('/login', (req, res) => {
-    var user={
+    var user = {
         USERNAME: req.body.USERNAME,
         PASSWORD: req.body.PASSWORD
     }
-    
+
     dangnhapRepo.login(user).then(rows => {
-        
+
         if (rows.length > 0) {
             var userEntity = rows[0];
-            console.log(userEntity);
+            dangnhapRepo.updatestatenv(userEntity.ID);
             var actoken = tokenRepo.generateAccessToken(userEntity);
             var rftoken = tokenRepo.generateRefreshToken();
-
             tokenRepo.updateRefreshToken(userEntity.ID, rftoken)
                 .then(value => {
-                    res.statusCode=201;
+                    res.statusCode = 201;
                     res.json({
                         auth: true,
                         user: userEntity,
@@ -61,6 +60,7 @@ router.post('/login', (req, res) => {
         }
     })
 })
+
 router.post('/register', (req, res) => {
     var user = {
         HOTEN: req.body.HOTEN,

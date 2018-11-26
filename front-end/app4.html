@@ -2,27 +2,22 @@
 <html>
 
 <head>
-    <title>app1</title>
+    <title></title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="assets/css/cssapp1.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/cssapp4.css">
 </head>
 
 <body>
-    <form action="">
-        <input type="hidden" id="access-token">
-        <input type="hidden" id="refresh-token">
-        <input type="hidden" id="authtoken">
-        <input type="hidden" id="usertoken">
-    </form>
     <br>
-    <div class="container content">
-        <div class="row">
-            <br>
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-                <div id="dangnhap123">
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-xs-6 col-md-4">
+        </div>
+        <div class="col-xs-6 col-md-4">
+            <div class="tlphone">
+                <div class="center">
                     <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                         Đăng Nhập
                     </button>
@@ -51,7 +46,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal" onclick="doigiaodien()">Close</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-primary" onclick="login()">Đăng Nhập</button>
                                 </div>
                             </div>
@@ -118,45 +113,23 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="dangnhaproi" style="display: none; left: none; height: 50px;">
-                    <div class="col-xs-6"><img src="./assets/image/e.png" style="width: 50px;height: 50px;" alt=""> <input style="width: 110px; height: 50px; " disabled id="daidien"></input>
-                    </div>
-                    <div class="col-xs-6"><button type="" class="btn form-control btn-info" onclick="logout()"> Đăng Xuất</button></div>
-                </div>
-                <br>
-                <br>
-                <div>
-                    <form action="" `>
-                        <div class="form-group">
-                            <label for="">Tên khách hàng</label>
-                            <input type="" id="TEN" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Số Điện Thoại</label>
-                            <input type="" id="SDT" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Điểm đi</label>
-                            <input type="" id="DIEMDI" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="">Ghi chú</label>
-                            <textarea id="GHICHU" cols="30" rows="5" class="form-control"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-success" onclick="saveCD()">submit</button>
-                    </form>
-                </div>
-            </div>
-            <div class="col-md-4">
             </div>
         </div>
-        <br>
+        <div class="col-xs-6 col-md-4">
+        </div>
+    </div>
+    <div class="container-fluid col-sm-12">
+        <div class="navbar-left col-sm-6">
+            <div id='listRequest'>
+            </div>
+        </div>
+        <div class="navbar-right col-sm-6">
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
-    <script src="assets/js/app1.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
 </body>
 
 </html>

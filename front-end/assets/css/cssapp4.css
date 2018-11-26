@@ -1,0 +1,15 @@
+
+ .tlphone{
+	text-align:center;
+	width: 430px;
+	height: 500px ;
+	background-color: #cccccc ;
+	padding: 5px 5px;
+	margin: 50px auto;
+    display: flex;
+}
+ .tlphone .center {
+    width: 60%;
+    height: 10%;
+    margin: auto;
+}

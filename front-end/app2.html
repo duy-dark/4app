@@ -49,7 +49,7 @@
                         <div class="col-md-2"><label>ID</label> <input name="" type="text" class="form-control contentid" disabled value="{{IDCD}}"></div>
                         <div class="col-md-3"><label>TÊN</label> <input type="text" class="form-control" disabled value="{{IDCD}}"></div>
                         <div class="col-md-4"><label>ĐỊA CHỈ</label><input type="text" class="form-control" disabled value="{{DIEMDI}}"></div>
-                        <div class="col-md-3"><label>STATED</label> <input type="text" class="form-control" disabled value="{{STATECD}}"></div>
+                        <div class="col-md-3"><label>STATED REQ</label> <input type="text" class="form-control" disabled value="{{STATEREQUEST}}"></div>
                     </div>
                 </a>
         {{/each}}
@@ -89,7 +89,7 @@
                 map.setZoom(12);
                 map.setCenter(marker.getPosition());
             });
-
+/*
             function geocodeLatLng(geocoder, map, infowindow) {
                 var latlng = { lat: $('#TOADON').val(), lng: $('#TOADOW').val(); };
                 geocoder.geocode({ 'location': latlng }, function(results, status) {
@@ -113,7 +113,7 @@
                     }
                 });
             }
-
+*/
             function geocodeAddress(geocoder, resultsMap) {
                 var address = document.getElementById('address').value;
                 geocoder.geocode({ 'address': address }, function(results, status) {

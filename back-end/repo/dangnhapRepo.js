@@ -24,3 +24,7 @@ exports.loadid = userid => {
 	var sql = `select * from nhanvien where ID='${userid}'`;
 	return db.load(sql);
 }
+exports.updatestatenv = userid => {
+	var sql =  `update nhanvien set STATED = 'online' where ID = ${userid}`;
+	return db.save(sql);
+}

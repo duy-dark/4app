@@ -4,8 +4,12 @@ exports.countloadalluser = () => {
 	var sql = `select count(*) from nhanvien where STATED = 'online' `;
 	return db.load(sql);
 }
+exports.countloadalluser = () => {
+	var sql = `select count(*) from chuyendi where STATEREQUEST = 'chưa định vị' `;
+	return db.load(sql);
+}
 exports.loadtrip = () => {
-	var sql = `select * from chuyendi where STATED = 'chưa cập nhật' limit ${config.requestdefault} offset ${config.offset}`;
+	var sql = `select * from chuyendi where STATEREQUEST = 'chưa định vị' limit ${config.requestdefault} offset ${config.offset}`;
 	return db.load(sql);
 }
 exports.updatetrip = trips => {
