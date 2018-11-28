@@ -3,7 +3,7 @@ function login() {
     var o;
     data.USERNAME = $('#fusername').val();
     data.PASSWORD = $('#fpassword').val();
-    data.LOAI=4;
+    data.LOAI = 4;
 
     //alert(JSON.stringify(data));
 
@@ -17,52 +17,72 @@ function login() {
             // alert(xhr.status);
         }
     }).done(function(data) {
+
         //alert(data.length());
         result = data;
-        user1 = result.user;
-        /*
-        $('#access-token').val(result.access_token);
-        $('#refresh-token').val(result.refresh_token);
-        $('#authtoken').val(result.auth);
-        $('#usertoken').val(JSON.stringify(result.user));
-        $('#daidien').val(user1.HOTEN);
-        */
+        if (result.auth) {
+            user1 = result.user;
+            /*
+            $('#access-token').val(result.access_token);
+            $('#refresh-token').val(result.refresh_token);
+            $('#authtoken').val(result.auth);
+            $('#usertoken').val(JSON.stringify(result.user));
+            $('#daidien').val(user1.HOTEN);
+            */
 
-        
-        window.localStorage.setItem('refresh', result.refresh_token);
-        console.log(window.localStorage.getItem('refresh'));
-        var data1={};
-        data1.refeshToken=window.localStorage.getItem('refresh');
-        var fn = function() {
+            $('#daidien').val(user1.HOTEN);
+            window.localStorage.setItem('refresh4', result.refresh_token);
 
-            $.ajax({
-                url: 'http://localhost:3000/newtoken/createtoken',
-                type: 'POST',
-                data: JSON.stringify(data1),
-                contentType: 'application/json',
-                timeout: 10000,
-                success: function(data, textstatus, xhr) {
-                    // alert(xhr.status);
-                }
-            }).done(function(data) {
-                window.localStorage.setItem('actoken', data.access_token);
-                console.log(window.localStorage.getItem('actoken'));
-            })
-            .catch(function(err){
-                console.log(err);
-            });
+            var data1 = {};
+            data1.refeshToken = window.localStorage.getItem('refresh4');
+            var fn = function() {
 
-            setTimeout(fn, 2000);
+                $.ajax({
+                        url: 'http://localhost:3000/newtoken/createtoken',
+                        type: 'POST',
+                        data: JSON.stringify(data1),
+                        contentType: 'application/json',
+                        timeout: 10000,
+                        success: function(data, textstatus, xhr) {
+                            // alert(xhr.status);
+                        }
+                    }).done(function(data) {
+                        window.localStorage.setItem('actoken4', data.access_token);
+
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+
+                setTimeout(fn, 58000);
+            }
+            fn();
+            alert('login thành công');
+
+        } else {
+            document.getElementById('loidangnhap').style.display = 'block';
         }
-        fn();
-        alert('login thành công');
-
 
     })
-
-};
+}
 
 function doigiaodien() {
     document.getElementById('chuadangnhap').style.display = 'none';
+    document.getElementById('dangnhaproi').style.display = 'block';
+    document.getElementById('taixesd').style.display = 'block';
 
+}
+$(function() {
+
+    if (window.localStorage.getItem('actoken4')===0) {
+        document.getElementById('chuadangnhap').style.display = 'none';
+    }
+
+});
+
+function logout() {
+    window.localStorage.setItem('actoken4', '0');
+    document.getElementById('chuadangnhap').style.display = 'block';
+    document.getElementById('dangnhaproi').style.display = 'none';
+        document.getElementById('taixesd').style.display = 'none';
 }
