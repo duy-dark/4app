@@ -49,6 +49,7 @@ $(document).ready(function() {
     $(document).on('click', '#btnDangKi', function() {
         $('.modaFormBackground').css('display', 'block');
         $('#dangKiForm form')[0].reset();
+        $('#alertDki').html('');
     });
 
     $(document).on('click', '.modaFormBackground', function() {
@@ -63,18 +64,28 @@ $(document).ready(function() {
         event.preventDefault();
         var userNameDk=$("#dangKiForm form input[name=fuserNameDk]").val();
         var passwordDk=$("#dangKiForm form input[name=fpasswordDk]").val();
-        
+        var postData={
+            USERNAME:userNameDk,
+            PASSWORD:passwordDk,
+            LOAI:3
+        };
          $.ajax({
-            url: 'http://localhost:3000/account/login',
+            url: 'http://localhost:3000/account/register',
             type: 'POST',
-            data: JSON.stringify(data),
+            data: JSON.stringify(postData),
             contentType: 'application/json',
             timeout: 10000
         }).done(data=> {
+                if(data.added){
+                     $(".modaFormBackground").click();
+                    alert('Tạo tài khoản thành công !');
 
-
+                }
+                else{
+                      $('#alertDki').html('Tài khoản đã tồn tại !');
+                }
         }).catch(err=>{
-
+                 $('#alertDki').html('Tài khoản đã tồn tại !');
         })
       
 
