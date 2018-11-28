@@ -16,9 +16,9 @@ exports.add = user => {
 	
 	return db.save(sql);
 }
-exports.initrftoken = userretoken => {
-	var sql = `select * from userrefreshtokenext where rfToken = '${userretoken}'`;
-	return db.load(sql);
+exports.initrftoken = refreshtoken => {
+	var sql = `select nv.* from userrefreshtokenext u, nhanvien nv where nv.ID=u.ID and u.rfToken='${refreshtoken}'`;
+    return db.load(sql);
 }
 exports.loadid = userid => {
 	var sql = `select * from nhanvien where ID='${userid}'`;

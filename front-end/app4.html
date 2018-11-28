@@ -4,132 +4,95 @@
 <head>
     <title></title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/cssapp4.css">
 </head>
 
 <body>
-    <br>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-xs-6 col-md-4">
-        </div>
-        <div class="col-xs-6 col-md-4">
-            <div class="tlphone">
-                <div class="center">
-                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                        Đăng Nhập
-                    </button>
-                    <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
-                        Đăng Ký
-                    </button>
-                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Đăng Nhập</h4>
-                                </div>
-                                <div class="modal-body" style="height: 100px;">
-                                    <div class="form-group">
-                                        <label for="userName" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                            <input type="text" class="form-control" id="fusername" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
-                                            <p class="help-block with-errors"> </p>
-                                        </div>
-                                        <label for="password" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                            <input type="password" class="form-control" id="fpassword" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
-                                            <p class="help-block with-errors"> </p>
-                                        </div>
+    <form action="">
+        <input type="hidden" id="access-token">
+        <input type="hidden" id="refresh-token">
+        <input type="hidden" id="authtoken">
+        <input type="hidden" id="usertoken">
+    </form>
+    <div class="container">
+    </div>
+    <div class="tlphone">
+        <div >
+            <div    id="chuadangnhap">
+            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                Đăng Nhập
+            </button>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Đăng Nhập</h4>
+                        </div>
+                        <div class="modal-body" style="height: 168px;">
+                            <div class="form-group">
+                                <div>
+                                    <label for="userName" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name:</label>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
+                                        <input type="text" class="form-control" id="fusername" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
+                                        <p class="help-block with-errors"> </p>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" onclick="login()">Đăng Nhập</button>
+                                    <label for="password" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password:</label>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
+                                        <input type="password" class="form-control" id="fpassword" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
+                                        <p class="help-block with-errors"> </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title" id="myModalLabel">Đăng Ký</h4>
-                                </div>
-                                <div class="modal-body" style="height: 300px;">
-                                    <div class="form-group">
-                                        <label for="hoTen" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Họ Tên:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                            <input type="text" class="form-control" id="hoten" name="fhoTen" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
-                                            <p class="help-block with-errors"> </p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Ngày sinh:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                            <input type="date" class="form-control" id="ngaysinh" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
-                                            <p class="help-block with-errors"> </p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                            <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
-                                            <p class="help-block with-errors"> </p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                            <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
-                                            <p class="help-block with-errors"> </p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="gioiTih" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Giới tính:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                            <select class="form-control" name="fgioiTinh" id="gioitinh">
-                                                <option value="nam">Nam</option>
-                                                <option value="nu">Nữ</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="hoTen" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Địa Chỉ:</label>
-                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                            <input type="text" class="form-control" id="diachi" name="fdiachi" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
-                                            <p class="help-block with-errors"> </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary" onclick="regist()">Đăng Ký</button>
-                                </div>
-                            </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="doigiaodien()">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="login()">Đăng Nhập</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xs-6 col-md-4">
-        </div>
-    </div>
-    <div class="container-fluid col-sm-12">
-        <div class="navbar-left col-sm-6">
-            <div id='listRequest'>
             </div>
-        </div>
-        <div class="navbar-right col-sm-6">
+            <div id="map">
+            </div>
+            <div >
+                <button type="button" class="btn btn-default">Nhận</button>
+                <button type="button" class="btn btn-success">Từ Chối</button>
+                <label  class="btn btn-primary">stated</label> 
+                <input type="text" name="" id="statedtx" class="form-control-static" disabled>
+            </div>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
+    <script src="assets/js/app4.js"></script>
+    <script>
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 10.823099, lng: 106.629664 },
+            zoom: 12
+        });
+        map.addListener('click', function(e) {
+            placeMarkerAndPanTo(e.latLng, map);
+
+        });
+
+        function placeMarkerAndPanTo(latLng, map) {
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: map
+            });
+            map.panTo(latLng);
+            alert(latLng);
+
+        }
+    }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q&callback=initMap"></script>
 </body>
 
 </html>

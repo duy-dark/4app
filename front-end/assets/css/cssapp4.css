@@ -1,15 +1,37 @@
 
  .tlphone{
-	text-align:center;
 	width: 430px;
-	height: 500px ;
+	height: 550px ;
 	background-color: #cccccc ;
 	padding: 5px 5px;
 	margin: 50px auto;
     display: flex;
+
 }
  .tlphone .center {
     width: 60%;
     height: 10%;
     margin: auto;
+}
+.tlphone #chuadangnhap{
+	text-align: center;
+}
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+#map{
+	padding: 5px 5px 5px 5px;
+	height: 400px;
+	width: 410px;
+	float: left;
+}
+#chuadangnhap{
+	padding: 5px 5px;
 }
