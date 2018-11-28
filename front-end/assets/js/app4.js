@@ -1,6 +1,5 @@
 function login() {
     var data = {};
-    var o;
     data.USERNAME = $('#fusername').val();
     data.PASSWORD = $('#fpassword').val();
     data.LOAI=4;
