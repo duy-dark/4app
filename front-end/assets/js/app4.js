@@ -43,11 +43,11 @@ function login() {
                         data: JSON.stringify(data1),
                         contentType: 'application/json',
                         timeout: 10000,
-                        success: function(data, textstatus, xhr) {
+                        success: function(data2, textstatus, xhr) {
                             // alert(xhr.status);
                         }
-                    }).done(function(data) {
-                        window.localStorage.setItem('actoken4', data.access_token);
+                    }).done(function(data2) {
+                        window.localStorage.setItem('actoken4', data2.access_token);
 
                     })
                     .catch(function(err) {
