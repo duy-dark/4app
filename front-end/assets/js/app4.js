@@ -29,6 +29,7 @@ function login() {
 
         
         window.localStorage.setItem('refresh', result.refresh_token);
+        console.log(window.localStorage.getItem('refresh'));
         var data1={};
         data1.refeshToken=window.localStorage.getItem('refresh');
         var fn = function() {
