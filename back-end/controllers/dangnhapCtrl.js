@@ -69,8 +69,10 @@ router.post('/register', (req, res) => {
         USERNAME: req.body.USERNAME,
         PASSWORD: req.body.PASSWORD,
         GIOITINH: req.body.GIOITINH,
-        DIACHI: req.body.DIACHI
+        DIACHI: req.body.DIACHI,
+        LOAI:req.body.LOAI
     }
+    console.log(req.body.LOAI);
     dangnhapRepo.add(user).then(value => {
             console.log(value);
             res.statusCode = 201;

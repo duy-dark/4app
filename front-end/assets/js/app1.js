@@ -1,5 +1,4 @@
-var actoken = $('#access_token').val();
-var rftoken = $('#refresh_token').val();
+
 
 function saveCD() {
     var data = {};
@@ -29,6 +28,7 @@ function regist() {
     data.PASSWORD = $('#password').val();
     data.GIOITINH = $('#gioitinh').val();
     data.DIACHI = $('#diachi').val();
+    data.LOAI=1;
 
     //alert(JSON.stringify(data));
 
@@ -50,7 +50,7 @@ function login() {
     var data = {};
     data.USERNAME = $('#fusername').val();
     data.PASSWORD = $('#fpassword').val();
-
+    data.LOAI=1;
     //alert(JSON.stringify(data));
 
     $.ajax({
@@ -64,55 +64,68 @@ function login() {
         }
     }).done(function(data) {
         //alert(data.length());
-        result = data;
-        user1 = result.user;
-        $('#access-token').val(result.access_token);
-        $('#refresh-token').val(result.refresh_token);
-        $('#authtoken').val(result.auth);
-        $('#usertoken').val(JSON.stringify(result.user));
-        $('#daidien').val(user1.HOTEN);
-        alert('login thành công');
 
+        result = data;
+        
+        if (result.auth) {
+            user1 = result.user;
+            
+
+            $('#daidien').val(user1.HOTEN);
+            window.localStorage.setItem('refresh1', result.refresh_token);
+
+            var data1 = {};
+            data1.refeshToken = window.localStorage.getItem('refresh1');
+            var fn = function() {
+
+                $.ajax({
+                        url: 'http://localhost:3000/newtoken/createtoken',
+                        type: 'POST',
+                        data: JSON.stringify(data1),
+                        contentType: 'application/json',
+                        timeout: 10000,
+                        success: function(data2, textstatus, xhr) {
+                            // alert(xhr.status);
+                        }
+                    }).done(function(data2) {
+                        window.localStorage.setItem('actoken1', data2.access_token);
+
+                    })
+                    .catch(function(err) {
+                        console.log(err);
+                    });
+
+                setTimeout(fn, 58000);
+            }
+            fn();
+            alert('login thành công');
+
+        } else {
+            document.getElementById('loidangnhap').style.display = 'block';
+        }
 
     })
 
 };
 
 function logout() {
-    $('#access-token').val("");
-    $('#refresh-token').val("");
-    $('#authtoken').val(false);
-    $('#usertoken').val("")
+    window.localStorage.setItem('actoken1', '0');
     document.getElementById('dangnhap123').style.display = 'block';
     document.getElementById('dangnhaproi').style.display = 'none';
+    document.getElementById('dowork').style.display = 'none';
 }
 
 function doigiaodien() {
     document.getElementById('dangnhap123').style.display = 'none';
     document.getElementById('dangnhaproi').style.display = 'block';
-}
-/*
-var start = function() {
-    var data = {};
-    data.accesstoken = actoken;
-    $.ajax({
-        url: 'http://localhost:3000/account/me',
-        type: 'POST',
-        data: JSON.stringify(data),
-        dataType: 'application/json',
-        timeout: 10000,
-        success: function(data, textstatus, xhr) {
-            if (xhr.status === 201) {
-               var html = document.getElementById("dangnhap").innerHTML;
-                $('#dangnhapabc').html(html);
-                
-            }
-            if (xhr.status === 204) {
-                alert('đã đăng nhập');
-
-            }
-        }
-    });
+    document.getElementById('dowork').style.display = 'block';
+    
 
 }
-*/
+$(function() {
+
+    if (window.localStorage.getItem('actoken1')===0) {
+        document.getElementById('dangnhap123').style.display = 'none';
+    }
+
+});

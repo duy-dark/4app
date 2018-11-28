@@ -7,12 +7,11 @@ var dangnhapRepo = require('../repo/dangnhapRepo');
 
 
 router.post('/createtoken', (req, res) => {
-    console.log(req.body.refeshToken);
-    dangnhapRepo.initrftoken(req.body.refeshToken).then(rows => {
+       dangnhapRepo.initrftoken(req.body.refeshToken).then(rows => {
         if (rows.length > 0) {
             var userEntity=rows[0];
             var acToken = tokenRepo.generateAccessToken(userEntity);
-            console.log('àgjasgfkjasf');
+            
             res.json({
                 auth: true,
                 user: userEntity,
