@@ -8,16 +8,7 @@
 <body>
 	<div class="accountBackground">
 		<div class="accountControl ">
-			<span >
-				User Name:
-				<input type="text" name="accountName">
-			</span>
-			<span>
-				Password:
-				<input type="password" name="accountPasssword">
-			</span>
-			 <button id="btnDangNhap" type="button" class="btn btn-success">Đăng nhập</button>
-			 <button id="btnDangKi" type="button" class="btn btn-primary">Tạo tài khoản</button>
+			
 		</div>	
 	</div>
 	<div class="modaFormBackground">
@@ -26,7 +17,7 @@
 				Tạo tài khoản mới
 				<hr>
 			</div>
-			 <form id='formDangNhap' class=" form-horizontal" data-toggle="validator" role="form" >
+			 <form class=" form-horizontal" data-toggle="validator" role="form" >
 		         <div class="form-group">
 	                <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
 	                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
@@ -50,20 +41,16 @@
         	</form>
 		</div>
 	</div>
-	<div class="homePageTitle">REQUEST MANANGEMENT APP</div>
+	<div id="homePageTitle"></div>
 	
-	<div class="container-fluid col-sm-12">
-		<div class="navbar-left col-sm-6"  >
-			<div id='listRequest'>
-
-			</div>
-		</div>
-
-		<div class="navbar-right col-sm-6"  >
-			
-		</div>
+	<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="requestMangeContent">
+		
 	</div>
-
+	<script id="template" type="text/x-handlebars-template">
+		{{#each this}}
+			<li>{{ID}}</li>
+		{{/each}}
+	</script>
 	 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>

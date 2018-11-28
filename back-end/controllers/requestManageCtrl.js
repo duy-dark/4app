@@ -2,8 +2,9 @@ var express = require('express');
 var requestManageRepo=require('../repo/requestManageRepo');
 var router = express.Router();
 
-router.get('',(req,res)=>{
+router.get('/',(req,res)=>{
 	requestManageRepo.loadAllRequest().then(rows=>{
+		console.log(rows);
 		res.json({
 			data:rows
 		});
