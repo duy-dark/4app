@@ -72,3 +72,6 @@ text-align: center;
     color: #449D44;
 }
 
+#requestManageContent li{
+	display: inline-block;
+}

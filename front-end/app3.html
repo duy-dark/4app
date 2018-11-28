@@ -44,12 +44,27 @@
 	<div id="homePageTitle"></div>
 	
 	<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="requestMangeContent">
-		
+		<ul>
+			<li>Thời điểm đặt</li>
+			<li>ID CD</li>
+			<li>Họ tên KH</li>
+			<li> SĐT KH</li>			
+			<li>Điểm đón khách</li>
+			<li>Ghi chú</li>
+			<li>State Request</li>
+			<li>State CĐ</li>
+			<li>ID TX</li>
+			<li>Họ tên TX</li>
+			<li>SĐT TX</li>
+			<li>Vị trí hiện tại</li>
+		</ul>
 	</div>
 	<script id="template" type="text/x-handlebars-template">
+
 		{{#each this}}
-			<li>{{ID}}</li>
-			<li>{{USERNAME}}</li>
+			<li>{{IDCD}}</li>
+			<li>{{ĐIỂM ĐÓN}}</li>
+
 		{{/each}}
 	</script>
 	 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
