@@ -19,7 +19,24 @@ exports.generateAccessToken = userEntity => {
 
     return token;
 }
-
+exports.requireNewActoken=refeshToken=>{
+        var sql = `select nv.* from userrefreshtokenext u, nhanvien nv where nv.ID=u.ID and u.rfToken='${refeshToken}'`;
+        db.load(sql).then(rows=>{
+                if(rows.length>0){
+                    var acToken=generateAccessToken(rows[0]);
+                    res.json({
+                        auth: true,
+                        user: userEntity,
+                        access_token: actoken,
+                        refresh_token: refeshToken
+                    })
+                }
+        }).catch(err=>{
+               res.statusCode = 500;
+                res.end('View error log on console');
+        })
+    
+}
 exports.verifyAccessToken = (req, res, next) => {
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
     console.log(token);

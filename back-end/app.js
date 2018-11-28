@@ -6,6 +6,7 @@ var express = require('express'),
 var datxeCtrl = require('./controllers/datxeCtrl');
 var dangnhapCtrl=require('./controllers/dangnhapCtrl');
 var tripCtrl=require('./controllers/tripCtrl');
+var requestManageCtrl=require('./controllers/requestManageCtrl')
 
 var verifyAccessToken = require('./repo/tokenRepo').verifyAccessToken;
 
@@ -22,8 +23,10 @@ app.get('/', (req, res) => {
 });
 
 app.use('/datxe/', datxeCtrl);
-app.use('/account/',dangnhapCtrl);
+app.use('/account',dangnhapCtrl);
 app.use('/verifytrip',verifyAccessToken,tripCtrl);
+app.use('/requestManage',verifyAccessToken,requestManageCtrl);
+
 
 var port = process.env.PORT || 3000;
 app.listen(port, () => {

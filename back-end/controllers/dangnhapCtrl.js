@@ -28,7 +28,8 @@ router.post('/me', (req, res) => {
 router.post('/login', (req, res) => {
     var user = {
         USERNAME: req.body.USERNAME,
-        PASSWORD: req.body.PASSWORD
+        PASSWORD: req.body.PASSWORD,
+        LOAI:req.body.LOAI
     }
 
     dangnhapRepo.login(user).then(rows => {

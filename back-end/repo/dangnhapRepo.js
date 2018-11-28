@@ -5,7 +5,7 @@ var sha256 = require('crypto-js/sha256');
 exports.login = user => {
 	console.log(user);
 	var md5_password=sha256(user.PASSWORD);
-	var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}';`
+	var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}' and LOAI='${user.LOAI}';`
 	return db.load(sql);
 }
 
