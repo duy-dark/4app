@@ -6,16 +6,20 @@ var datxerepo = require('./../repo/datxerepo');
 var router = express.Router();
 
 router.get('/', (req, res) => {
-    datxerepo.loadAll().then(rows => {
-        res.json(rows);
+    datxerepo.loadcd().then(rows => {        
+        datxerepo.updatestatecd(rows[0].IDCD,'đang định vị').then(rows1=>{
+            res.json(rows[0]);
+        })
     }).catch(err => {
         console.log(err);
         res.statusCode = 500;
         res.end('View error log on console');
     })
 });
+
 router.post('/', (req, res) => {
-    var state = 'chưa được định vị';
+    var state = 'chưa nhận';
+    
     var thoigian = moment().unix();
     var kh = {
         TEN: req.body.TENKH,
@@ -24,6 +28,7 @@ router.post('/', (req, res) => {
         GHICHU: req.body.GHICHUKH,
         STATECD: state,
         THOIGIANDAT: thoigian
+        
     }
     datxerepo.savekh(kh)
         .then(value => {
@@ -43,8 +48,10 @@ router.post('/updatetoado',(req,res)=>{
 		IDCD: req.body.IDCD,
 		TOADON: req.body.TOADON,
 		TOADOW: req.body.TOADOW,
-        STATECD: req.body.STATED
+        STATECD: req.body.STATEREQUEST,
+        REVERGEOCODING:req.body.REVERGEOCODING
 	}
+    console.log(obj);
 	datxerepo.updatetoado(obj).then(value => {
             console.log(value);
             res.statusCode = 201;

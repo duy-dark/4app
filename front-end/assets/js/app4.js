@@ -83,5 +83,5 @@ function logout() {
     window.localStorage.setItem('actoken4', '0');
     document.getElementById('chuadangnhap').style.display = 'block';
     document.getElementById('dangnhaproi').style.display = 'none';
-        document.getElementById('taixesd').style.display = 'none';
+    document.getElementById('taixesd').style.display = 'none';
 }

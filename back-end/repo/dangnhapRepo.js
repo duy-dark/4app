@@ -11,8 +11,8 @@ exports.login = user => {
 
 exports.add = user => {
 	var md5_password=sha256(user.PASSWORD);
-	var sql = `insert into nhanvien( HOTEN, USERNAME, PASSWORD,NGAYSINH,GIOITINH,DIACHI) 
-	values('${user.HOTEN}','${user.USERNAME}', '${md5_password}', '${user.NGAYSINH}', '${user.GIOITINH}', '${user.DIACHI}' )`;
+	var sql = `insert into nhanvien( HOTEN, USERNAME, PASSWORD,NGAYSINH,GIOITINH,DIACHI,LOAI) 
+	values('${user.HOTEN}','${user.USERNAME}', '${md5_password}', '${user.NGAYSINH}', '${user.GIOITINH}', '${user.DIACHI}',${user.LOAI} )`;
 	
 	return db.save(sql);
 }

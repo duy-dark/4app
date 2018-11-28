@@ -23,7 +23,7 @@
                 <br>
                 <div id="map" style="width: 600px;height: 350px;">
                 </div>
-                <div class=""><input id="IDCD" class="form-control" disabled id="TOADON" type="hidden"></div>
+                <div class=""><input id="IDCD" class="form-control" disabled type="hidden"></div>
                 <div class=""><label>TOADON</label> <input type="text" class="form-control" disabled id="TOADON"></div>
                 <div class=""><label>TOADOW</label> <input type="text" class="form-control" disabled id="TOADOW"></div>
                 <div class=""><label>Geocode</label>
@@ -33,7 +33,7 @@
                 <div class=""><label>REVER CODING</label><input type="text" id="REVERCODING" class="form-control" disabled>
                     <input type="button" class="btn btn-success" id="submitRVC" value="Revercoding    "></div>
                 <br>
-                <button onclick="updateaddress()" class="btn btn-success">tim vi tri maker</button>
+                <button onclick="updateaddress()" class="btn btn-success">update chuyến đi</button>
             </div>
         </div>
         <a href="mailto:joe@example.com?subject=feedback" "email me " ">email me</a>
@@ -43,32 +43,34 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
     <script src="./assets/js/app2.js" type="text/javascript" charset="utf-8" async defer></script>
     <script id="list-dscd" type="text/x-handlebars-template">
-        {{#each this}}
-                <a class="list-group-item items" style="height: 90px; padding: 5px 5px ;" onclick="showmap()">
+        
+                <a class="list-group-item items" id="{{IDCD}}" style="height: 90px; padding: 5px 5px ;" >
                     <div >
-                        <div class="col-md-2"><label>ID</label> <input name="" type="text" class="form-control contentid" disabled value="{{IDCD}}"></div>
+                        <div class="col-md-2"><label>ID</label> <input  name="" type="text" class="form-control contentid" disabled value="{{IDCD}}"></div>
                         <div class="col-md-3"><label>TÊN</label> <input type="text" class="form-control" disabled value="{{IDCD}}"></div>
                         <div class="col-md-4"><label>ĐỊA CHỈ</label><input type="text" class="form-control" disabled value="{{DIEMDI}}"></div>
                         <div class="col-md-3"><label>STATED REQ</label> <input type="text" class="form-control" disabled value="{{STATEREQUEST}}"></div>
                     </div>
                 </a>
-        {{/each}}
+        
         </script>
         <script>
-        function showmap() {
-            console.log("minh anh dễ thương");
+        $(document).on('click', '.items', function() {
+            $('#IDCD').val(($(this).attr('id')));
             initMap();
-            $('#IDCD').val($(this).find('.contentid').val());
-        }
+        });
+
+        var marker;
+        var latlng1;
 
         function initMap() {
             var latlng1;
             var latlng = { lat: 10.823099, lng: 106.629664 };
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: latlng,
-                zoom: 8
+                zoom: 10
             });
-            var marker = new google.maps.Marker({
+            marker = new google.maps.Marker({
                 position: latlng,
                 map: map,
                 animation: google.maps.Animation.BOUNCE,
@@ -89,22 +91,21 @@
                 map.setZoom(12);
                 map.setCenter(marker.getPosition());
             });
-/*
+
             function geocodeLatLng(geocoder, map, infowindow) {
-                var latlng = { lat: $('#TOADON').val(), lng: $('#TOADOW').val(); };
-                geocoder.geocode({ 'location': latlng }, function(results, status) {
+                latlngad = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
+                geocoder.geocode({ 'location': latlngad }, function(results, status) {
                     if (status === 'OK') {
                         if (results[0]) {
                             map.setZoom(11);
-                            var marker = new google.maps.Marker({
-                                position: latlng,
-                                map: map,
-                                animation: google.maps.Animation.BOUNCE,
-                                draggable: true
-                            });
+
+                            marker.setPosition(latlngad);
+                            marker.setMap(map);
                             infowindow.setContent(results[0].formatted_address);
                             console.log(results[0].formatted_address);
                             infowindow.open(map, marker);
+                            $('#REVERCODING').val(results[0].formatted_address);
+
                         } else {
                             window.alert('No results found');
                         }
@@ -113,17 +114,16 @@
                     }
                 });
             }
-*/
+
             function geocodeAddress(geocoder, resultsMap) {
+                marker.setMap(null);
                 var address = document.getElementById('address').value;
                 geocoder.geocode({ 'address': address }, function(results, status) {
                     if (status === 'OK') {
                         resultsMap.setCenter(results[0].geometry.location);
-                        var marker = new google.maps.Marker({
-                            map: resultsMap,
-                            position: results[0].geometry.location,
-                            draggable: true,
-                        });
+                        marker.setPosition(results[0].geometry.location);
+                        marker.setMap(resultsMap);
+
                         $('#TOADON').val(marker.position.lat().toFixed(6));
                         $('#TOADOW').val(marker.position.lng().toFixed(6));
                         map.setZoom(15);
@@ -132,22 +132,19 @@
                     }
                 });
             }
+            google.maps.event.addListener(marker, 'drag', function() {
+                $('#TOADON').val(marker.position.lat().toFixed(6));
+                $('#TOADOW').val(marker.position.lng().toFixed(6));
+                latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
+                
+            });
 
+            setInterval(geocodeLatLng(), 1000);
         }
 
 
 
-        google.maps.event.addListener(marker, 'drag', function() {
-            $('#TOADON').val(marker.position.lat().toFixed(6));
-            $('#TOADOW').val(marker.position.lng().toFixed(6));
-            latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-        });
-        google.maps.event.addListener(marker, 'dragend', function(event) {
-            $('#TOADON').val(marker.position.lat().toFixed(6));
-            $('#TOADOW').val(marker.position.lng().toFixed(6));
-            latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-        });
-        setInterval(geocodeLatLng(), 1000);
+        
 
 
 
