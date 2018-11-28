@@ -32,7 +32,7 @@ function updateaddress() {
         success: function(data) {
 
             alert('update thanh cong');
-            
+
             $('a').each(function(index) {
                 if ($(this).attr('id') === ID) {
                     $(this).css('display', 'none');
@@ -45,11 +45,15 @@ function updateaddress() {
                 timeout: 10000
             }).done(function(data) {
                 // console.log(data);
+
+                var request = data.request;
                 var source = document.getElementById("list-dscd").innerHTML;
                 var template = Handlebars.compile(source);
-                var html = template(data);
+                var html = template(request);
                 //var h=$('#appcd').html();
                 $('#appcd').html(html);
+
+
             })
         }
     });
