@@ -38,29 +38,23 @@ function updateaddress() {
                     $(this).css('display', 'none');
                 }
             })
-            var fn = function() {
-                $.ajax({
-                    url: 'http://localhost:3000/datxe',
-                    type: 'GET',
-                    dataType: 'json',
-                    timeout: 10000
-                }).done(function(data) {
-                    // console.log(data);
-                    if (data.YN) {
-                        var request = data.request;
-                        var source = document.getElementById("list-dscd").innerHTML;
-                        var template = Handlebars.compile(source);
-                        var html = template(request);
-                        //var h=$('#appcd').html();
-                        $('#appcd').html(html);
-                    }
-                    else{
-                        setTimeout(fn,2000);
-                    }
+            $.ajax({
+                url: 'http://localhost:3000/datxe',
+                type: 'GET',
+                dataType: 'json',
+                timeout: 10000
+            }).done(function(data) {
+                // console.log(data);
 
-                })
-            }
-            fn();
+                var request = data.request;
+                var source = document.getElementById("list-dscd").innerHTML;
+                var template = Handlebars.compile(source);
+                var html = template(request);
+                //var h=$('#appcd').html();
+                $('#appcd').html(html);
+
+
+            })
         }
     });
 }
