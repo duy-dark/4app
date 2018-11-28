@@ -9,6 +9,7 @@
 
 <body>
     <div class="accountBackground">
+        <span style="color: white;font-size: 20pt;font-style: italic;">Request Manage App</span>
         <div class="accountControl ">
         </div>
     </div>
@@ -52,16 +53,18 @@
             <li class="id">{{IDCD}}</li>
             <li class="hoTen">{{HOTENKH}}</li>
             <li class="sdt">{{SDTKH}}</li>
-            <li class="diaChi">{{}}</li>
-            <li class="gc">{{DIEMDI}}</li>
-            <li class="state">{{GHICHU}}</li>
+            <li class="diaChi">{{DIEMDI}}</li>
+            <li class="gc">{{GHICHU}}</li>
             <li class="state">{{STATEREQUES}}</li>
+            <li class="state">{{STATECD}}</li>
             <li class="id">{{ID}}</li>
-            <li class="hoTen">{{STATECD}}</li>
+            <li class="hoTen">{{HOTEN}}</li>
             <li class="sdt">{{SDT}}</li>
 
             {{#if ID}}
            		<li class="vt"><button class="btn btn-success">Click</button></li>
+            {{else}}
+            <li class="vt">&nbsp</li>
             {{/if}}
         </ul>
 
