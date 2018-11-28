@@ -3,6 +3,7 @@ function login() {
     var o;
     data.USERNAME = $('#fusername').val();
     data.PASSWORD = $('#fpassword').val();
+    data.LOAI=4;
 
     //alert(JSON.stringify(data));
 
