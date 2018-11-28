@@ -25,7 +25,8 @@ $(document).ready(function() {
 		$('.accountControl').html(html);
 		$('#homePageTitle').html('REQUEST MANANGEMENT APP');
 	}
-	
+
+
     var h = screen.height - 150 + 'px';
     $(".navbar-left").css('height', h);
 
