@@ -1,75 +1,75 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title></title>
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	    <link rel="stylesheet" type="text/css" href="assets/css/cssapp3.css">
-</head>
-<body>
-	<div class="accountBackground">
-		<div class="accountControl ">
-			
-		</div>	
-	</div>
-	<div class="modaFormBackground">
-		<div id="dangKiForm">
-			<div class="title">
-				Tạo tài khoản mới
-				<hr>
-			</div>
-			 <form class=" form-horizontal" data-toggle="validator" role="form" >
-		         <div class="form-group">
-	                <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
-	                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
-	                    <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
-	                    <p class="help-block with-errors"> </p>
-	                </div>
-	            </div>
-	            <div class="form-group">
-	                <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
-	                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
-	                    <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
-	                    <p class="help-block with-errors"> </p>
-	                </div>
-	            </div>
-	           
-	            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 "></div>
-	            <div  class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
-	             	<button class="btn btn-success ">Submit</button>
-	            </div>
-				
-        	</form>
-		</div>
-	</div>
-	<div id="homePageTitle"></div>
-	
-	<div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="requestMangeContent">
-		<ul>
-			<li>Thời điểm đặt</li>
-			<li>ID CD</li>
-			<li>Họ tên KH</li>
-			<li> SĐT KH</li>			
-			<li>Điểm đón khách</li>
-			<li>Ghi chú</li>
-			<li>State Request</li>
-			<li>State CĐ</li>
-			<li>ID TX</li>
-			<li>Họ tên TX</li>
-			<li>SĐT TX</li>
-			<li>Vị trí hiện tại</li>
-		</ul>
-	</div>
-	<script id="template" type="text/x-handlebars-template">
 
-		{{#each this}}
-			<li>{{IDCD}}</li>
-			<li>{{ĐIỂM ĐÓN}}</li>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/cssapp3.css">
+</head>
+
+<body>
+    <div class="accountBackground">
+        <div class="accountControl ">
+        </div>
+    </div>
+    <div class="modaFormBackground">
+        <div id="dangKiForm">
+            <div class="title">
+                Tạo tài khoản mới
+                <hr>
+            </div>
+            <form class=" form-horizontal" data-toggle="validator" role="form">
+                <div class="form-group">
+                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
+                        <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
+                        <p class="help-block with-errors"> </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
+                        <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
+                        <p class="help-block with-errors"> </p>
+                    </div>
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 "></div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+                    <button class="btn btn-success ">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="homePageTitle"></div>
+    <div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="requestManageContent">
+       
+    </div>
+    <script id="template" type="text/x-handlebars-template">
+        {{#each this}}
+ 		<ul>
+            <li class="tgd">{{THOIGIANDAT}}</li>
+            <li class="id">{{IDCD}}</li>
+            <li class="hoTen">{{HOTENKH}}</li>
+            <li class="sdt">{{SDTKH}}</li>
+            <li class="diaChi">{{}}</li>
+            <li class="gc">{{DIEMDI}}</li>
+            <li class="state">{{GHICHU}}</li>
+            <li class="state">{{STATEREQUES}}</li>
+            <li class="id">{{ID}}</li>
+            <li class="hoTen">{{STATECD}}</li>
+            <li class="sdt">{{SDT}}</li>
+
+            {{#if ID}}
+           		<li class="vt"><button class="btn btn-success">Click</button></li>
+            {{/if}}
+        </ul>
 
 		{{/each}}
 	</script>
-	 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
-	<script type="text/javascript" src="assets/js/app3.js"></script>
+    <script type="text/javascript" src="assets/js/app3.js"></script>
 </body>
+
 </html>

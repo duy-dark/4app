@@ -63,7 +63,19 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/register', (req, res) => {
-    var user = {
+    var user;
+    if(+req.body.LOAI===3){
+        user={
+            HOTEN: null,
+            NGAYSINH: null,
+            USERNAME: req.body.USERNAME,
+            PASSWORD: req.body.PASSWORD,
+            GIOITINH: null,
+            DIACHI: null,
+            LOAI:req.body.LOAI
+        }
+    }else{
+       user = {
         HOTEN: req.body.HOTEN,
         NGAYSINH: req.body.NGAYSINH,
         USERNAME: req.body.USERNAME,
@@ -71,7 +83,9 @@ router.post('/register', (req, res) => {
         GIOITINH: req.body.GIOITINH,
         DIACHI: req.body.DIACHI,
         LOAI:req.body.LOAI
+    } 
     }
+    
     console.log(req.body.LOAI);
     dangnhapRepo.add(user).then(value => {
             console.log(value);

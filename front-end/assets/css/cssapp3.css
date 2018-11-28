@@ -1,77 +1,145 @@
 .accountControl {
-	margin-top:10px;
-	float: right;
-}
-.accountControl span{
-	color: white;
-	
-	margin-right: 15px;
-}
-.accountControl input{
-	color: black;
-}
-body{
-	background-color: #E9EBEE;
-	font-family: 'Open Sans';
-	font-weight: 16pt;
-	
+    margin-top: 10px;
+    float: right;
 }
 
-.accountBackground{
-	background-color: #3C5A98;
-	width: 100%;
-	height: 58px;
+.accountControl span {
+    color: white;
+
+    margin-right: 15px;
 }
-#homePageTitle{
-	position: absolute;
-	margin-top: 30px;
-	left: 50%;
+
+.accountControl input {
+    color: black;
+}
+
+body {
+    background-color: #E9EBEE;
+    font-family: 'Open Sans';
+    font-size: 14px;
+
+}
+
+.accountBackground {
+    background-color: #3C5A98;
+    width: 100%;
+    height: 58px;
+}
+
+#homePageTitle {
+    position: absolute;
+    margin-top: 30px;
+    left: 50%;
     transform: translateX(-50%);
-	font-family: 'Freight Sans', Helvetica, Arial, sans-serif ;
-	font-size: 40px;
-	color: #3C5A98;
-	font-style: italic;
-	z-index: 1;
-	
-}
-.modaFormBackground{
-	display: none ;
-	position: fixed;
-	left:0;
-	top:0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0,0,0,0.4);
-	z-index: 2;
+    font-family: 'Freight Sans', Helvetica, Arial, sans-serif;
+    font-size: 40px;
+    color: #3C5A98;
+    font-style: italic;
+    z-index: 1;
 
 }
-#dangKiForm{
-	padding-top:20px;
-	position: fixed;
-	margin-top: 50px;
-	width: 350px;
-	height: 280px;
-	left: 50%;
+
+.modaFormBackground {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+
+}
+
+#dangKiForm {
+    padding-top: 20px;
+    position: fixed;
+    margin-top: 50px;
+    width: 350px;
+    height: 280px;
+    left: 50%;
     transform: translateX(-50%);
-	background-color: #FFFFFF;
-	cursor: default;
-	-webkit-box-shadow: -3px 4px 18px 2px rgba(0,0,0,0.75);
--moz-box-shadow: -3px 4px 18px 2px rgba(0,0,0,0.75);
-box-shadow: -3px 4px 18px 2px rgba(0,0,0,0.75);
-border-radius: 6px 6px 6px 6px;
--moz-border-radius: 6px 6px 6px 6px;
--webkit-border-radius: 6px 6px 6px 6px;
+    background-color: #FFFFFF;
+    cursor: default;
+    -webkit-box-shadow: -3px 4px 18px 2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -3px 4px 18px 2px rgba(0, 0, 0, 0.75);
+    box-shadow: -3px 4px 18px 2px rgba(0, 0, 0, 0.75);
+    border-radius: 6px 6px 6px 6px;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
 
 }
-#dangKiForm .title{
-	width: 100%;
-text-align: center;
+
+#dangKiForm .title {
+    width: 100%;
+    text-align: center;
     font-family: 'Open Sans';
     font-size: 20pt;
     font-weight: 700;
     color: #449D44;
+
 }
 
-#requestManageContent li{
-	display: inline-block;
+#requestManageContent{
+	position: absolute;
+	padding: 0px;
+	height: 100%;
+	padding-top:10px;
+	background-color: white;
+}
+#requestManageContent ul{
+	padding: 0px;
+
+}
+#requestManageContent li {
+    float: left;
+    display: inline-block;
+    border-left: 1px solid white;
+
+}
+#requestManageContent .title{
+	position: absolute;
+	width: 100%;
+}
+#requestManageContent .title li {
+    color: white;
+    background-color: black !important;
+    font-size: 14px;
+    overflow: auto;
+    height: 45px;
+    font-weight: bold;
+     text-align: center;
+}
+
+.tgd {
+    width: 9%;
+    
+}
+
+.id {
+    width: 4%;  
+}
+
+.hoTen {
+    width: 13%;
+}
+
+.sdt {
+    width: 7%;
+}
+
+.diaChi {
+    width: 12%;
+}
+
+.gc {
+	width: 12%;
+}
+
+.state {
+    width:6%;
+}
+
+.vt {
+width: 7%;
 }
