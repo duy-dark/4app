@@ -40,16 +40,13 @@ $(document).ready(function() {
         $('#requestManageContent').html('');
 
     }
-
     var loadAllRequest = function() {
-        console.log(window.localStorage.getItem('actoken3'));
-        console.log(window.localStorage.getItem('user3'));
-        console.log(window.localStorage.getItem('refresh3'));
-        var tempActoken=window.localStorage.getItem('actoken3');
+        
+       
         $.ajax({
             url: 'http://localhost:3000/requestManage',
             headers:{
-                'x-access-token':'vk',
+                'x-access-token':window.localStorage.getItem('actoken3'),
                 'Content-Type':'application/json'
             },
             type: 'GET',
@@ -58,13 +55,35 @@ $(document).ready(function() {
         }).done(function(data2) {
             var source = document.getElementById("template").innerHTML;
             var template = Handlebars.compile(source);
-            var buffer=[];
+            var preData=data2.data;
 
-            var html = template(data2.data);
+            for(var i=0;i<preData.length-1;i++){
+                 for(var j=i+1;j<preData.length;j++){
+                    var date1=new Date(preData[i].THOIGIANDAT);
+                    var date2=new Date(preData[j].THOIGIANDAT)
+                    if(date1.getTime()<date2.getTime()){
+                        var temp=preData[i];
+                        preData[i]=preData[j];
+                        preData[j]=temp;
+                    }
+                }
+            }
 
-            var temp = $("#requestManageContent").html();
-            $("#requestManageContent").html(temp + html);
-           // loadAllRequest();
+               for(var i=0;i<preData.length;i++){
+                    var temp=new Date(preData[i].THOIGIANDAT);
+                    var year = temp.getFullYear(),
+                        month = temp.getMonth() + 1, 
+                        day = temp.getDate(),
+                        hour = temp.getHours(),
+                        minute = temp.getMinutes(),
+                        second = temp.getSeconds();
+                    preData[i].THOIGIANDAT=day+'/'+month+'/'+year+'  '+hour+':'+minute+':'+second;
+               }
+
+            var html = template(preData);
+
+            $("#requestManageContent").html(html2+html);
+           
            
            
         }).fail(err => {

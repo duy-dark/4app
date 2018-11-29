@@ -87,10 +87,7 @@ body {
 	padding-top:10px;
 	background-color: white;
 }
-#requestManageContent ul{
-	padding: 0px;
 
-}
 #requestManageContent li {
     float: left;
     display: inline-block;
@@ -103,12 +100,14 @@ body {
      border-bottom: 1px solid black;
      padding-top: 5px;
 }
-#requestManageContent .title{
-	position: absolute;
+#requestManageContent ul {
+	overflow: auto;
 	width: 100%;
+	margin: 0px;
+	padding:0px;
 }
 #requestManageContent .title li {
- border-left: 1px  dashed white !important;
+ border-left: 1px  solid white !important;
     color: white;
     background-color: black !important;
     font-size: 14px;
@@ -151,4 +150,16 @@ width: 7%;
 
 #alertDki{
 	text-align: center;
+}
+
+#shortestWayMap{
+	display: none;
+	position: fixed;
+	top:42px;
+	width: 90%;
+	height: 90%;
+	left: 50%;
+    transform: translateX(-50%);
+    background-color: black;
+    z-index: 3;
 }
