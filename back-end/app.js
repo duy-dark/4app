@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 app.use('/datxe/', datxeCtrl);
 app.use('/account',dangnhapCtrl);
 app.use('/verifytrip',verifyAccessToken,tripCtrl);
-app.use('/requestManage',requestManageCtrl);
+app.use('/requestManage',verifyAccessToken,requestManageCtrl);
 app.use('/newtoken',newtokenCtrl);
 
 

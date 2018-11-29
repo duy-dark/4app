@@ -28,3 +28,7 @@ exports.updatestatenv = userid => {
 	var sql =  `update nhanvien set STATED = 'online' where ID = ${userid}`;
 	return db.save(sql);
 }
+exports.check=user=>{
+	var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}'and LOAI='${user.LOAI}';`
+	return db.load(sql);
+}

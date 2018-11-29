@@ -29,7 +29,7 @@ router.post('/login', (req, res) => {
     var user = {
         USERNAME: req.body.USERNAME,
         PASSWORD: req.body.PASSWORD,
-        LOAI:req.body.LOAI
+        LOAI: req.body.LOAI
     }
 
     dangnhapRepo.login(user).then(rows => {
@@ -63,26 +63,48 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/register', (req, res) => {
-    var user = {
-        HOTEN: req.body.HOTEN,
-        NGAYSINH: req.body.NGAYSINH,
-        USERNAME: req.body.USERNAME,
-        PASSWORD: req.body.PASSWORD,
-        GIOITINH: req.body.GIOITINH,
-        DIACHI: req.body.DIACHI,
-        LOAI:req.body.LOAI
+
+    var user;
+    if (+req.body.LOAI === 3) {
+        user = {
+            HOTEN: null,
+            NGAYSINH: null,
+            USERNAME: req.body.USERNAME,
+            PASSWORD: req.body.PASSWORD,
+            GIOITINH: null,
+            DIACHI: null,
+            LOAI: req.body.LOAI
+        };
+    } else {
+        user = {
+            HOTEN: req.body.HOTEN,
+            NGAYSINH: req.body.NGAYSINH,
+            USERNAME: req.body.USERNAME,
+            PASSWORD: req.body.PASSWORD,
+            GIOITINH: req.body.GIOITINH,
+            DIACHI: req.body.DIACHI,
+            LOAI: req.body.LOAI
+        };
     }
-    console.log(req.body.LOAI);
-    dangnhapRepo.add(user).then(value => {
-            console.log(value);
-            res.statusCode = 201;
-            res.json(req.body);
-        })
-        .catch(err => {
-            console.log(err);
-            res.statusCode = 500;
-            res.end('View error log on console');
-        })
+
+    dangnhapRepo.check(user).then(rows => {
+        if (rows.length > 0) {
+                res.json({added:false});
+        } else {
+            dangnhapRepo.add(user).then(value => {
+                    res.statusCode = 201;
+                    res.json({added:true});
+                })
+                .catch(err => {
+                    res.statusCode = 500;
+                    res.end('View error log on console');
+                })
+        }
+    }).catch(err => {
+                    res.statusCode = 500;
+                    res.end('View error log on console');
+    })
+
 })
 router.post('/actoken', (req, res) => {
     var rftoken = req.body.rftoken;
