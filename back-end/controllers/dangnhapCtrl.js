@@ -31,35 +31,65 @@ router.post('/login', (req, res) => {
         PASSWORD: req.body.PASSWORD,
         LOAI: req.body.LOAI
     }
-
-    dangnhapRepo.login(user).then(rows => {
-
-        if (rows.length > 0) {
-            var userEntity = rows[0];
-            dangnhapRepo.updatestatenv(userEntity.ID);
-            var actoken = tokenRepo.generateAccessToken(userEntity);
-            var rftoken = tokenRepo.generateRefreshToken();
-            tokenRepo.updateRefreshToken(userEntity.ID, rftoken)
-                .then(value => {
-                    res.statusCode = 201;
-                    res.json({
-                        auth: true,
-                        user: userEntity,
-                        access_token: actoken,
-                        refresh_token: rftoken
+    if (user.LOAI === 4) {
+        dangnhapRepo.logintx(user).then(rows => {
+            if (rows.length > 0) {
+                var userEntity = rows[0];
+                dangnhapRepo.updatestatetx(userEntity.ID);
+                var actoken = tokenRepo.generateAccessToken(userEntity);
+                var rftoken = tokenRepo.generateRefreshToken();
+                tokenRepo.updateRefreshToken(userEntity.ID, rftoken,user.LOAI)
+                    .then(value => {
+                        res.statusCode = 201;
+                        res.json({
+                            auth: true,
+                            user: userEntity,
+                            access_token: actoken,
+                            refresh_token: rftoken
+                        })
                     })
+                    .catch(err => {
+                        console.log(err);
+                        res.statusCode = 500;
+                        res.end('View error log on console');
+                    })
+            }else{
+                res.json({
+                    auth: false
                 })
-                .catch(err => {
-                    console.log(err);
-                    res.statusCode = 500;
-                    res.end('View error log on console');
+            }
+        })
+    } else {
+        dangnhapRepo.login(user).then(rows => {
+
+            if (rows.length > 0) {
+                var userEntity = rows[0];
+                dangnhapRepo.updatestatenv(userEntity.ID);
+                var actoken = tokenRepo.generateAccessToken(userEntity);
+                var rftoken = tokenRepo.generateRefreshToken();
+                tokenRepo.updateRefreshToken(userEntity.ID, rftoken,userEntity.LOAI)
+                    .then(value => {
+                        res.statusCode = 201;
+                        res.json({
+                            auth: true,
+                            user: userEntity,
+                            access_token: actoken,
+                            refresh_token: rftoken
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.statusCode = 500;
+                        res.end('View error log on console');
+                    })
+            } else {
+                res.json({
+                    auth: false
                 })
-        } else {
-            res.json({
-                auth: false
-            })
-        }
-    })
+            }
+        })
+    }
+
 })
 
 router.post('/register', (req, res) => {
@@ -76,6 +106,7 @@ router.post('/register', (req, res) => {
             LOAI: req.body.LOAI
         };
     } else {
+
         user = {
             HOTEN: req.body.HOTEN,
             NGAYSINH: req.body.NGAYSINH,
@@ -89,29 +120,63 @@ router.post('/register', (req, res) => {
 
     dangnhapRepo.check(user).then(rows => {
         if (rows.length > 0) {
-                res.json({added:false});
+            res.json({ added: false });
         } else {
             dangnhapRepo.add(user).then(value => {
                     res.statusCode = 201;
-                    res.json({added:true});
+                    res.json({ added: true });
                 })
                 .catch(err => {
                     res.statusCode = 500;
+                    console.log(err);
                     res.end('View error log on console');
                 })
         }
     }).catch(err => {
-                    res.statusCode = 500;
-                    res.end('View error log on console');
+        res.statusCode = 500;
+        console.log(err);
+        res.end('View error log on console');
     })
 
 })
+router.post('/registertx', (req, res) => {
+    var user = {
+        USERNAME: req.body.USERNAME,
+        PASSWORD: req.body.PASSWORD,
+        HOTEN: req.body.HOTEN,
+        NGAYSINH: null,
+        DIACHI: null,
+        STATE: 'offline'
+    }
+
+    dangnhapRepo.checktx(user).then(rows => {
+        if (rows.length > 0) {
+            res.json({ added: false });
+        } else {
+            dangnhapRepo.addtx(user).then(value => {
+                    res.statusCode = 201;
+                    res.json({ added: true });
+                })
+                .catch(err => {
+                    res.statusCode = 500;
+                    console.log(err);
+                    res.end('View error log on console');
+                })
+        }
+    }).catch(err => {
+        res.statusCode = 500;
+        console.log(err);
+        res.end('View error log on console');
+    })
+})
 router.post('/actoken', (req, res) => {
     var rftoken = req.body.rftoken;
+    var LOAI=req.body.LOAI;
 
-    dangnhapRepo.initrftoken(rftoken).then(rows => {
+    dangnhapRepo.initrftoken(rftoken,LOAI).then(rows => {
         if (rows.length > 0) {
-            dangnhapRepo.loadid(rows[0].ID).then(rows1 => {
+            if(LOAI===4){
+                dangnhapRepo.loadidtx(rows[0].ID).then(rows1 => {
                 var userEntity = rows[0];
                 var actoken = tokenRepo.generateAccessToken(userEntity);
                 res.json({
@@ -120,9 +185,21 @@ router.post('/actoken', (req, res) => {
                     access_token: actoken
                 })
             })
+            }else{
+                dangnhapRepo.loadidnv(rows[0].ID).then(rows1 => {
+                var userEntity = rows[0];
+                var actoken = tokenRepo.generateAccessToken(userEntity);
+                res.json({
+                    auth: true,
+                    user: userEntity,
+                    access_token: actoken
+                })
+            })
+            }
+            
 
         }
     })
 })
-router.get('/')
+
 module.exports = router;

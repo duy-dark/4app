@@ -53,14 +53,14 @@ exports.generateRefreshToken = () => {
     return rndToken.generate(SIZE);
 }
 
-exports.updateRefreshToken = (userId, rfToken) => {
+exports.updateRefreshToken = (userId, rfToken,userloai) => {
     return new Promise((resolve, reject) => {
 
-        var sql = `delete from userRefreshTokenExt where ID = '${userId}'`;
+        var sql = `delete from userRefreshTokenExt where ID = '${userId}' and LOAI=${userloai}`;
         db.save(sql) // delete
             .then(value => {
                 var rdt = moment().format('YYYY-MM-DD HH:mm:ss');
-                sql = `insert into userRefreshTokenExt values('${userId}', '${rfToken}', '${rdt}')`;
+                sql = `insert into userRefreshTokenExt values('${userId}', '${rfToken}', '${rdt}',${userloai})`;
                 return db.save(sql);
             })
             .then(value => resolve(value))

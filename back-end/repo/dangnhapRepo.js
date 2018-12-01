@@ -8,6 +8,12 @@ exports.login = user => {
 	var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}' and LOAI='${user.LOAI}';`
 	return db.load(sql);
 }
+exports.logintx = user => {
+	console.log(user);
+	var md5_password=sha256(user.PASSWORD);
+	var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}';`
+	return db.load(sql);
+}
 
 exports.add = user => {
 	var md5_password=sha256(user.PASSWORD);
@@ -20,8 +26,12 @@ exports.initrftoken = refreshtoken => {
 	var sql = `select nv.* from userrefreshtokenext u, nhanvien nv where nv.ID=u.ID and u.rfToken='${refreshtoken}'`;
     return db.load(sql);
 }
-exports.loadid = userid => {
+exports.loadidnv = userid => {
 	var sql = `select * from nhanvien where ID='${userid}'`;
+	return db.load(sql);
+}
+exports.loadidtx = userid => {
+	var sql = `select * from taixe where ID='${userid}'`;
 	return db.load(sql);
 }
 exports.updatestatenv = userid => {
@@ -31,4 +41,19 @@ exports.updatestatenv = userid => {
 exports.check=user=>{
 	var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}'and LOAI='${user.LOAI}';`
 	return db.load(sql);
+}
+exports.checktx=user=>{
+	var sql = `select * from taixe where USERNAME = '${user.USERNAME}';`
+	return db.load(sql);
+}
+exports.addtx = user => {
+	var md5_password=sha256(user.PASSWORD);
+	var sql = `insert into taixe( HOTEN, USERNAME, PASSWORD,NGAYSINH,DIACHI,STATE) 
+	values('${user.HOTEN}','${user.USERNAME}', '${md5_password}', '${user.NGAYSINH}', '${user.DIACHI}','${user.STATE}' )`;
+	
+	return db.save(sql);
+}
+exports.updatestatetx = userid => {
+	var sql =  `update taixe set STATE = 'READY' where ID = ${userid}`;
+	return db.save(sql);
 }

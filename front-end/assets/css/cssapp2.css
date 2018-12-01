@@ -5,4 +5,20 @@ body{
 	width: 1280px;
 	margin: 0 auto;
 	padding: 10px 10px 10px 10px;
+	display: none;
+
+}
+.htdangnhap{
+	width: 430px;
+	height: 550px ;
+	background-color: #cccccc ;
+	padding: 5px 5px;
+	margin: 50px auto;
+    display: flex;
+
+}
+ .htdangnhap #dangnhap123 {
+    width: 60%;
+    height: 10%;
+    margin: auto;
 }
