@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    var html2 = ` <ul class="title">
+ 
+    var html2 = ` <ul class="title" >
                                 <li class="tgd">Thời điểm đặt</li>
                                 <li class="id">ID CD</li>
                                 <li class="hoTen">Họ tên KH</li>
@@ -41,13 +42,13 @@ $(document).ready(function() {
 
     }
     var loadAllRequest = function() {
-        
-       
+
+
         $.ajax({
             url: 'http://localhost:3000/requestManage',
-            headers:{
-                'x-access-token':window.localStorage.getItem('actoken3'),
-                'Content-Type':'application/json'
+            headers: {
+                'x-access-token': window.localStorage.getItem('actoken3'),
+                'Content-Type': 'application/json'
             },
             type: 'GET',
             dataType: 'json',
@@ -55,44 +56,44 @@ $(document).ready(function() {
         }).done(function(data2) {
             var source = document.getElementById("template").innerHTML;
             var template = Handlebars.compile(source);
-            var preData=data2.data;
+            var preData = data2.data;
 
-            for(var i=0;i<preData.length-1;i++){
-                 for(var j=i+1;j<preData.length;j++){
-                    var date1=new Date(preData[i].THOIGIANDAT);
-                    var date2=new Date(preData[j].THOIGIANDAT)
-                    if(date1.getTime()<date2.getTime()){
-                        var temp=preData[i];
-                        preData[i]=preData[j];
-                        preData[j]=temp;
+            for (var i = 0; i < preData.length - 1; i++) {
+                for (var j = i + 1; j < preData.length; j++) {
+                    var date1 = new Date(preData[i].THOIGIANDAT);
+                    var date2 = new Date(preData[j].THOIGIANDAT)
+                    if (date1.getTime() < date2.getTime()) {
+                        var temp = preData[i];
+                        preData[i] = preData[j];
+                        preData[j] = temp;
                     }
                 }
             }
 
-               for(var i=0;i<preData.length;i++){
-                    var temp=new Date(preData[i].THOIGIANDAT);
-                    var year = temp.getFullYear(),
-                        month = temp.getMonth() + 1, 
-                        day = temp.getDate(),
-                        hour = temp.getHours(),
-                        minute = temp.getMinutes(),
-                        second = temp.getSeconds();
-                    preData[i].THOIGIANDAT=day+'/'+month+'/'+year+'  '+hour+':'+minute+':'+second;
-               }
+            for (var i = 0; i < preData.length; i++) {
+                var temp = new Date(preData[i].THOIGIANDAT);
+                var year = temp.getFullYear(),
+                    month = temp.getMonth() + 1,
+                    day = temp.getDate(),
+                    hour = temp.getHours(),
+                    minute = temp.getMinutes(),
+                    second = temp.getSeconds();
+                preData[i].THOIGIANDAT = day + '/' + month + '/' + year + '  ' + hour + ':' + minute + ':' + second;
+            }
 
             var html = template(preData);
 
-            $("#requestManageContent").html(html2+html);
-           
-           
-           
+            $("#requestManageContent").html(html2 + html);
+
+
+
         }).fail(err => {
             //loadAllRequest();
-          
+
         });
     }
-    
-   
+
+
 
     $(document).on('click', '#btnDangKi', function() {
         $('.modaFormBackground').css('display', 'block');
@@ -142,6 +143,7 @@ $(document).ready(function() {
         window.localStorage.removeItem('user3');
         window.localStorage.removeItem('refresh3');
         window.localStorage.removeItem('actoken3');
+        isSelecting = false;
 
         var html = `<span >
                 User Name:
@@ -175,7 +177,7 @@ $(document).ready(function() {
             timeout: 10000
         }).done(function(data) {
             if (data.auth) {
-                
+
 
                 user1 = data.user;
                 var html = `<span class="glyphicon glyphicon-user " aria-hidden="true" >` + data.user.USERNAME + ` </span>
@@ -187,7 +189,7 @@ $(document).ready(function() {
                 window.localStorage.setItem('refresh3', data.refresh_token);
                 window.localStorage.setItem('user3', data.user.USERNAME);
                 window.localStorage.setItem('actoken3', data.access_token);
-                
+
                 loadAllRequest();
                 var data1 = {};
                 data1.refeshToken = window.localStorage.getItem('refresh3');
@@ -200,7 +202,7 @@ $(document).ready(function() {
                             contentType: 'application/json',
                             timeout: 10000,
                         }).done(function(data2) {
-                        
+
                             window.localStorage.setItem('actoken3', data2.access_token);
 
                         })
@@ -222,4 +224,8 @@ $(document).ready(function() {
 
 
     });
+
+
+
+  
 });

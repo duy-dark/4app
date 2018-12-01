@@ -80,12 +80,12 @@ body {
 
 }
 
-#requestManageContent{
-	position: absolute;
-	padding: 0px;
-	height: 100%;
-	padding-top:10px;
-	background-color: white;
+#requestManageContent {
+    position: absolute;
+    padding: 0px;
+    height: 100%;
+    padding-top: 10px;
+    background-color: white;
 }
 
 #requestManageContent li {
@@ -96,18 +96,20 @@ body {
     overflow: auto;
     height: 50px;
     font-weight: bold;
-     text-align: center;
-     border-bottom: 1px solid black;
-     padding-top: 5px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    padding-top: 5px;
 }
+
 #requestManageContent ul {
-	overflow: auto;
-	width: 100%;
-	margin: 0px;
-	padding:0px;
+    overflow: auto;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
 }
+
 #requestManageContent .title li {
- border-left: 1px  solid white !important;
+    border-left: 1px solid white !important;
     color: white;
     background-color: black !important;
     font-size: 14px;
@@ -117,11 +119,11 @@ body {
 
 .tgd {
     width: 9%;
-    
+
 }
 
 .id {
-    width: 4%;  
+    width: 4%;
 }
 
 .hoTen {
@@ -137,29 +139,65 @@ body {
 }
 
 .gc {
-	width: 12%;
+    width: 12%;
 }
 
 .state {
-    width:6%;
+    width: 6%;
 }
 
 .vt {
-width: 7%;
+    width: 7%;
 }
 
-#alertDki{
-	text-align: center;
+#alertDki {
+    text-align: center;
 }
 
-#shortestWayMap{
+#shortestWayMap {
 	display: none;
-	position: fixed;
-	top:42px;
-	width: 90%;
-	height: 90%;
-	left: 50%;
+    position: fixed;
+    top: 42px;
+    width: 80%;
+    height: 90%;
+    left: 50%;
     transform: translateX(-50%);
-    background-color: black;
+    background-color: #FFEEAC;
     z-index: 3;
+
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+    border: 1px solid black;
+}
+
+#closeMap {
+    font-size: 30pt;
+    font-weight: 900;
+    color: red;
+    padding-right: 15px;
+    padding-left: 20px;
+    border-radius: 0px 6px 0px 0px;
+    -moz-border-radius: 0px 6px 0px 0px;
+    -webkit-border-radius: 0px 6px 0px 0px;
+}
+
+#closeMap:hover {
+    background-color: white;
+    cursor: pointer;
+    color: red;
+}
+
+#map {
+    height: 90%;
+    width: 70%;
+    border-left: 2px solid black;
+}
+#inforRoute{
+	height: 100%;
+	width: 30%;
+	background-color: white;
+	font-size: 20px;
+	padding-left: 10px;
+
 }

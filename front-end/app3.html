@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <title></title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <title>Request Manage App</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/cssapp3.css">
 </head>
@@ -46,13 +47,24 @@
     <div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="requestManageContent">
     </div>
     <div id="shortestWayMap">
+        <div class="pull-left" class="title">Shortest way Map</div>
+        <div class="pull-right" id="closeMap"><span>&times</span></div>
+        <div style="clear: both;border-top: 2px solid black;"></div>
+        <div id="inforRoute" class="pull-left">
+           <h3><i><b>>Vị trí tài xế (A):</b></i></h3>
+            <div id="driverPos"> </div>
+            <h3><i><b>>Vị trí đón khách (B):</b></i></h3>
+            <div id="customerPos"> </div>
+        </div>
+        <div id="map" class="pull-right">
+        </div>
     </div>
     <script id="template" type="text/x-handlebars-template">
         {{#each this}}
-        <ul>
+        <ul id="{{IDCD}}">
             <li class="tgd">{{THOIGIANDAT}}</li>
             <li class="id">{{IDCD}}</li>
-            <li class="hoTen">{{HOTENKH}}</li>
+            <li class="hoTen">{{HOTENKHs}}</li>
             <li class="sdt">{{SDTKH}}</li>
             <li class="diaChi">{{DIEMDI}}</li>
             <li class="gc">{{GHICHU}}</li>
@@ -61,9 +73,13 @@
             <li class="id">{{ID}}</li>
             <li class="hoTen">{{HOTEN}}</li>
             <li class="sdt">{{SDT}}</li>
-
+            
             {{#if ID}}
                 <li class="vt"><button class="btn btn-success">Click</button></li>
+                <li class="toadoNStart" style="display: none;">{{TOADON}}</li>
+                <li class="toadoWStart"  style="display: none;">{{TOADOW}}</li>
+                <li class="toadoNEnd" style="display: none;">{{CDTOADON}}</li>
+                <li class="toadoWEnd" style="display: none;">{{CDTOADOW}}</li>
             {{else}}
             <li class="vt">&nbsp</li>
             {{/if}}
@@ -75,6 +91,103 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
     <script type="text/javascript" src="assets/js/app3.js"></script>
+    <script type="text/javascript">
+    var map;
+    var isSelecting = false;
+    var directionsDisplay;
+    var directionsService;
+    var geocoder;
+    var infowindow;
+
+    function initMap() {
+        directionsDisplay = new google.maps.DirectionsRenderer;
+        directionsService = new google.maps.DirectionsService;
+        geocoder = new google.maps.Geocoder;
+        infowindow = new google.maps.InfoWindow;
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: -34.397, lng: 150.644 },
+            zoom: 9
+        });
+
+        directionsDisplay.setMap(map);
+    }
+
+    $(document).on('click', '#closeMap ', function() {
+        isSelecting = false;
+        $('#shortestWayMap').css('display', 'none');
+        $('#requestManageContent ul').css('background-color', 'white');
+    });
+
+    $(document).on('click', '#btnDangXuat', function() {
+        $('#closeMap').click();
+    });
+    $(document).on('click', '#requestManageContent ul button', function() {
+
+        if (isSelecting == false) {
+            $(this).closest('ul').css('background-color', 'red');
+            isSelecting = true;
+
+            var toadoNStart = parseFloat($(this).closest('ul').find('.toadoNStart').html());
+            var toadoWStart = parseFloat($(this).closest('ul').find('.toadoWStart').html());
+            var toadoNEnd = parseFloat($(this).closest('ul').find('.toadoNEnd').html());
+            var toadoWEnd = parseFloat($(this).closest('ul').find('.toadoWEnd').html());
+
+
+            var start = new google.maps.LatLng(toadoNStart, toadoWStart);
+            var end = new google.maps.LatLng(toadoNEnd, toadoWEnd);
+
+            var latlngStart = { lat: toadoNStart, lng: toadoWStart };
+            var latlngEnd = { lat: toadoNEnd, lng: toadoWEnd };
+            var posStart, posEnd;
+
+            //get address of Start point
+            geocoder.geocode({ 'location': latlngStart }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        posStart = results[0].formatted_address;
+                         $('#driverPos').html(posStart);
+                       
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+
+            //get address of End point
+            geocoder.geocode({ 'location': latlngEnd }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        posEnd = results[0].formatted_address;
+                        $('#customerPos').html(posEnd);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+
+            directionsService.route({
+                origin: start,
+                destination: end,
+                travelMode: 'DRIVING'
+            }, function(response, status) {
+                if (status === 'OK') {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    window.alert('Directions request failed due to ' + status);
+                }
+            });
+            $('#shortestWayMap').css('display', 'block');
+            //end if    
+        }
+
+        //end click listener 
+    });
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q&callback=initMap" async defer></script>
 </body>
 
 </html>
