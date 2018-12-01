@@ -6,25 +6,31 @@ var datxerepo = require('./../repo/datxerepo');
 var router = express.Router();
 
 router.get('/', (req, res) => {
-    datxerepo.loadcd().then(rows => {
-        datxerepo.updatestatecd(rows[0].IDCD, 'đang định vị').then(rows1 => {
+    var loop = 0;
+    var fn = () => {
+        datxerepo.loadcd().then(rows => {
             if (rows.length > 0) {
-                res.json({
-                    request: rows[0],
-                    YN: true
+                datxerepo.updatestatecd(rows[0].IDCD, 'đang định vị').then(rows1 => {
+                    res.statusCode = 201;
+                    res.json(rows[0])
                 })
-            }else{
-                res.json({
-                    YN:false
-                })
+            } else {
+                 loop++;
+                console.log(`loop: ${loop}`);
+                if (loop < 4) {
+                    setTimeout(fn, 2500);
+                } else {
+                    res.statusCode = 204;
+                    res.end('no data');
+                }
             }
-
+        }).catch(err => {
+            console.log(err);
+            res.statusCode = 500;
+            res.end('View error log on console');
         })
-    }).catch(err => {
-        console.log(err);
-        res.statusCode = 500;
-        res.end('View error log on console');
-    })
+    };
+    fn();
 });
 router.get('/pleaseask', (req, res) => {
     datxerepo.loadAll().then(rows => {
@@ -66,12 +72,11 @@ router.post('/updatetoado', (req, res) => {
         IDCD: req.body.IDCD,
         TOADON: req.body.TOADON,
         TOADOW: req.body.TOADOW,
-        STATECD: req.body.STATEREQUEST,
+        STATEREQUEST: req.body.STATEREQUEST,
         REVERGEOCODING: req.body.REVERGEOCODING
     }
-    console.log(obj);
     datxerepo.updatetoado(obj).then(value => {
-            console.log(value);
+
             res.statusCode = 201;
             res.json(req.body);
         })
@@ -79,7 +84,7 @@ router.post('/updatetoado', (req, res) => {
             console.log(err);
             res.statusCode = 500;
             res.end('View error log on console');
-        })
+        });
 })
 
 module.exports = router;
