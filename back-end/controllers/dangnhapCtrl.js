@@ -31,7 +31,8 @@ router.post('/login', (req, res) => {
         PASSWORD: req.body.PASSWORD,
         LOAI: req.body.LOAI
     }
-    if (user.LOAI === 4) {
+    
+    if (+req.body.LOAI === 4) {
         dangnhapRepo.logintx(user).then(rows => {
             if (rows.length > 0) {
                 var userEntity = rows[0];
