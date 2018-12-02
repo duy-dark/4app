@@ -45,7 +45,6 @@
     </div>
     <div id="homePageTitle"></div>
     <div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="requestManageContent">
-        
     </div>
     <div id="shortestWayMap">
         <div class="pull-left title">Shortest way Map</div>
@@ -126,7 +125,7 @@
 
         if (isSelecting == false) {
             $(this).closest('ul').css('background-color', 'red');
-            var n=$(this);
+            var n = $(this);
             isSelecting = true;
 
             var toadoNStart = parseFloat($(this).closest('ul').find('.toadoNStart').html());
@@ -189,16 +188,48 @@
                 var toadoWStart2 = parseFloat(n.closest('ul').find('.toadoWStart').html());
                 var toadoNEnd2 = parseFloat(n.closest('ul').find('.toadoNEnd').html());
                 var toadoWEnd2 = parseFloat(n.closest('ul').find('.toadoWEnd').html());
-                   console.log(toadoNStart2+";"+toadoWStart2+";"+toadoNEnd2+";"+toadoWEnd2+";");
+                console.log(toadoNStart2 + ";" + toadoWStart2 + ";" + toadoNEnd2 + ";" + toadoWEnd2 + ";");
                 if (toadoNStart2 !== toadoNStart || toadoWStart2 !== toadoWStart || toadoNEnd2 !== toadoNEnd || toadoWEnd2 !== toadoWEnd) {
 
-                    toadoNStart=toadoNStart2;
-                    toadoWStart=toadoWStart2;
-                    toadoNEnd=toadoNEnd2;
-                    toadoWEnd=toadoWEnd2;
-                 
+                    toadoNStart = toadoNStart2;
+                    toadoWStart = toadoWStart2;
+                    toadoNEnd = toadoNEnd2;
+                    toadoWEnd = toadoWEnd2;
+
                     start = new google.maps.LatLng(toadoNStart, toadoWStart);
-                     end = new google.maps.LatLng(toadoNEnd, toadoWEnd);
+                    end = new google.maps.LatLng(toadoNEnd, toadoWEnd);
+
+                    latlngStart = { lat: toadoNStart, lng: toadoWStart };
+                    latlngEnd = { lat: toadoNEnd, lng: toadoWEnd };
+                    //get address of Start point
+                    geocoder.geocode({ 'location': latlngStart }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                posStart = results[0].formatted_address;
+                                $('#driverPos').html(posStart);
+
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+
+                    //get address of End point
+                    geocoder.geocode({ 'location': latlngEnd }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                posEnd = results[0].formatted_address;
+                                $('#customerPos').html(posEnd);
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+
                     directionsService.route({
                         origin: start,
                         destination: end,
@@ -207,11 +238,11 @@
                         if (status === 'OK') {
                             directionsDisplay.setDirections(response);
                         } else {
-                           window.alert('Directions request failed due to ' + status);
+                            window.alert('Directions request failed due to ' + status);
                         }
                     });
                 }
-                
+
                 setTimeout(fn, 1000);
             }
 

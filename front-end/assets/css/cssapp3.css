@@ -83,7 +83,7 @@ body {
 #requestManageContent {
     position: absolute;
     padding: 0px;
-    height: 100%;
+    height: auto;
     padding-top: 10px;
     background-color: white;
 }
@@ -107,7 +107,9 @@ body {
     margin: 0px;
     padding: 0px;
 }
-
+#listItem ul:hover{
+    background-color: #D2D2D2;
+}
 #requestManageContent .title li {
     border-left: 1px solid white !important;
     color: white;
