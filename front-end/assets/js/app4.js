@@ -64,7 +64,27 @@ function login() {
 
     })
 }
+function regist() {
+    var data = {};
+    data.HOTEN = $('#hoten').val();
+   
+    data.USERNAME = $('#username').val();
+    data.PASSWORD = $('#password').val();
+    //alert(JSON.stringify(data));
 
+    $.ajax({
+        url: 'http://localhost:3000/account/registertx',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        timeout: 10000,
+        success: function(data) {
+            console.log(data)
+            alert('thanh cong');
+        }
+    });
+
+};
 function doigiaodien() {
     document.getElementById('chuadangnhap').style.display = 'none';
     document.getElementById('dangnhaproi').style.display = 'block';
