@@ -14,7 +14,8 @@ $(document).ready(function() {
                                 <li class="hoTen">Họ tên TX</li>
                                 <li class="sdt">SĐT TX</li>
                                 <li class="vt">Xem đường đi ngắn nhất</li>
-                            </ul>`;
+                            </ul>
+                            <div id="listItem"></div>`;
 
 
 
@@ -24,6 +25,8 @@ $(document).ready(function() {
             var curDate = new Date();
             var postData = {};
             postData.lastReadTime = lrt;
+            console.log(curDate.getTime());
+             console.log(lrt);
             postData.token = window.localStorage.getItem('actoken3');
             $.ajax({
                 url: 'http://localhost:3000/requestManage/getNew',
@@ -35,13 +38,13 @@ $(document).ready(function() {
 
 
                 var preData = data2.data;
-                if (preData.length > 0) { lrt = curDate.getTime(); }
+                if (preData.length > 0) { lrt = curDate.getTime();}
                 console.log(preData);
                 for (var i = 0; i < preData.length - 1; i++) {
                     for (var j = i + 1; j < preData.length; j++) {
                         var date1 = new Date(preData[i].THOIGIANDAT);
                         var date2 = new Date(preData[j].THOIGIANDAT)
-                        if (date1.getTime() < date2.getTime()) {
+                        if (date1.getTime() > date2.getTime()) {
                             var temp = preData[i];
                             preData[i] = preData[j];
                             preData[j] = temp;
@@ -116,11 +119,11 @@ $(document).ready(function() {
                                             <li class="toadoNEnd" style="display: none;">` + preData[i].CDTOADON + `</li>
                                             <li class="toadoWEnd" style="display: none;">` + preData[i].CDTOADOW + `</li> 
                                             </ul>`;
-                            var temp2 = $('#requestManageContent').html();
-                            $('#requestManageContent').html(temp2 + html + temp);
+                            var temp2 = $('#listItem').html();
+                            $('#listItem').html( html + temp+temp2);
                         } else {
-                            var temp2 = $('#requestManageContent').html();
-                            $('#requestManageContent').html(temp2 + html + `<li class="vt">&nbsp</li></ul>`);
+                            var temp2 = $('#listItem').html();
+                            $('#listItem').html( html + `<li class="vt">&nbsp</li></ul>`+temp2);
                         }
 
 

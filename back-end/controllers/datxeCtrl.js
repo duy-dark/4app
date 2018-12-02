@@ -46,15 +46,16 @@ router.post('/', (req, res) => {
 
     var thoigian = moment().unix();
     thoigian=moment(thoigian*1000).format('YYYY-MM-DD HH:mm:ss');
-    console.log(typeof(thoigian));
-    console.log(thoigian);
+    var t=+moment().valueOf();
+    console.log('time:'+t);
     var kh = {
         TEN: req.body.TENKH,
         SDT: req.body.SDTKH,
         DIEMDI: req.body.DIEMDIKH,
         GHICHU: req.body.GHICHUKH,
         STATECD: state,
-        THOIGIANDAT: thoigian
+        THOIGIANDAT: thoigian,
+        TIMEUPDATE:t
 
     }
     datxerepo.savekh(kh)
@@ -90,4 +91,19 @@ router.post('/updatetoado', (req, res) => {
         });
 })
 
+router.post('/getNewRequest', (req, res) => {
+    datxerepo.getNewRequest().then(rows=>{
+        res.json({data:rows[0]});
+        var state='đang định vị';
+        datxerepo.updateStateRequest(rows[0],state).then(values=>{
+            console.log("updated state request");
+        }).catch(err => {
+            console.log(err);
+        });
+    }).catch(err => {
+            console.log(err);
+            res.statusCode = 500;
+            res.end('View error log on console');
+        });
+})
 module.exports = router;

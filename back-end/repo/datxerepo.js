@@ -2,8 +2,8 @@ var db=require('../fn/mysql-db');
 
 
 exports.savekh = KH => {
-	var sql = `insert into chuyendi (HOTENKH,SDT,DIEMDI,GHICHU,STATECD,THOIGIANDAT,STATEREQUEST)
-				values('${KH.TEN}','${KH.SDT}','${KH.DIEMDI}','${KH.GHICHU}','${KH.STATECD}','${KH.THOIGIANDAT}','chưa định vị')`;
+	var sql = `insert into chuyendi (HOTENKH,SDT,DIEMDI,GHICHU,STATECD,THOIGIANDAT,STATEREQUEST,TIMEUPDATE)
+				values('${KH.TEN}','${KH.SDT}','${KH.DIEMDI}','${KH.GHICHU}','${KH.STATECD}','${KH.THOIGIANDAT}','chưa định vị',${KH.TIMEUPDATE})`;
 	return db.save(sql);
 }
 exports.loadcd = () => {
@@ -21,4 +21,12 @@ exports.updatestatecd = (userid,state) => {
 exports.loadid = IDCD => {
 	var sql = `select * from chuyendi where IDCD=${IDCD}`;
 	return db.load(sql);
+}
+exports.getNewRequest=()=>{
+	var sql = `select * from chuyendi where STATEREQUEST='chưa định vị'`;
+	return db.load(sql);
+}
+exports.updateStateRequest=(row,state)=>{
+	var sql = `update chuyendi set STATEREQUEST='${state}' where IDCD=${row.IDCD}`;
+	return db.save(sql);
 }

@@ -9,7 +9,6 @@ exports.loadAllRequest=()=>{
 }
 
 exports.getNew=(lrt)=>{
-	console.log('lrt: ',+lrt);
 	var sql=`select cd.IDCD,cd.IDTX,cd.DIEMDI,cd.THOIGIANDAT,cd.TOADON as CDTOADON,cd.TOADOW as CDTOADOW,
 				cd.GHICHU,cd.HOTENKH,cd.SDT as SDTKH,cd.STATECD,cd.REVERGEOCOD,cd.TIMEUPDATE,cd.STATEREQUEST as STATEREQUES,
 				tx.ID,tx.HOTEN,tx.SDT ,tx.NGAYSINH,tx.CMND,tx.DIACHI,tx.STATE,tx.TOADON,tx.TOADOW

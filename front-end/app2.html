@@ -9,120 +9,45 @@
 </head>
 
 <body>
-    <br>
-    <div class="htdangnhap">
-        <div>
-            <div id="dangnhap123">
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                    Đăng Nhập
-                </button>
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
-                    Đăng Ký
-                </button>
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Đăng Nhập</h4>
-                            </div>
-                            <div class="modal-body" style="height: 100px;">
-                                <div class="form-group">
-                                    <label for="userName" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="fusername" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                    <label for="password" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="password" class="form-control" id="fpassword" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="doigiaodien()">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="login()">Đăng Nhập</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Đăng Ký</h4>
-                            </div>
-                            <div class="modal-body" style="height: 300px;">
-                                <div class="form-group">
-                                    <label for="hoTen" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Họ Tên:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="hoten" name="fhoTen" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Ngày sinh:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="date" class="form-control" id="ngaysinh" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gioiTih" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Giới tính:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                        <select class="form-control" name="fgioiTinh" id="gioitinh">
-                                            <option value="nam">Nam</option>
-                                            <option value="nu">Nữ</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="hoTen" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Địa Chỉ:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="diachi" name="fdiachi" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="regist()">Đăng Ký</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 ">
-                    <span id="loidangnhap" style="font-size: 10pt; display: none;" class="label label-danger">đăng nhập không thành công</span>
-                </div>
-            </div>
+    <div class="accountBackground">
+        <span style="color: white;font-size: 20pt;font-style: italic;">Location Indentifier App</span>
+        <div class="accountControl ">
         </div>
     </div>
-    <div class="content">
-        <div class="row" style="margin-right: 5px;">
-            <div class="col-md-6">
-                <div class="container" style="width: 600px; border-right: 1px solid black;">
-                    <br>
-                    <div class="list-group" id="appcd" style="overflow: auto; height: 600px;">
+    <div class="modaFormBackground">
+        <div id="dangKiForm">
+            <div class="title">
+                Tạo tài khoản mới
+                <hr>
+            </div>
+            <form class=" form-horizontal" data-toggle="validator" role="form">
+                <div class="form-group">
+                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
+                        <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
+                        <p class="help-block with-errors"> </p>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
+                        <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
+                        <p class="help-block with-errors"> </p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert-danger" id="alertDki">Tài khoản đã tồn tại !</div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 "></div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+                    <button class="btn btn-success ">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="locateAppContent">
+                <div id="container"  >
+
+                </div>
+            <div id="contentMap">
                 <br>
                 <div id="map" style="width: 600px;height: 350px;">
                 </div>
@@ -138,8 +63,7 @@
                 <br>
                 <button onclick="updateaddress()" class="btn btn-success">update chuyến đi</button>
             </div>
-        </div>
-        <a href="mailto:joe@example.com?subject=feedback" "email me " ">email me</a>
+       
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
