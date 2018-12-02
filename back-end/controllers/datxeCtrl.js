@@ -45,6 +45,9 @@ router.post('/', (req, res) => {
     var state = 'chưa nhận';
 
     var thoigian = moment().unix();
+    thoigian=moment(thoigian*1000).format('YYYY-MM-DD HH:mm:ss');
+    console.log(typeof(thoigian));
+    console.log(thoigian);
     var kh = {
         TEN: req.body.TENKH,
         SDT: req.body.SDTKH,
