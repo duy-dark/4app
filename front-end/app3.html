@@ -47,11 +47,11 @@
     <div class="container-fluid col-xs-12 col-sm-12 col-md-12 col-lg-12 " id="requestManageContent">
     </div>
     <div id="shortestWayMap">
-        <div class="pull-left" class="title">Shortest way Map</div>
+        <div class="pull-left title">Shortest way Map</div>
         <div class="pull-right" id="closeMap"><span>&times</span></div>
         <div style="clear: both;border-top: 2px solid black;"></div>
         <div id="inforRoute" class="pull-left">
-           <h3><i><b>>Vị trí tài xế (A):</b></i></h3>
+            <h3><i><b>>Vị trí tài xế (A):</b></i></h3>
             <div id="driverPos"> </div>
             <h3><i><b>>Vị trí đón khách (B):</b></i></h3>
             <div id="customerPos"> </div>
@@ -62,17 +62,17 @@
     <script id="template" type="text/x-handlebars-template">
         {{#each this}}
         <ul id="{{IDCD}}">
-            <li class="tgd">{{THOIGIANDAT}}</li>
-            <li class="id">{{IDCD}}</li>
-            <li class="hoTen">{{HOTENKHs}}</li>
-            <li class="sdt">{{SDTKH}}</li>
-            <li class="diaChi">{{DIEMDI}}</li>
-            <li class="gc">{{GHICHU}}</li>
-            <li class="state">{{STATEREQUES}}</li>
-            <li class="state">{{STATECD}}</li>
-            <li class="id">{{ID}}</li>
-            <li class="hoTen">{{HOTEN}}</li>
-            <li class="sdt">{{SDT}}</li>
+            <li class="tgd THOIGIANDAT">{{THOIGIANDAT}}</li>
+            <li class="id IDCD">{{IDCD}}</li>
+            <li class="hoTen HOTENKH">{{HOTENKH}}</li>
+            <li class="sdt SDTKH">{{SDTKH}}</li>
+            <li class="diaChi DIEMDI">{{DIEMDI}}</li>
+            <li class="gc GHICHU">{{GHICHU}}</li>
+            <li class="state STATEREQUES">{{STATEREQUES}}</li>
+            <li class="state STATECD">{{STATECD}}</li>
+            <li class="id IDTX">{{ID}}</li>
+            <li class="hoTen HOTENTX">{{HOTEN}}</li>
+            <li class="sdt SDTTX">{{SDT}}</li>
             
             {{#if ID}}
                 <li class="vt"><button class="btn btn-success">Click</button></li>
@@ -125,6 +125,7 @@
 
         if (isSelecting == false) {
             $(this).closest('ul').css('background-color', 'red');
+            var n=$(this);
             isSelecting = true;
 
             var toadoNStart = parseFloat($(this).closest('ul').find('.toadoNStart').html());
@@ -145,8 +146,8 @@
                 if (status === 'OK') {
                     if (results[0]) {
                         posStart = results[0].formatted_address;
-                         $('#driverPos').html(posStart);
-                       
+                        $('#driverPos').html(posStart);
+
                     } else {
                         window.alert('No results found');
                     }
@@ -181,6 +182,41 @@
                 }
             });
             $('#shortestWayMap').css('display', 'block');
+
+            var fn = function() {
+                var toadoNStart2 = parseFloat(n.closest('ul').find('.toadoNStart').html());
+                var toadoWStart2 = parseFloat(n.closest('ul').find('.toadoWStart').html());
+                var toadoNEnd2 = parseFloat(n.closest('ul').find('.toadoNEnd').html());
+                var toadoWEnd2 = parseFloat(n.closest('ul').find('.toadoWEnd').html());
+                   console.log(toadoNStart2+";"+toadoWStart2+";"+toadoNEnd2+";"+toadoWEnd2+";");
+                if (toadoNStart2 !== toadoNStart || toadoWStart2 !== toadoWStart || toadoNEnd2 !== toadoNEnd || toadoWEnd2 !== toadoWEnd) {
+
+                    toadoNStart=toadoNStart2;
+                    toadoWStart=toadoWStart2;
+                    toadoNEnd=toadoNEnd2;
+                    toadoWEnd=toadoWEnd2;
+                 
+                    start = new google.maps.LatLng(toadoNStart, toadoWStart);
+                     end = new google.maps.LatLng(toadoNEnd, toadoWEnd);
+                    directionsService.route({
+                        origin: start,
+                        destination: end,
+                        travelMode: 'DRIVING'
+                    }, function(response, status) {
+                        if (status === 'OK') {
+                            directionsDisplay.setDirections(response);
+                        } else {
+                           window.alert('Directions request failed due to ' + status);
+                        }
+                    });
+                }
+                
+                setTimeout(fn, 1000);
+            }
+
+            fn();
+
+
             //end if    
         }
 

@@ -13,7 +13,6 @@ router.get('/', (req, res) => {
 })
 router.post('/me', (req, res) => {
     var token = req.body.accesstoken;
-    console.log(token);
     var decoded = tokenRepo.verifytoken(token);
     var user = decoded.user;
     dangnhapRepo.loadid(user.ID).then(rows => {
