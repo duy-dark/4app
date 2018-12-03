@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var titleHtml=`<ul class="title">
+    var titleHtml = `<ul class="title">
                         <li class="id">ID CD</li>
                         <li class="hoTen">Họ tên KH</li>
                         <li class="sdt"> SĐT KH</li>
@@ -17,28 +17,31 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 timeout: 60000
             }).done(function(data2) {
-                var proData=data2.data;
-                if(proData){
-                    var html=` <ul id="`+proData.IDCD+`">
-                                    <li class="id">`+proData.IDCD+`</li>
-                                    <li class="hoTen">`+proData.HOTENKH+`</li>
-                                    <li class="sdt">`+proData.SDT+`</li>
-                                    <li class="diaChi">`+proData.DIEMDI+`</li>
-                                    <li class="state">`+proData.STATEREQUEST+`</li>
-                                     <li class="toaDoN" style="display:none;">`+proData.TOADON+`</li>
-                                      <li class="toaDoW" style="display:none;">`+proData.TOADOW+`</li>
+
+                var proData = data2.data;
+                console.log(proData);
+                if (proData) {
+                    var html = ` <ul id="` + proData.IDCD + `">
+                                    <li class="id">` + proData.IDCD + `</li>
+                                    <li class="hoTen">` + proData.HOTENKH + `</li>
+                                    <li class="sdt">` + proData.SDT + `</li>
+                                    <li class="diaChi">` + proData.DIEMDI + `</li>
+                                    <li class="state">` + proData.STATEREQUEST + `</li>
+                                     <li class="toaDoN" style="display:none;">` + proData.TOADON + `</li>
+                                      <li class="toaDoW" style="display:none;">` + proData.TOADOW + `</li>
                                 </ul>`;
-                    if(window.localStorage.getItem('content')){
-                        window.localStorage.setItem('content',html+window.localStorage.setItem('content'));
-                       
-                    }else{
-                        window.localStorage.setItem('content',html);
-                    }           
-                     $('#container').html(tempHtml+window.localStorage.getItem('content'));
+                    if (window.localStorage.getItem('content')) {
+                        window.localStorage.setItem('content', html + window.localStorage.getItem('content'));
 
+                    } else {
+                        window.localStorage.setItem('content', html);
+                    }
+                    $('#container').html(titleHtml + window.localStorage.getItem('content'));
+                    window.localStorage.setItem('processingID', proData.IDCD);
+                    window.localStorage.setItem('isProcessed', false);
 
-                }else{
-                    setTimeout(getNewRequest,1000);
+                } else {
+                    setTimeout(getNewRequest, 1000);
                 }
             }).fail(err => {
 
@@ -53,6 +56,13 @@ $(document).ready(function() {
             <button id="btnDangXuat" type="button" class="btn btn-success">Đăng xuất</button>`;
         $('.accountControl').html(html);
         $('#locateAppContent').css('display', 'block');
+        if (window.localStorage.getItem('content')) {
+            $('#container').html(titleHtml + window.localStorage.getItem('content'));
+
+        } else {
+            $('#container').html( window.localStorage.getItem('content'));
+        }
+        
         var dataTemp = {};
         var fn = function() {
             if (window.localStorage.getItem('user2')) {
@@ -75,7 +85,7 @@ $(document).ready(function() {
             setTimeout(fn, 2000);
         }
         fn();
-        
+
 
     } else {
 
@@ -190,8 +200,8 @@ $(document).ready(function() {
             <button id="btnDangXuat" type="button" class="btn btn-success">Đăng xuất</button>`;
                 $('.accountControl').html(html);
                 $('#locateAppContent').css('display', 'block');
-                var tempHtml=window.localStorage.getItem('content');
-                $('#container').html(titleHtml+tempHtml);
+                var tempHtml = window.localStorage.getItem('content');
+                $('#container').html(titleHtml + tempHtml);
 
                 window.localStorage.setItem('refresh2', data.refresh_token);
                 window.localStorage.setItem('user2', data.user.USERNAME);
@@ -231,6 +241,8 @@ $(document).ready(function() {
 
 
     });
+
+
 
 
 });

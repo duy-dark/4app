@@ -299,6 +299,7 @@ $(document).ready(function() {
         window.localStorage.removeItem('refresh3');
         window.localStorage.removeItem('actoken3');
         isSelecting = false;
+        lrt=0;
 
         var html = `<span >
                 User Name:

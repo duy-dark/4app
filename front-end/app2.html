@@ -44,34 +44,31 @@
         </div>
     </div>
     <div id="locateAppContent">
-                <div id="container"  >
-
-                </div>
-            <div id="contentMap">
-                <br>
-                <div id="map" style="width: 600px;height: 350px;">
-                </div>
-                <div class=""><input id="IDCD" class="form-control" disabled type="hidden"></div>
-                <div class=""><label>TOADON</label> <input type="text" class="form-control" disabled id="TOADON"></div>
-                <div class=""><label>TOADOW</label> <input type="text" class="form-control" disabled id="TOADOW"></div>
-                <div class=""><label>Geocode</label>
-                    <input type="text" class="form-control" id="address">
-                    <input type="button" class="btn btn-success" id="submitGC" value="Geocode">
-                </div>
-                <div class=""><label>REVER CODING</label><input type="text" id="REVERCODING" class="form-control" disabled>
-                    <input type="button" class="btn btn-success" id="submitRVC" value="Revercoding    "></div>
-                <br>
-                <button onclick="updateaddress()" class="btn btn-success">update chuyến đi</button>
+        <div id="container">
+        </div>
+        <div id="contentMap">
+            <div id="map" style="width: 100%;height: 350px;">
             </div>
-       
+            <div style="margin-left: 50px;">
+                <div style="display: inline-block;width:40%;"><label>Kinh độ:</label> <input type="text" class="form-control" id="TOADON"></div>
+                <div style="display: inline-block;width:5%;"></div>
+                <div style="display: inline-block;width:40%;"> <label>Vĩ độ:</label> <input type="text" class="form-control" id="TOADOW"></div>
+                <div class=""><label>Địa chỉ:</label>
+                    <input style="width:86%;" type="text" class="form-control" id="address">
+                </div>
+                <div style="width:86%;">
+                    <button style="margin-top:10px;" class="btn btn-success" id="submitGC">Geocode</button>
+                    <button style="margin-top:10px;" onclick="updateaddress()" class="btn btn-success pull-right" id="submitLocation">Hoàn tất định vị</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
     <script src="./assets/js/app2.js" type="text/javascript" charset="utf-8" async defer></script>
     <script id="list-dscd" type="text/x-handlebars-template">
-        
-                <a class="list-group-item items" id="{{IDCD}}" style="height: 90px; padding: 5px 5px ;" >
+        <a class="list-group-item items" id="{{IDCD}}" style="height: 90px; padding: 5px 5px ;" >
                     <div >
                         <div class="col-md-2"><label>ID</label> <input  name="" type="text" class="form-control contentid" disabled value="{{IDCD}}"></div>
                         <div class="col-md-3"><label>TÊN</label> <input type="text" class="form-control" disabled value="{{IDCD}}"></div>
@@ -80,108 +77,126 @@
                     </div>
                 </a>
         </script>
-        <script>
-        $(document).on('click', '.items', function() {
-            $('#IDCD').val(($(this).attr('id')));
-            initMap();
+    <script>
+    var marker;
+    var latlng1;
+    var curChooseID = window.localStorage.getItem('processingID');
+    //initMap();
+    $(document).on('click', '#container ul', function() {
+        var processingID = window.localStorage.getItem('processingID');
+        var isProcessed = window.localStorage.getItem('isProcessed');
+        curChooseID = $(this).find('.id').html();
+        if (curChooseID != processingID && isProcessed === 'false') {
+            $('#TOADON').prop('disabled', true);
+            $('#TOADOW').prop('disabled', true);
+            $('#submitGC').prop('disabled', true);
+            $('#address').prop('disabled', true);
+            $('#submitLocation').prop('disabled', true);
+        } else {
+            $('#TOADON').prop('disabled', false);
+            $('#TOADOW').prop('disabled', false);
+            $('#submitGC').prop('disabled', false);
+            $('#address').prop('disabled', false);
+            $('#submitLocation').prop('disabled', false);
+        }
+        initMap();
+    });
+
+
+    function initMap() {
+        var latlng1;
+        var latlng = { lat: 10.823099, lng: 106.629664 };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            zoom: 12
+        });
+        marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            animation: google.maps.Animation.BOUNCE,
+            draggable: true,
+        });
+        var geocoder = new google.maps.Geocoder;
+
+        var infowindow = new google.maps.InfoWindow;
+        /*
+        document.getElementById('submitRC').addEventListener('click', function() {
+            //geocodeLatLng(geocoder, map, infowindow);
+        });*/
+        document.getElementById('submitGC').addEventListener('click', function() {
+            geocodeAddress(geocoder, map);
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+            $('#TOADON').val(marker.position.lat().toFixed(6));
+            $('#TOADOW').val(marker.position.lng().toFixed(6));
+            map.setZoom(12);
+            map.setCenter(marker.getPosition());
         });
 
-        var marker;
-        var latlng1;
+        function geocodeLatLng(geocoder, map, infowindow) {
+            latlngad = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
+            geocoder.geocode({ 'location': latlngad }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        map.setZoom(11);
 
-        function initMap() {
-            var latlng1;
-            var latlng = { lat: 10.823099, lng: 106.629664 };
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: latlng,
-                zoom: 10
-            });
-            marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                animation: google.maps.Animation.BOUNCE,
-                draggable: true,
-            });
-            var geocoder = new google.maps.Geocoder;
+                        marker.setPosition(latlngad);
+                        marker.setMap(map);
+                        infowindow.setContent(results[0].formatted_address);
+                        console.log(results[0].formatted_address);
+                        infowindow.open(map, marker);
+                        $('#REVERCODING').val(results[0].formatted_address);
 
-            var infowindow = new google.maps.InfoWindow;
-            document.getElementById('submitRVC').addEventListener('click', function() {
-                geocodeLatLng(geocoder, map, infowindow);
-            });
-            document.getElementById('submitGC').addEventListener('click', function() {
-                geocodeAddress(geocoder, map);
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-                $('#TOADON').val(marker.position.lat().toFixed(6));
-                $('#TOADOW').val(marker.position.lng().toFixed(6));
-                map.setZoom(12);
-                map.setCenter(marker.getPosition());
-            });
-
-            function geocodeLatLng(geocoder, map, infowindow) {
-                latlngad = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-                geocoder.geocode({ 'location': latlngad }, function(results, status) {
-                    if (status === 'OK') {
-                        if (results[0]) {
-                            map.setZoom(11);
-
-                            marker.setPosition(latlngad);
-                            marker.setMap(map);
-                            infowindow.setContent(results[0].formatted_address);
-                            console.log(results[0].formatted_address);
-                            infowindow.open(map, marker);
-                            $('#REVERCODING').val(results[0].formatted_address);
-
-                        } else {
-                            window.alert('No results found');
-                        }
                     } else {
-                        window.alert('Geocoder failed due to: ' + status);
+                        window.alert('No results found');
                     }
-                });
-            }
-
-            function geocodeAddress(geocoder, resultsMap) {
-                marker.setMap(null);
-                var address = document.getElementById('address').value;
-                geocoder.geocode({ 'address': address }, function(results, status) {
-                    if (status === 'OK') {
-                        resultsMap.setCenter(results[0].geometry.location);
-                        marker.setPosition(results[0].geometry.location);
-                        marker.setMap(resultsMap);
-
-                        $('#TOADON').val(marker.position.lat().toFixed(6));
-                        $('#TOADOW').val(marker.position.lng().toFixed(6));
-                        map.setZoom(15);
-                    } else {
-                        alert('Geocode was not successful for the following reason: ' + status);
-                    }
-                });
-            }
-            google.maps.event.addListener(marker, 'drag', function() {
-                $('#TOADON').val(marker.position.lat().toFixed(6));
-                $('#TOADOW').val(marker.position.lng().toFixed(6));
-                latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
             });
-
-            setInterval(geocodeLatLng(), 1000);
         }
 
+        function geocodeAddress(geocoder, resultsMap) {
+            marker.setMap(null);
+            var address = document.getElementById('address').value;
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    marker.setPosition(results[0].geometry.location);
+                    marker.setMap(resultsMap);
 
+                    $('#TOADON').val(marker.position.lat().toFixed(6));
+                    $('#TOADOW').val(marker.position.lng().toFixed(6));
+                    map.setZoom(15);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+        google.maps.event.addListener(marker, 'drag', function() {
+            $('#TOADON').val(marker.position.lat().toFixed(6));
+            $('#TOADOW').val(marker.position.lng().toFixed(6));
+            latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
 
-
-
-
-
-        /*$(document).on('click', '.items', function() {
-            console.log("minh anh dễ thương");  
-            initMap();
-            $('#IDCD').val($(this).find('.contentid').val());
         });
-        */
-        </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
+
+        setInterval(geocodeLatLng(), 1000);
+    }
+
+
+
+
+
+
+
+    /*$(document).on('click', '.items', function() {
+        console.log("minh anh dễ thương");  
+        initMap();
+        $('#IDCD').val($(this).find('.contentid').val());
+    });
+    */
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
 </body>
 
 </html>

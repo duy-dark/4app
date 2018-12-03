@@ -84,7 +84,7 @@ body {
     position: absolute;
     padding: 0px;
     height: auto;
-    padding-top: 10px;
+    margin-top: 10px;
     background-color: white;
 }
 
@@ -191,12 +191,12 @@ body {
 }
 
 #map {
-    height: 90%;
+    height: 89%;
     width: 70%;
     border-left: 2px solid black;
 }
 #inforRoute{
-	height: 90%;
+	height: 89%;
 	width: 30%;
 	background-color: white;
 	font-size: 20px;
