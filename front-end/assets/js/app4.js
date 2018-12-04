@@ -17,20 +17,16 @@ function login() {
         }
     }).done(function(data) {
 
-        //alert(data.length());
         result = data;
         if (result.auth) {
             user1 = result.user;
-            /*
-            $('#access-token').val(result.access_token);
-            $('#refresh-token').val(result.refresh_token);
-            $('#authtoken').val(result.auth);
-            $('#usertoken').val(JSON.stringify(result.user));
-            $('#daidien').val(user1.HOTEN);
-            */
+
 
             $('#daidien').val(user1.HOTEN);
             window.localStorage.setItem('refresh4', result.refresh_token);
+
+            $('#idtx').val(user1.ID);
+
 
             var data1 = {};
             data1.refeshToken = window.localStorage.getItem('refresh4');
@@ -64,10 +60,24 @@ function login() {
 
     })
 }
+
+function hvs2(latA, longA, latB, longB) {
+    var dLat = (latA - latB).toRad();
+    var dLon = (longA - longB).toRad();
+    var dLatDiv2 = dLat / 2;
+    var dLonDiv2 = dLon / 2;
+    var latBRad = latB.toRad();
+    var latBRadCos = Math.cos(latBRad);
+    var dLatDiv2Sin = Math.sin(dLatDiv2);
+    var dLonDiv2Sin = Math.sin(dLonDiv2);
+    var a = dLatDiv2Sin * dLatDiv2Sin + latBRadCos * latBRadCos * dLonDiv2Sin * dLonDiv2Sin;
+    return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
 function regist() {
     var data = {};
     data.HOTEN = $('#hoten').val();
-   
+
     data.USERNAME = $('#username').val();
     data.PASSWORD = $('#password').val();
     //alert(JSON.stringify(data));
@@ -85,6 +95,7 @@ function regist() {
     });
 
 };
+
 function doigiaodien() {
     document.getElementById('chuadangnhap').style.display = 'none';
     document.getElementById('dangnhaproi').style.display = 'block';
@@ -93,7 +104,7 @@ function doigiaodien() {
 }
 $(function() {
 
-    if (window.localStorage.getItem('actoken4')===0) {
+    if (window.localStorage.getItem('actoken4') === 0) {
         document.getElementById('chuadangnhap').style.display = 'none';
     }
 

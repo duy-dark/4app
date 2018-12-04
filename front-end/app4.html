@@ -11,10 +11,8 @@
 
 <body>
     <form action="">
-        <input type="hidden" id="access-token">
-        <input type="hidden" id="refresh-token">
-        <input type="hidden" id="authtoken">
-        <input type="hidden" id="usertoken">
+        <input id="idtx" type="text"></input>
+        <input id="idcd" type="text"></input>
     </form>
     <div class="container">
     </div>
@@ -75,7 +73,6 @@
                                         <p class="help-block with-errors"> </p>
                                     </div>
                                 </div>
-                                
                                 <div class="form-group">
                                     <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
@@ -99,18 +96,37 @@
                     </div>
                 </div>
             </div>
-            <div id="dangnhaproi" style="display: none; left: none; height: 50px;">
-                <div class="col-xs-6"><img src="./assets/image/e.png" style="width: 50px;height: 50px;" alt=""> <input style="width: 110px; height: 50px; " disabled id="daidien"></input>
+            <div id="dangnhaproi" style="display: none; left: none; height: 40px;">
+                <div class="col-xs-6"><img src="./assets/image/e.png" style="width: 40px;height: 40px;" alt=""> <input style="width: 110px; height: 40px; " disabled id="daidien"></input>
                 </div>
                 <div class="col-xs-6"><button type="" class="btn form-control btn-info" onclick="logout()"> Đăng Xuất</button></div>
             </div>
             <div id="map">
             </div>
-            <div style="float: left;display: none;" id="taixesd">
-                <button type="button" class="btn btn-default">Nhận</button>
-                <button type="button" class="btn btn-success">Từ Chối</button>
-                <label class="btn btn-primary">stated</label>
-                <input type="text" name="" id="statedtx" class="form-control-static" disabled>
+            <br>
+            <div style="float: left;display: none; " id="taixesd">
+                <div class="col-sm-3" style="width: 70px;">
+                    <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="themRQ()">Thêm</button>
+                </div>
+                <div class="col-sm-3" style="width: 70px;">
+                    <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="nhanRQ()">Nhận</button>
+                </div>
+                <div class="col-sm-3" style="width: 70px;">
+                    <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="tuchoiRQ()">Từ Chối</button>
+                </div>
+                <div class="col-sm-3" style="width: 70px;">
+                    <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="">bắt đầu</button>
+                </div>
+                <div class="col-sm-3" style="width: 70px;">
+                    <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="">Kết thúc</button>
+                </div>
+            </div>
+            <div>
+                <label for="sel1">Select list (select one):</label>
+                <select class="form-control" id="sel1">
+                    <option>READY</option>
+                    <option>STANDY</option>
+                </select>
             </div>
         </div>
     </div>
@@ -119,26 +135,107 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
     <script src="assets/js/app4.js"></script>
     <script>
+    var latlang1;
+    var marker1, marker2, map;
+
     function initMap() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(p) {
+                LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
 
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: 10.823099, lng: 106.629664 },
-            zoom: 12
-        });
-        map.addListener('click', function(e) {
-            placeMarkerAndPanTo(e.latLng, map);
-
-        });
-
-        function placeMarkerAndPanTo(latLng, map) {
-            var marker = new google.maps.Marker({
-                position: latLng,
-                map: map
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: LatLng,
+                    zoom: 15,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                });
+                var image = {
+                    url: './assets/image/tx1.png',
+                    // Kích cỡ hình
+                    size: new google.maps.Size(50, 50),
+                    // Gốc cho hình là oo
+                    origin: new google.maps.Point(0, 0),
+                    // Neo cho hình là 0, 32
+                    anchor: new google.maps.Point(50, 50),
+                    scaledSize: new google.maps.Size(40, 40)
+                };
+                marker1 = new google.maps.Marker({
+                    position: LatLng,
+                    map: map,
+                    icon: image,
+                    title: "<div style = 'height:60px;width:200px'><b>Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+                });
+                google.maps.event.addListener(marker1, "click", function(e) {
+                    var infoWindow = new google.maps.InfoWindow();
+                    infoWindow.setContent(marker1.title);
+                    infoWindow.open(map, marker1);
+                });
             });
-            map.panTo(latLng);
-            alert(latLng);
-
+        } else {
+            alert('Geo Location feature is not supported in this browser.');
         }
+
+    }
+
+    function setMarker(latlng, map, title) {
+        map.setCenter(latlng);
+        marker2 = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: title
+        });
+
+    }
+
+    function themRQ() {
+        $.ajax({
+            url: 'http://localhost:3000/datxe/getcd',
+            type: 'GET',
+            contentType: 'application/json'
+        }).done(function(data) {
+            //alert(JSON.stringify(data));
+            latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
+            title = data.DIEMDI;
+            $('#idcd').val(data.IDCD)
+            setMarker(latlang1, map, title);
+        }).fail(function(err) {
+            alert(err);
+        });
+
+    }
+
+    function nhanRQ() {
+        var data = {};
+        data.IDTX = $('#idtx').val();
+        data.IDCD = $('#idcd').val();
+        $.ajax({
+            url: 'http://localhost:3000/datxe/getcd',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json'
+        }).done(function(data) {
+            //alert(JSON.stringify(data));
+            latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
+            title = data.DIEMDI;
+            setMarker(latlang1, map, title);
+        }).fail(function(err) {
+            alert(err);
+        });
+    }
+
+    function tuchoiRQ() {
+        var data = {};
+        data.IDCD = $('#idcd').val();
+        $.ajax({
+            url: 'http://localhost:3000/datxe/getcdtc',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json'
+        }).done(function(data) {
+             marker2.setMap(null);
+        }).fail(function(err) {
+            alert(err);
+        });
+       
     }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q&callback=initMap"></script>

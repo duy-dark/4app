@@ -22,3 +22,19 @@ exports.loadid = IDCD => {
 	var sql = `select * from chuyendi where IDCD=${IDCD}`;
 	return db.load(sql);
 }
+exports.loadcdapp4 = () => {
+	var sql = `select * from chuyendi where STATECD='chưa nhận'`;
+	return db.load(sql);
+}
+exports.updatestate = IDCD => {
+	var sql = `update chuyendi set STATECD='đã nhận' where IDCD = ${IDCD}`;
+	return db.load(sql);
+}
+exports.updatecd = user => {
+	var sql = `update chuyendi set IDTX='${user.IDTX}',STATECD='đã nhận',TIMEUPDATE='${user.TIMEUPDATE}' where IDCD = ${user.IDCD}`;
+	return db.load(sql);
+}
+exports.updatestate1 = IDCD => {
+	var sql = `update chuyendi set STATECD='chưa nhận' where IDCD = ${	IDCD}`;
+	return db.load(sql);
+}

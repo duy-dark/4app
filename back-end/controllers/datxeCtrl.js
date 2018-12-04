@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
                     res.json(rows[0])
                 })
             } else {
-                 loop++;
+                loop++;
                 console.log(`loop: ${loop}`);
                 if (loop < 4) {
                     setTimeout(fn, 2500);
@@ -86,5 +86,33 @@ router.post('/updatetoado', (req, res) => {
             res.end('View error log on console');
         });
 })
+router.get('/getcd', (req, res) => {
+    datxerepo.loadcdapp4().then(rows => {
+        if (rows.length > 0) {
+            datxerepo.updatestate(rows[0].IDCD).then(rows1 => {
+                res.json(rows[0]);
+            })
 
+        }
+    })
+})
+router.post('/getcd', (req, res) => {
+    var user = {
+        IDCD: req.body.IDCD,
+        IDTX: req.body.IDTX,
+        TIMEUPDATE: moment().unix()
+    }
+    datxerepo.updatecd(user).then(rows => {
+        res.statusCode=201;
+    })
+})
+router.post('/getcdtc', (req, res) => {
+   
+    datxerepo.updatestate1(req.body.IDCD).then(rows => {
+        res.statusCode=201;
+        res.json({
+            msg:'thanh cong'
+        })
+    })
+})
 module.exports = router;
