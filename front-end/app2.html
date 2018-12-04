@@ -9,145 +9,66 @@
 </head>
 
 <body>
-    <br>
-    <div class="htdangnhap">
-        <div>
-            <div id="dangnhap123">
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-                    Đăng Nhập
-                </button>
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
-                    Đăng Ký
-                </button>
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Đăng Nhập</h4>
-                            </div>
-                            <div class="modal-body" style="height: 100px;">
-                                <div class="form-group">
-                                    <label for="userName" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="fusername" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                    <label for="password" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="password" class="form-control" id="fpassword" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="doigiaodien()">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="login()">Đăng Nhập</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Đăng Ký</h4>
-                            </div>
-                            <div class="modal-body" style="height: 300px;">
-                                <div class="form-group">
-                                    <label for="hoTen" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Họ Tên:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="hoten" name="fhoTen" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Ngày sinh:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="date" class="form-control" id="ngaysinh" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gioiTih" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Giới tính:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                        <select class="form-control" name="fgioiTinh" id="gioitinh">
-                                            <option value="nam">Nam</option>
-                                            <option value="nu">Nữ</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="hoTen" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Địa Chỉ:</label>
-                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                        <input type="text" class="form-control" id="diachi" name="fdiachi" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
-                                        <p class="help-block with-errors"> </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" onclick="regist()">Đăng Ký</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-12 ">
-                    <span id="loidangnhap" style="font-size: 10pt; display: none;" class="label label-danger">đăng nhập không thành công</span>
-                </div>
-            </div>
+    <div class="accountBackground">
+        <span style="color: white;font-size: 20pt;font-style: italic;">Location Indentifier App</span>
+        <div class="accountControl ">
         </div>
     </div>
-    <div class="content">
-        <div class="row" style="margin-right: 5px;">
-            <div class="col-md-6">
-                <div class="container" style="width: 600px; border-right: 1px solid black;">
-                    <br>
-                    <div class="list-group" id="appcd" style="overflow: auto; height: 600px;">
+    <div class="modaFormBackground">
+        <div id="dangKiForm">
+            <div class="title">
+                Tạo tài khoản mới
+                <hr>
+            </div>
+            <form class=" form-horizontal" data-toggle="validator" role="form">
+                <div class="form-group">
+                    <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
+                        <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
+                        <p class="help-block with-errors"> </p>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label for="passwordDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Password:</label>
+                    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 ">
+                        <input type="password" class="form-control" id="password" name="fpasswordDk" placeholder="Nhập password của bạn" data-error="Vui lòng nhập password của bạn" required>
+                        <p class="help-block with-errors"> </p>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 alert-danger" id="alertDki">Tài khoản đã tồn tại !</div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 "></div>
+                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 ">
+                    <button class="btn btn-success ">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="locateAppContent">
+        <div id="container">
+        </div>
+        <div id="contentMap">
+            <div id="map" style="width: 100%;height: 350px;">
             </div>
-            <div class="col-md-6">
-                <br>
-                <div id="map" style="width: 600px;height: 350px;">
+            <div style="margin-left: 50px;">
+                <div style="display: inline-block;width:40%;"><label>Kinh độ:</label> <input type="text" class="form-control" id="TOADON"></div>
+                <div style="display: inline-block;width:5%;"></div>
+                <div style="display: inline-block;width:40%;"> <label>Vĩ độ:</label> <input type="text" class="form-control" id="TOADOW"></div>
+                <div class=""><label>Địa chỉ:</label>
+                    <input style="width:86%;" type="text" class="form-control" id="address">
                 </div>
-                <div class=""><input id="IDCD" class="form-control" disabled type="hidden"></div>
-                <div class=""><label>TOADON</label> <input type="text" class="form-control" disabled id="TOADON"></div>
-                <div class=""><label>TOADOW</label> <input type="text" class="form-control" disabled id="TOADOW"></div>
-                <div class=""><label>Geocode</label>
-                    <input type="text" class="form-control" id="address">
-                    <input type="button" class="btn btn-success" id="submitGC" value="Geocode">
+                <div style="width:86%;">
+                    <button style="margin-top:10px;" class="btn btn-success" id="submitGC">Geocode</button>
+                    <button style="margin-top:10px;" onclick="updateaddress()" class="btn btn-success pull-right" id="submitLocation">Hoàn tất định vị</button>
                 </div>
-                <div class=""><label>REVER CODING</label><input type="text" id="REVERCODING" class="form-control" disabled>
-                    <input type="button" class="btn btn-success" id="submitRVC" value="Revercoding    "></div>
-                <br>
-                <button onclick="updateaddress()" class="btn btn-success">update chuyến đi</button>
             </div>
         </div>
-        <a href="mailto:joe@example.com?subject=feedback" "email me " ">email me</a>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
     <script src="./assets/js/app2.js" type="text/javascript" charset="utf-8" async defer></script>
     <script id="list-dscd" type="text/x-handlebars-template">
-        
-                <a class="list-group-item items" id="{{IDCD}}" style="height: 90px; padding: 5px 5px ;" >
+        <a class="list-group-item items" id="{{IDCD}}" style="height: 90px; padding: 5px 5px ;" >
                     <div >
                         <div class="col-md-2"><label>ID</label> <input  name="" type="text" class="form-control contentid" disabled value="{{IDCD}}"></div>
                         <div class="col-md-3"><label>TÊN</label> <input type="text" class="form-control" disabled value="{{IDCD}}"></div>
@@ -156,108 +77,126 @@
                     </div>
                 </a>
         </script>
-        <script>
-        $(document).on('click', '.items', function() {
-            $('#IDCD').val(($(this).attr('id')));
-            initMap();
+    <script>
+    var marker;
+    var latlng1;
+    var curChooseID = window.localStorage.getItem('processingID');
+    //initMap();
+    $(document).on('click', '#container ul', function() {
+        var processingID = window.localStorage.getItem('processingID');
+        var isProcessed = window.localStorage.getItem('isProcessed');
+        curChooseID = $(this).find('.id').html();
+        if (curChooseID != processingID && isProcessed === 'false') {
+            $('#TOADON').prop('disabled', true);
+            $('#TOADOW').prop('disabled', true);
+            $('#submitGC').prop('disabled', true);
+            $('#address').prop('disabled', true);
+            $('#submitLocation').prop('disabled', true);
+        } else {
+            $('#TOADON').prop('disabled', false);
+            $('#TOADOW').prop('disabled', false);
+            $('#submitGC').prop('disabled', false);
+            $('#address').prop('disabled', false);
+            $('#submitLocation').prop('disabled', false);
+        }
+        initMap();
+    });
+
+
+    function initMap() {
+        var latlng1;
+        var latlng = { lat: 10.823099, lng: 106.629664 };
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            zoom: 12
+        });
+        marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            animation: google.maps.Animation.BOUNCE,
+            draggable: true,
+        });
+        var geocoder = new google.maps.Geocoder;
+
+        var infowindow = new google.maps.InfoWindow;
+        /*
+        document.getElementById('submitRC').addEventListener('click', function() {
+            //geocodeLatLng(geocoder, map, infowindow);
+        });*/
+        document.getElementById('submitGC').addEventListener('click', function() {
+            geocodeAddress(geocoder, map);
+        });
+        google.maps.event.addListener(marker, 'click', function() {
+            $('#TOADON').val(marker.position.lat().toFixed(6));
+            $('#TOADOW').val(marker.position.lng().toFixed(6));
+            map.setZoom(12);
+            map.setCenter(marker.getPosition());
         });
 
-        var marker;
-        var latlng1;
+        function geocodeLatLng(geocoder, map, infowindow) {
+            latlngad = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
+            geocoder.geocode({ 'location': latlngad }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        map.setZoom(11);
 
-        function initMap() {
-            var latlng1;
-            var latlng = { lat: 10.823099, lng: 106.629664 };
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: latlng,
-                zoom: 10
-            });
-            marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
-                animation: google.maps.Animation.BOUNCE,
-                draggable: true,
-            });
-            var geocoder = new google.maps.Geocoder;
+                        marker.setPosition(latlngad);
+                        marker.setMap(map);
+                        infowindow.setContent(results[0].formatted_address);
+                        console.log(results[0].formatted_address);
+                        infowindow.open(map, marker);
+                        $('#REVERCODING').val(results[0].formatted_address);
 
-            var infowindow = new google.maps.InfoWindow;
-            document.getElementById('submitRVC').addEventListener('click', function() {
-                geocodeLatLng(geocoder, map, infowindow);
-            });
-            document.getElementById('submitGC').addEventListener('click', function() {
-                geocodeAddress(geocoder, map);
-            });
-            google.maps.event.addListener(marker, 'click', function() {
-                $('#TOADON').val(marker.position.lat().toFixed(6));
-                $('#TOADOW').val(marker.position.lng().toFixed(6));
-                map.setZoom(12);
-                map.setCenter(marker.getPosition());
-            });
-
-            function geocodeLatLng(geocoder, map, infowindow) {
-                latlngad = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-                geocoder.geocode({ 'location': latlngad }, function(results, status) {
-                    if (status === 'OK') {
-                        if (results[0]) {
-                            map.setZoom(11);
-
-                            marker.setPosition(latlngad);
-                            marker.setMap(map);
-                            infowindow.setContent(results[0].formatted_address);
-                            console.log(results[0].formatted_address);
-                            infowindow.open(map, marker);
-                            $('#REVERCODING').val(results[0].formatted_address);
-
-                        } else {
-                            window.alert('No results found');
-                        }
                     } else {
-                        window.alert('Geocoder failed due to: ' + status);
+                        window.alert('No results found');
                     }
-                });
-            }
-
-            function geocodeAddress(geocoder, resultsMap) {
-                marker.setMap(null);
-                var address = document.getElementById('address').value;
-                geocoder.geocode({ 'address': address }, function(results, status) {
-                    if (status === 'OK') {
-                        resultsMap.setCenter(results[0].geometry.location);
-                        marker.setPosition(results[0].geometry.location);
-                        marker.setMap(resultsMap);
-
-                        $('#TOADON').val(marker.position.lat().toFixed(6));
-                        $('#TOADOW').val(marker.position.lng().toFixed(6));
-                        map.setZoom(15);
-                    } else {
-                        alert('Geocode was not successful for the following reason: ' + status);
-                    }
-                });
-            }
-            google.maps.event.addListener(marker, 'drag', function() {
-                $('#TOADON').val(marker.position.lat().toFixed(6));
-                $('#TOADOW').val(marker.position.lng().toFixed(6));
-                latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
             });
-
-            setInterval(geocodeLatLng(), 1000);
         }
 
+        function geocodeAddress(geocoder, resultsMap) {
+            marker.setMap(null);
+            var address = document.getElementById('address').value;
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    marker.setPosition(results[0].geometry.location);
+                    marker.setMap(resultsMap);
 
+                    $('#TOADON').val(marker.position.lat().toFixed(6));
+                    $('#TOADOW').val(marker.position.lng().toFixed(6));
+                    map.setZoom(15);
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+        google.maps.event.addListener(marker, 'drag', function() {
+            $('#TOADON').val(marker.position.lat().toFixed(6));
+            $('#TOADOW').val(marker.position.lng().toFixed(6));
+            latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
 
-
-
-
-
-        /*$(document).on('click', '.items', function() {
-            console.log("minh anh dễ thương");  
-            initMap();
-            $('#IDCD').val($(this).find('.contentid').val());
         });
-        */
-        </script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
+
+        setInterval(geocodeLatLng(), 1000);
+    }
+
+
+
+
+
+
+
+    /*$(document).on('click', '.items', function() {
+        console.log("minh anh dễ thương");  
+        initMap();
+        $('#IDCD').val($(this).find('.contentid').val());
+    });
+    */
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
 </body>
 
 </html>

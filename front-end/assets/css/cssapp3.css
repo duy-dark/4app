@@ -83,8 +83,8 @@ body {
 #requestManageContent {
     position: absolute;
     padding: 0px;
-    height: 100%;
-    padding-top: 10px;
+    height: auto;
+    margin-top: 10px;
     background-color: white;
 }
 
@@ -107,7 +107,9 @@ body {
     margin: 0px;
     padding: 0px;
 }
-
+#listItem ul:hover{
+    background-color: #D2D2D2;
+}
 #requestManageContent .title li {
     border-left: 1px solid white !important;
     color: white;
@@ -189,12 +191,12 @@ body {
 }
 
 #map {
-    height: 90%;
+    height: 89%;
     width: 70%;
     border-left: 2px solid black;
 }
 #inforRoute{
-	height: 90%;
+	height: 89%;
 	width: 30%;
 	background-color: white;
 	font-size: 20px;
