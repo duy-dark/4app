@@ -241,6 +241,28 @@
         $('container').find('#' + curChooseID + ' .toaDoN').html($('#TOADON').val());
         $('container').find('#' + curChooseID + ' .toaDoW').html($('#TOADOW').val());
         geocodeLatLng(geocoder, map, infowindow);
+        window.localStorage.setItem('isProcessed',true);
+
+        var dataTemp = {};
+        dataTemp.IDCD = ID;
+        dataTemp.TOADON = $('#TOADON').val();
+        dataTemp.TOADOW = $('#TOADOW').val();
+        dataTemp.REVERGEOCODING = $('#REVERCODING').val();
+        dataTemp.STATEREQUEST = "đã định vị";
+        dataTemp.token = window.localStorage.getItem('actoken2');
+        $.ajax({
+            url: 'http://localhost:3000/datxe/updatetoado',
+            type: 'POST',
+            data: JSON.stringify(dataTemp),
+            contentType: 'application/json',
+            timeout: 10000,
+        }).done(function(data2) {
+
+        }).fail(err => {
+
+
+        });
+
 
     });
 

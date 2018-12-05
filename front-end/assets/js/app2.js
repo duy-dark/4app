@@ -256,11 +256,12 @@ $(document).ready(function() {
 
 
     $(document).on('click', '#submitLocation', function() {
+
         var dataTemp={};
-            dataTemp.IDCD = ID;
+            dataTemp.IDCD = window.localStorage.getItem('processingID');
     dataTemp.TOADON = $('#TOADON').val();
     dataTemp.TOADOW = $('#TOADOW').val();
-    dataTemp.REVERGEOCODING = $('#REVERCODING').val();
+    dataTemp.REVERGEOCODING = $('#address').val();
     dataTemp.STATEREQUEST = "đã định vị";
     dataTemp.token=window.localStorage.getItem('actoken2');
         $.ajax({
@@ -270,9 +271,9 @@ $(document).ready(function() {
             contentType: 'application/json',
             timeout: 10000,
         }).done(function(data2) {
-
+            getNewRequest();
         }).fail(err => {
-
+            alert('Lỗi lưu thông tin xuống database!')
 
         });
     });

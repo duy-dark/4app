@@ -21,6 +21,7 @@ exports.add = user => {
     return db.save(sql);
 }
 exports.initrftoken = (refreshtoken, LOAI) => {
+    console.log(LOAI);
     var sql;
     if (LOAI === 4) {
         sql = `select tx.* from userrefreshtokenext u, taixe tx where tx.ID=u.ID and u.rfToken='${refreshtoken}'`;
