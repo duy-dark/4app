@@ -9,7 +9,7 @@ $(document).ready(function() {
     var getNewRequest = function() {
         if (window.localStorage.getItem('user2')) {
             var postData = {};
-            postData.token = window.localStorage.getItem('actoken3');
+            postData.token = window.localStorage.getItem('actoken2');
             $.ajax({
                 url: 'http://localhost:3000/datxe/getNewRequest',
                 type: 'POST',
@@ -21,14 +21,25 @@ $(document).ready(function() {
                 var proData = data2.data;
                 console.log(proData);
                 if (proData) {
+                    var tdnTemp = '',
+                        tdwTemp = '';
+
+                    if (proData.TOADON) {
+                        tdnTemp = proData.TOADON;
+                    }
+                    if (proData.TOADOW) {
+                        tdwTemp = proData.TOADOW;
+                    }
+
+
                     var html = ` <ul id="` + proData.IDCD + `">
                                     <li class="id">` + proData.IDCD + `</li>
                                     <li class="hoTen">` + proData.HOTENKH + `</li>
                                     <li class="sdt">` + proData.SDT + `</li>
                                     <li class="diaChi">` + proData.DIEMDI + `</li>
                                     <li class="state">` + proData.STATEREQUEST + `</li>
-                                     <li class="toaDoN" style="display:none;">` + proData.TOADON + `</li>
-                                      <li class="toaDoW" style="display:none;">` + proData.TOADOW + `</li>
+                                     <li class="toaDoN" style="display:none;">` + tdnTemp + `</li>
+                                      <li class="toaDoW" style="display:none;">` + tdwTemp + `</li>
                                 </ul>`;
                     if (window.localStorage.getItem('content')) {
                         window.localStorage.setItem('content', html + window.localStorage.getItem('content'));
@@ -60,9 +71,9 @@ $(document).ready(function() {
             $('#container').html(titleHtml + window.localStorage.getItem('content'));
 
         } else {
-            $('#container').html( window.localStorage.getItem('content'));
+            $('#container').html(window.localStorage.getItem('content'));
         }
-        
+
         var dataTemp = {};
         var fn = function() {
             if (window.localStorage.getItem('user2')) {
@@ -82,10 +93,10 @@ $(document).ready(function() {
                         console.log(err);
                     });
             }
-            setTimeout(fn, 2000);
+            setTimeout(fn, 58000);
         }
         fn();
-       
+
 
     } else {
 
@@ -226,11 +237,11 @@ $(document).ready(function() {
                                 console.log(err);
                             });
                     }
-                    setTimeout(fn, 2000);
+                    setTimeout(fn, 58000);
                 }
                 fn();
                 getNewRequest();
-                
+
 
             } else {
                 alert('Sai tên đăng nhập hoặc mật khẩu ! ');
@@ -244,7 +255,27 @@ $(document).ready(function() {
     });
 
 
+    $(document).on('click', '#submitLocation', function() {
+        var dataTemp={};
+            dataTemp.IDCD = ID;
+    dataTemp.TOADON = $('#TOADON').val();
+    dataTemp.TOADOW = $('#TOADOW').val();
+    dataTemp.REVERGEOCODING = $('#REVERCODING').val();
+    dataTemp.STATEREQUEST = "đã định vị";
+    dataTemp.token=window.localStorage.getItem('actoken2');
+        $.ajax({
+            url: 'http://localhost:3000/datxe/updatetoado',
+            type: 'POST',
+            data: JSON.stringify(dataTemp),
+            contentType: 'application/json',
+            timeout: 10000,
+        }).done(function(data2) {
 
+        }).fail(err => {
+
+
+        });
+    });
 
 });
 

@@ -59,7 +59,7 @@
                 </div>
                 <div style="width:86%;">
                     <button style="margin-top:10px;" class="btn btn-success" id="submitGC">Geocoding</button>
-                    <button style="margin-top:10px;" onclick="updateaddress()" class="btn btn-success pull-right" id="submitLocation">Hoàn tất định vị</button>
+                    <button style="margin-top:10px;" class="btn btn-success pull-right" id="submitLocation">Hoàn tất định vị</button>
                 </div>
             </div>
         </div>
@@ -240,6 +240,7 @@
     $(document).on('click', '#submitLocation', function() {
         $('container').find('#' + curChooseID + ' .toaDoN').html($('#TOADON').val());
         $('container').find('#' + curChooseID + ' .toaDoW').html($('#TOADOW').val());
+        geocodeLatLng(geocoder, map, infowindow);
 
     });
 
