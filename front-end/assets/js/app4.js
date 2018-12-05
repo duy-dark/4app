@@ -24,34 +24,37 @@ function login() {
 
             $('#daidien').val(user1.HOTEN);
             window.localStorage.setItem('refresh4', result.refresh_token);
-
+            window.localStorage.setItem('user4', user1.USERNAME);
+            window.localStorage.setItem('actoken4', result.access_token);
             $('#idtx').val(user1.ID);
 
 
             var data1 = {};
             data1.refeshToken = window.localStorage.getItem('refresh4');
             var fn = function() {
+                if (window.localStorage.getItem('user4')) {
+                    $.ajax({
+                            url: 'http://localhost:3000/newtoken/createtoken',
+                            type: 'POST',
+                            data: JSON.stringify(data1),
+                            contentType: 'application/json',
+                            timeout: 10000,
+                            success: function(data2, textstatus, xhr) {
+                                // alert(xhr.status);
+                            }
+                        }).done(function(data2) {
+                            window.localStorage.setItem('actoken4', data2.access_token);
 
-                $.ajax({
-                        url: 'http://localhost:3000/newtoken/createtoken',
-                        type: 'POST',
-                        data: JSON.stringify(data1),
-                        contentType: 'application/json',
-                        timeout: 10000,
-                        success: function(data2, textstatus, xhr) {
-                            // alert(xhr.status);
-                        }
-                    }).done(function(data2) {
-                        window.localStorage.setItem('actoken4', data2.access_token);
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
 
-                    })
-                    .catch(function(err) {
-                        console.log(err);
-                    });
-
-                setTimeout(fn, 58000);
+                    setTimeout(fn, 58000);
+                }
+                fn();
             }
-            fn();
+
             alert('login thành công');
 
         } else {
@@ -102,16 +105,13 @@ function doigiaodien() {
     document.getElementById('taixesd').style.display = 'block';
 
 }
-$(function() {
 
-    if (window.localStorage.getItem('actoken4') === 0) {
-        document.getElementById('chuadangnhap').style.display = 'none';
-    }
-
-});
 
 function logout() {
-    window.localStorage.setItem('actoken4', '0');
+    window.localStorage.removeItem('user4');
+    window.localStorage.removeItem('refresh4');
+    window.localStorage.removeItem('actoken4');
+
     document.getElementById('chuadangnhap').style.display = 'block';
     document.getElementById('dangnhaproi').style.display = 'none';
     document.getElementById('taixesd').style.display = 'none';
