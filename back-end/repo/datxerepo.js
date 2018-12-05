@@ -11,7 +11,7 @@ exports.loadcd = () => {
 	return db.load(sql);
 }
 exports.updatetoado = obj => {
-	var sql =  `update chuyendi set TOADON = '${obj.TOADON}', TOADOW = '${obj.TOADOW}', STATEREQUEST = '${obj.STATEREQUEST}', REVERGEOCODING='${obj.REVERGEOCODING}' where IDCD = ${obj.IDCD}`;
+	var sql =  `update chuyendi set TOADON = '${obj.TOADON}', TOADOW = '${obj.TOADOW}', STATEREQUEST = '${obj.STATEREQUEST}', REVERGEOCODING='${obj.REVERGEOCODING}',TIMEUPDATE=${obj.TIMEUPDATE} where IDCD = ${obj.IDCD}`;
 	return db.save(sql);
 }
 exports.updatestatecd = (userid,state) => {

@@ -91,12 +91,14 @@ router.post('/', (req, res) => {
 
 });
 router.post('/updatetoado', (req, res) => {
+    var t = +moment().valueOf();
     var obj = {
         IDCD: req.body.IDCD,
         TOADON: req.body.TOADON,
         TOADOW: req.body.TOADOW,
         STATEREQUEST: req.body.STATEREQUEST,
-        REVERGEOCODING: req.body.REVERGEOCODING
+        REVERGEOCODING: req.body.REVERGEOCODING,
+        TIMEUPDATE: t
     }
     datxerepo.updatetoado(obj).then(value => {
 
@@ -130,7 +132,7 @@ router.post('/getcd12', (req, res) => {
                             IDmin = rows2[i2].IDTX;
                         }
                     }
-                    if (rows2.length <2) {
+                    if (rows2.length < 2) {
                         IDmin = IDTX;
                     }
 
@@ -177,12 +179,15 @@ router.post('/getcdtc', (req, res) => {
 router.post('/getNewRequest', (req, res) => {
     datxerepo.getNewRequest().then(rows => {
         res.json({ data: rows[0] });
-        var state = 'đang định vị';
-        datxerepo.updateStateRequest(rows[0], state).then(values => {
-            console.log("updated state request");
-        }).catch(err => {
-            console.log(err);
-        });
+        if (rows.length > 0) {
+            var state = 'đang định vị';
+            datxerepo.updateStateRequest(rows[0], state).then(values => {
+                console.log("updated state request");
+            }).catch(err => {
+                console.log(err);
+            });
+        }
+
     }).catch(err => {
         console.log(err);
         res.statusCode = 500;

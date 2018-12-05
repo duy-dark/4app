@@ -107,9 +107,7 @@ body {
     margin: 0px;
     padding: 0px;
 }
-#listItem ul:hover{
-    background-color: #D2D2D2;
-}
+
 #requestManageContent .title li {
     border-left: 1px solid white !important;
     color: white;
