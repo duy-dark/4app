@@ -27,7 +27,7 @@ $(document).ready(function() {
                         console.log(err);
                     });
             }
-            setTimeout(fn, 2000);
+            setTimeout(fn, 58000);
         }
         fn();
 
@@ -168,7 +168,7 @@ $(document).ready(function() {
                                 console.log(err);
                             });
                     }
-                    setTimeout(fn, 2000);
+                    setTimeout(fn, 58000);
                 }
                 fn();
 
