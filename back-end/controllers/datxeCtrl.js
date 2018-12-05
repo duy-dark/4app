@@ -5,6 +5,25 @@ var datxerepo = require('./../repo/datxerepo');
 
 var router = express.Router();
 
+
+function toRad(i) {
+    return i * 3.14 / 180;
+}
+
+function hvs2(latA, longA, latB, longB) {
+    var dLat = toRad(latA - latB);
+    var dLon = toRad(longA - longB);
+    var dLatDiv2 = dLat / 2;
+    var dLonDiv2 = dLon / 2;
+    var latBRad = toRad(latB);
+    var latBRadCos = Math.cos(latBRad);
+    var dLatDiv2Sin = Math.sin(dLatDiv2);
+    var dLonDiv2Sin = Math.sin(dLonDiv2);
+    var a = dLatDiv2Sin * dLatDiv2Sin + latBRadCos * latBRadCos * dLonDiv2Sin * dLonDiv2Sin;
+    return parseInt(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 1000);
+}
+
+
 router.get('/', (req, res) => {
     var loop = 0;
     var fn = () => {
@@ -90,14 +109,51 @@ router.post('/updatetoado', (req, res) => {
             res.end('View error log on console');
         });
 })
-router.get('/getcd', (req, res) => {
-    datxerepo.loadcdapp4().then(rows => {
-        if (rows.length > 0) {
-            datxerepo.updatestate(rows[0].IDCD).then(rows1 => {
-                res.json(rows[0]);
-            })
-        }
-    })
+router.post('/getcd12', (req, res) => {
+    var dsden = req.body.dsden;
+    var IDTX = +req.body.IDTX;
+    var req;
+    var fn = function() {
+        datxerepo.mangchuatc(dsden).then(rows1 => {
+            datxerepo.ycrequest().then(rows2 => {
+                var IDmin = 0;
+                var disMin;
+                for (var i1 = 0; i1 < rows1.length; i1++) {
+
+                    IDmin = 0;
+                    disMin = hvs2(rows1[i1].TOADON, rows1[i1].TOADOW, rows2[0].TOADON, rows2[0].TOADOW);
+                    for (var i2 = 1; i2 < rows2.length; i2++) {
+
+                        var tempDis = hvs2(rows1[i1].TOADON, rows1[i1].TOADOW, rows2[i2].TOADON, rows2[i2].TOADOW);
+                        if (tempDis < disMin) {
+                            disMin = tempDis;
+                            IDmin = rows2[i2].IDTX;
+                        }
+                    }
+                    if (rows2.length <2) {
+                        IDmin = IDTX;
+                    }
+
+                    if (+IDmin === IDTX) {
+                        console.log(11111111111111111111111111111);
+                        console.log(rows1[i1]);
+
+                        break;
+                    }
+                }
+                //console.log(req);
+
+
+            }).catch(err2 => {
+                console.log(err2);
+            });
+
+        }).catch(err => {
+            console.log(err);
+        });
+    }
+    fn();
+
 })
 router.post('/getcd', (req, res) => {
     var user = {
@@ -110,7 +166,6 @@ router.post('/getcd', (req, res) => {
     })
 })
 router.post('/getcdtc', (req, res) => {
-    console.log(req.body.IDCD);
     datxerepo.updatestate1(req.body.IDCD).then(rows => {
         res.statusCode = 201;
         res.json({
@@ -133,5 +188,16 @@ router.post('/getNewRequest', (req, res) => {
         res.statusCode = 500;
         res.end('View error log on console');
     });
+})
+router.post('/updateposition', (req, res) => {
+    datxerepo.updateposition(req.body.lat, req.body.lng, req.body.IDTX).then(rows => {
+        res.statusCode == 201;
+        res.json({
+            TOADON: req.body.lat,
+            TOADOW: req.body.lng
+        })
+    }).catch(err => {
+        statusCode = 504;
+    })
 })
 module.exports = router;
