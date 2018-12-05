@@ -53,11 +53,12 @@
                 <div style="display: inline-block;width:40%;"><label>Kinh độ:</label> <input type="text" class="form-control" id="TOADON"></div>
                 <div style="display: inline-block;width:5%;"></div>
                 <div style="display: inline-block;width:40%;"> <label>Vĩ độ:</label> <input type="text" class="form-control" id="TOADOW"></div>
+                <div><button id="submitRC" class="btn btn-success">Reverse Geocoding</button></div>
                 <div class=""><label>Địa chỉ:</label>
                     <input style="width:86%;" type="text" class="form-control" id="address">
                 </div>
                 <div style="width:86%;">
-                    <button style="margin-top:10px;" class="btn btn-success" id="submitGC">Geocode</button>
+                    <button style="margin-top:10px;" class="btn btn-success" id="submitGC">Geocoding</button>
                     <button style="margin-top:10px;" onclick="updateaddress()" class="btn btn-success pull-right" id="submitLocation">Hoàn tất định vị</button>
                 </div>
             </div>
@@ -66,6 +67,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
     <script src="./assets/js/app2.js" type="text/javascript" charset="utf-8" async defer></script>
     <script id="list-dscd" type="text/x-handlebars-template">
         <a class="list-group-item items" id="{{IDCD}}" style="height: 90px; padding: 5px 5px ;" >
@@ -79,34 +81,130 @@
         </script>
     <script>
     var marker;
-    var latlng1;
+    var geocoder;
+    var infowindow;
+    var map;
     var curChooseID = window.localStorage.getItem('processingID');
-    //initMap();
+
+    function geocodeLatLng(geocoder, map, infowindow) {
+        var latad = parseFloat($('#TOADON').val());
+        var lngad = parseFloat($('#TOADOW').val());
+        console.log(latad + ';' + lngad);
+        var latlngad = { lat: latad, lng: lngad };
+        geocoder.geocode({ 'location': latlngad }, function(results, status) {
+            if (status === 'OK') {
+                if (results[0]) {
+                    map.setZoom(15);
+
+                    marker.setPosition(latlngad);
+                    marker.setMap(map);
+                    infowindow.setContent(results[0].formatted_address);
+                    console.log(results[0].formatted_address);
+                    infowindow.open(map, marker);
+                    $('#address').val(results[0].formatted_address);
+
+                } else {
+                    window.alert('No results found');
+                }
+            } else {
+                window.alert('Geocoder failed due to: ' + status);
+            }
+        });
+    }
+
+    function geocodeAddress(geocoder, resultsMap, infowindow) {
+        //marker.setMap(null);
+        var address = document.getElementById('address').value;
+        geocoder.geocode({ 'address': address }, function(results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                marker.setPosition(results[0].geometry.location);
+                marker.setMap(resultsMap);
+                infowindow.setContent(results[0].formatted_address);
+                infowindow.open(map, marker);
+
+                $('#TOADON').val(marker.position.lat().toFixed(6));
+                $('#TOADOW').val(marker.position.lng().toFixed(6));
+
+                map.setZoom(15);
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
+
     $(document).on('click', '#container ul', function() {
-        var processingID = window.localStorage.getItem('processingID');
-        var isProcessed = window.localStorage.getItem('isProcessed');
-        curChooseID = $(this).find('.id').html();
-        if (curChooseID != processingID && isProcessed === 'false') {
-            $('#TOADON').prop('disabled', true);
-            $('#TOADOW').prop('disabled', true);
-            $('#submitGC').prop('disabled', true);
-            $('#address').prop('disabled', true);
-            $('#submitLocation').prop('disabled', true);
-        } else {
-            $('#TOADON').prop('disabled', false);
-            $('#TOADOW').prop('disabled', false);
-            $('#submitGC').prop('disabled', false);
-            $('#address').prop('disabled', false);
-            $('#submitLocation').prop('disabled', false);
+        if ($(this).hasClass('title') !== true) {
+            var processingID = window.localStorage.getItem('processingID');
+            var isProcessed = window.localStorage.getItem('isProcessed');
+            curChooseID = $(this).find('.id').html();
+            var idTemp = $(this).index();
+
+            $('#container ul').each(function(index) {
+
+                if (index !== 0) {
+
+                    if (index !== idTemp) {
+                        $("#container ul:eq(" + index + ")").css('background-color', "white");
+                    } else {
+                        $("#container ul:eq(" + index + ")").css('background-color', "#449D44");
+                    }
+
+                }
+
+            });
+
+
+
+
+            if (curChooseID === processingID && isProcessed === 'false') {
+                $('#TOADON').prop('disabled', false);
+                $('#TOADOW').prop('disabled', false);
+                $('#submitGC').prop('disabled', false);
+                $('#address').prop('disabled', false);
+                $('#submitRC').prop('disabled', false);
+                $('#submitLocation').prop('disabled', false);
+                marker.setDraggable(true);
+
+                document.getElementById('submitRC').addEventListener('click', function() {
+                    geocodeLatLng(geocoder, map, infowindow);
+                });
+                document.getElementById('submitGC').addEventListener('click', function() {
+                    geocodeAddress(geocoder, map, infowindow);
+                });
+
+                google.maps.event.addListener(marker, 'drag', function() {
+                    $('#TOADON').val(marker.position.lat().toFixed(6));
+                    $('#TOADOW').val(marker.position.lng().toFixed(6));
+
+
+                });
+
+            } else {
+                $('#TOADON').prop('disabled', true);
+                $('#TOADOW').prop('disabled', true);
+                $('#submitGC').prop('disabled', true);
+                $('#address').prop('disabled', true);
+                $('#submitRC').prop('disabled', true);
+                $('#submitLocation').prop('disabled', true);
+
+                $('#TOADON').val(parseFloat($(this).find('.toaDoN').html()));
+                $('#TOADOW').val(parseFloat($(this).find('.toaDoW').html()));
+
+                geocodeLatLng(geocoder, map, infowindow);
+                geocodeAddress(geocoder, map, infowindow);
+                marker.setDraggable(false);
+            }
+
         }
-        initMap();
     });
 
 
     function initMap() {
         var latlng1;
         var latlng = { lat: 10.823099, lng: 106.629664 };
-        var map = new google.maps.Map(document.getElementById('map'), {
+        map = new google.maps.Map(document.getElementById('map'), {
             center: latlng,
             zoom: 12
         });
@@ -116,75 +214,34 @@
             animation: google.maps.Animation.BOUNCE,
             draggable: true,
         });
-        var geocoder = new google.maps.Geocoder;
+        geocoder = new google.maps.Geocoder;
+        infowindow = new google.maps.InfoWindow;
 
-        var infowindow = new google.maps.InfoWindow;
-        /*
-        document.getElementById('submitRC').addEventListener('click', function() {
-            //geocodeLatLng(geocoder, map, infowindow);
-        });*/
-        document.getElementById('submitGC').addEventListener('click', function() {
-            geocodeAddress(geocoder, map);
-        });
-        google.maps.event.addListener(marker, 'click', function() {
-            $('#TOADON').val(marker.position.lat().toFixed(6));
-            $('#TOADOW').val(marker.position.lng().toFixed(6));
-            map.setZoom(12);
-            map.setCenter(marker.getPosition());
-        });
 
-        function geocodeLatLng(geocoder, map, infowindow) {
-            latlngad = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-            geocoder.geocode({ 'location': latlngad }, function(results, status) {
-                if (status === 'OK') {
-                    if (results[0]) {
-                        map.setZoom(11);
 
-                        marker.setPosition(latlngad);
-                        marker.setMap(map);
-                        infowindow.setContent(results[0].formatted_address);
-                        console.log(results[0].formatted_address);
-                        infowindow.open(map, marker);
-                        $('#REVERCODING').val(results[0].formatted_address);
 
-                    } else {
-                        window.alert('No results found');
-                    }
-                } else {
-                    window.alert('Geocoder failed due to: ' + status);
-                }
-            });
-        }
 
-        function geocodeAddress(geocoder, resultsMap) {
-            marker.setMap(null);
-            var address = document.getElementById('address').value;
-            geocoder.geocode({ 'address': address }, function(results, status) {
-                if (status === 'OK') {
-                    resultsMap.setCenter(results[0].geometry.location);
-                    marker.setPosition(results[0].geometry.location);
-                    marker.setMap(resultsMap);
-
-                    $('#TOADON').val(marker.position.lat().toFixed(6));
-                    $('#TOADOW').val(marker.position.lng().toFixed(6));
-                    map.setZoom(15);
-                } else {
-                    alert('Geocode was not successful for the following reason: ' + status);
-                }
-            });
-        }
-        google.maps.event.addListener(marker, 'drag', function() {
-            $('#TOADON').val(marker.position.lat().toFixed(6));
-            $('#TOADOW').val(marker.position.lng().toFixed(6));
-            latlng1 = { lat: parseFloat(marker.position.lat().toFixed(6)), lng: parseFloat(marker.position.lng().toFixed(6)) };
-
-        });
-
-        setInterval(geocodeLatLng(), 1000);
+        //setInterval(geocodeLatLng(), 1000);
     }
 
 
 
+    var initFunc = function() {
+        if ($('#container ul:eq(1)').length > 0) {
+            initMap();
+            $('#container ul:eq(1)').click();
+        } else {
+            setTimeout(initFunc, 100);
+        }
+    }
+
+    initFunc();
+
+    $(document).on('click', '#submitLocation', function() {
+        $('container').find('#' + curChooseID + ' .toaDoN').html($('#TOADON').val());
+        $('container').find('#' + curChooseID + ' .toaDoW').html($('#TOADOW').val());
+
+    });
 
 
 
@@ -196,7 +253,6 @@
     });
     */
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
 </body>
 
 </html>

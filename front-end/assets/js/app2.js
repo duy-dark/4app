@@ -85,7 +85,7 @@ $(document).ready(function() {
             setTimeout(fn, 2000);
         }
         fn();
-
+       
 
     } else {
 
@@ -230,6 +230,7 @@ $(document).ready(function() {
                 }
                 fn();
                 getNewRequest();
+                
 
             } else {
                 alert('Sai tên đăng nhập hoặc mật khẩu ! ');
