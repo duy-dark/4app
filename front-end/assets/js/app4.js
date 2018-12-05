@@ -1,4 +1,5 @@
 function login() {
+
     var data = {};
     data.USERNAME = $('#fusername').val();
     data.PASSWORD = $('#fpassword').val();
@@ -20,8 +21,6 @@ function login() {
         result = data;
         if (result.auth) {
             user1 = result.user;
-
-
             $('#daidien').val(user1.HOTEN);
             window.localStorage.setItem('refresh4', result.refresh_token);
             window.localStorage.setItem('user4', user1.USERNAME);
@@ -32,7 +31,7 @@ function login() {
             var data1 = {};
             var fn = function() {
                 if (window.localStorage.getItem('user4')) {
-                    data1.LOAI=4;
+                    data1.LOAI = 4;
                     data1.refeshToken = window.localStorage.getItem('refresh4');
                     $.ajax({
                             url: 'http://localhost:3000/newtoken/createtoken',
@@ -42,27 +41,39 @@ function login() {
                             timeout: 15000
                         }).done(function(data2) {
                             window.localStorage.setItem('actoken4', data2.access_token);
-                            console.log('askfhkajsfhklsaf');
 
                         })
                         .fail(function(err) {
-                            console.log('fuck');
+                            console.log(err);
                         });
 
-                    setTimeout(fn, 2000);
+                    setTimeout(fn, 58000);
                 }
 
             }
             fn();
 
-            alert('login thành công');
-
+            $('#myModal').css('display', 'none');
+            document.getElementById('chuadangnhap').style.display = 'none';
+            document.getElementById('dangnhaproi').style.display = 'block';
+            document.getElementById('taixesd').style.display = 'block';
+            document.getElementById('hotro').style.display = 'block';
         } else {
             document.getElementById('loidangnhap').style.display = 'block';
         }
 
     })
 }
+$('#btnDN').click(function() {
+    $('#myModal').css('display', 'block');
+    $('#myModal').css('background-color', 'rgba(0, 0, 0, 0.4)');
+
+});
+$('#btnDK').click(function() {
+    $('#myModal1').css('display', 'block');
+    $('#myModal1').css('background-color', 'rgba(0, 0, 0, 0.4)');
+
+});
 
 function hvs2(latA, longA, latB, longB) {
     var dLat = (latA - latB).toRad();
@@ -94,17 +105,12 @@ function regist() {
         success: function(data) {
             console.log(data)
             alert('thanh cong');
+            $('#myModal1').css('display', 'none');
         }
     });
 
 };
 
-function doigiaodien() {
-    document.getElementById('chuadangnhap').style.display = 'none';
-    document.getElementById('dangnhaproi').style.display = 'block';
-    document.getElementById('taixesd').style.display = 'block';
-
-}
 
 
 function logout() {
@@ -115,4 +121,5 @@ function logout() {
     document.getElementById('chuadangnhap').style.display = 'block';
     document.getElementById('dangnhaproi').style.display = 'none';
     document.getElementById('taixesd').style.display = 'none';
+    document.getElementById('hotro').style.display = 'none';
 }
