@@ -10,14 +10,14 @@ $(document).ready(function() {
         if (window.localStorage.getItem('user2')) {
             var postData = {};
             postData.token = window.localStorage.getItem('actoken2');
+            $('#alertGetRequest').css('display','block');
             $.ajax({
                 url: 'http://localhost:3000/datxe/getNewRequest',
                 type: 'POST',
                 data: JSON.stringify(postData),
                 contentType: 'application/json',
                 timeout: 60000
-            }).done(function(data2) {
-
+            }).done(function(data2) {                
                 var proData = data2.data;
                 console.log(proData);
                 if (proData) {
@@ -50,7 +50,8 @@ $(document).ready(function() {
                     $('#container').html(titleHtml + window.localStorage.getItem('content'));
                     window.localStorage.setItem('processingID', proData.IDCD);
                     window.localStorage.setItem('isProcessed', false);
-
+                    $('#container ul:eq(1)').click();
+                     $('#alertGetRequest').css('display','none');
                 } else {
                     setTimeout(getNewRequest, 1000);
                 }
@@ -96,6 +97,9 @@ $(document).ready(function() {
             setTimeout(fn, 58000);
         }
         fn();
+        if (window.localStorage.getItem('isProcessed')==='true') {
+            getNewRequest();
+        }
 
 
     } else {
@@ -165,12 +169,13 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#btnDangXuat', function() {
-
+        
+        $('#alertGetRequest').css('display','none');
         window.localStorage.removeItem('user2');
         window.localStorage.removeItem('refresh2');
         window.localStorage.removeItem('actoken2');
         isSelecting = false;
-
+        $('#container').html('');
         var html = `<span >
                 User Name:
                 <input type="text" name="accountName">
@@ -240,7 +245,13 @@ $(document).ready(function() {
                     setTimeout(fn, 58000);
                 }
                 fn();
-                getNewRequest();
+                
+                if (window.localStorage.getItem('isProcessed')==='true'||window.localStorage.getItem('isProcessed')===null) {
+                    getNewRequest();
+                }
+
+
+
 
 
             } else {
@@ -255,28 +266,7 @@ $(document).ready(function() {
     });
 
 
-    $(document).on('click', '#submitLocation', function() {
 
-        var dataTemp={};
-            dataTemp.IDCD = window.localStorage.getItem('processingID');
-    dataTemp.TOADON = $('#TOADON').val();
-    dataTemp.TOADOW = $('#TOADOW').val();
-    dataTemp.REVERGEOCODING = $('#address').val();
-    dataTemp.STATEREQUEST = "đã định vị";
-    dataTemp.token=window.localStorage.getItem('actoken2');
-        $.ajax({
-            url: 'http://localhost:3000/datxe/updatetoado',
-            type: 'POST',
-            data: JSON.stringify(dataTemp),
-            contentType: 'application/json',
-            timeout: 10000,
-        }).done(function(data2) {
-            getNewRequest();
-        }).fail(err => {
-            alert('Lỗi lưu thông tin xuống database!')
-
-        });
-    });
 
 });
 

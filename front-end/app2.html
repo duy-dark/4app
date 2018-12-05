@@ -6,9 +6,13 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/cssapp2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
+    <div id="alertGetRequest" class="animate-top">Đang lấy request mới !
+        <div class="fa fa-spinner fa-spin"> </div>
+    </div>
     <div class="accountBackground">
         <span style="color: white;font-size: 20pt;font-style: italic;">Location Indentifier App</span>
         <div class="accountControl ">
@@ -50,9 +54,9 @@
             <div id="map" style="width: 100%;height: 350px;">
             </div>
             <div style="margin-left: 50px;">
-                <div style="display: inline-block;width:40%;"><label>Kinh độ:</label> <input type="text" class="form-control" id="TOADON"></div>
+                <div style="display: inline-block;width:40%;"><label>Vĩ độ:</label> <input type="text" class="form-control" id="TOADON"></div>
                 <div style="display: inline-block;width:5%;"></div>
-                <div style="display: inline-block;width:40%;"> <label>Vĩ độ:</label> <input type="text" class="form-control" id="TOADOW"></div>
+                <div style="display: inline-block;width:40%;"> <label>Kinh độ:</label> <input type="text" class="form-control" id="TOADOW"></div>
                 <div><button id="submitRC" class="btn btn-success">Reverse Geocoding</button></div>
                 <div class=""><label>Địa chỉ:</label>
                     <input style="width:86%;" type="text" class="form-control" id="address">
@@ -67,7 +71,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.12/handlebars.min.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
     <script src="./assets/js/app2.js" type="text/javascript" charset="utf-8" async defer></script>
     <script id="list-dscd" type="text/x-handlebars-template">
         <a class="list-group-item items" id="{{IDCD}}" style="height: 90px; padding: 5px 5px ;" >
@@ -133,8 +136,26 @@
         });
     }
 
+    function initMap() {
+        var latlng1;
+        var latlng = { lat: 10.823099, lng: 106.629664 };
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            zoom: 12
+        });
+        marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            animation: google.maps.Animation.BOUNCE,
+            draggable: true,
+        });
+        geocoder = new google.maps.Geocoder;
+        infowindow = new google.maps.InfoWindow;
+        //setInterval(geocodeLatLng(), 1000);
+    }
 
     $(document).on('click', '#container ul', function() {
+
         if ($(this).hasClass('title') !== true) {
             var processingID = window.localStorage.getItem('processingID');
             var isProcessed = window.localStorage.getItem('isProcessed');
@@ -147,8 +168,12 @@
 
                     if (index !== idTemp) {
                         $("#container ul:eq(" + index + ")").css('background-color', "white");
+
+
                     } else {
+
                         $("#container ul:eq(" + index + ")").css('background-color', "#449D44");
+
                     }
 
                 }
@@ -167,6 +192,10 @@
                 $('#submitLocation').prop('disabled', false);
                 marker.setDraggable(true);
 
+                $('#TOADOW').val('');
+                $('#TOADON').val('');
+                $('#address').val($('#container').find('#' + curChooseID + ' .diaChi').html());
+                geocodeAddress(geocoder, map, infowindow);
                 document.getElementById('submitRC').addEventListener('click', function() {
                     geocodeLatLng(geocoder, map, infowindow);
                 });
@@ -189,11 +218,11 @@
                 $('#submitRC').prop('disabled', true);
                 $('#submitLocation').prop('disabled', true);
 
-                $('#TOADON').val(parseFloat($(this).find('.toaDoN').html()));
-                $('#TOADOW').val(parseFloat($(this).find('.toaDoW').html()));
+                $('#TOADON').val(parseFloat($('#container').find('#' + curChooseID + ' .toaDoN').html()));
+                $('#TOADOW').val(parseFloat($('#container').find('#' + curChooseID + ' .toaDoW').html()));
 
                 geocodeLatLng(geocoder, map, infowindow);
-                geocodeAddress(geocoder, map, infowindow);
+                // geocodeAddress(geocoder, map, infowindow);
                 marker.setDraggable(false);
             }
 
@@ -201,35 +230,81 @@
     });
 
 
-    function initMap() {
-        var latlng1;
-        var latlng = { lat: 10.823099, lng: 106.629664 };
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: latlng,
-            zoom: 12
-        });
-        marker = new google.maps.Marker({
-            position: latlng,
-            map: map,
-            animation: google.maps.Animation.BOUNCE,
-            draggable: true,
-        });
-        geocoder = new google.maps.Geocoder;
-        infowindow = new google.maps.InfoWindow;
+    var titleHtml = `<ul class="title">
+                        <li class="id">ID CD</li>
+                        <li class="hoTen">Họ tên KH</li>
+                        <li class="sdt"> SĐT KH</li>
+                        <li class="diaChi">Điểm đón khách</li>
+                        <li class="state">State Request</li>
+                    </ul>`;
+
+    var getNewRequest2 = function() {
+        if (window.localStorage.getItem('user2')) {
+            var postData = {};
+            postData.token = window.localStorage.getItem('actoken2');
+            $('#alertGetRequest').css('display', 'block');
+            $.ajax({
+                url: 'http://localhost:3000/datxe/getNewRequest',
+                type: 'POST',
+                data: JSON.stringify(postData),
+                contentType: 'application/json',
+                timeout: 60000
+            }).done(function(data2) {
+
+                var proData = data2.data;
+                console.log(proData);
+                if (proData) {
+                    var tdnTemp = '',
+                        tdwTemp = '';
+
+                    if (proData.TOADON) {
+                        tdnTemp = proData.TOADON;
+                    }
+                    if (proData.TOADOW) {
+                        tdwTemp = proData.TOADOW;
+                    }
 
 
+                    var html = ` <ul id="` + proData.IDCD + `">
+                                    <li class="id">` + proData.IDCD + `</li>
+                                    <li class="hoTen">` + proData.HOTENKH + `</li>
+                                    <li class="sdt">` + proData.SDT + `</li>
+                                    <li class="diaChi">` + proData.DIEMDI + `</li>
+                                    <li class="state">` + proData.STATEREQUEST + `</li>
+                                     <li class="toaDoN" style="display:none;">` + tdnTemp + `</li>
+                                      <li class="toaDoW" style="display:none;">` + tdwTemp + `</li>
+                                </ul>`;
+                    if (window.localStorage.getItem('content')) {
+                        window.localStorage.setItem('content', html + window.localStorage.getItem('content'));
+
+                    } else {
+                        window.localStorage.setItem('content', html);
+                    }
+                    $('#container').html(titleHtml + window.localStorage.getItem('content'));
+                    window.localStorage.setItem('processingID', proData.IDCD);
+                    window.localStorage.setItem('isProcessed', false);
+                    $('#container ul:eq(1)').click();
+                    $('#alertGetRequest').css('display', 'none');
+                } else {
+                    setTimeout(getNewRequest2, 1000);
+                }
+            }).fail(err => {
 
 
-
-        //setInterval(geocodeLatLng(), 1000);
+            });
+        }
     }
+
+
+
 
 
 
     var initFunc = function() {
         if ($('#container ul:eq(1)').length > 0) {
-            initMap();
+
             $('#container ul:eq(1)').click();
+
         } else {
             setTimeout(initFunc, 100);
         }
@@ -238,35 +313,72 @@
     initFunc();
 
     $(document).on('click', '#submitLocation', function() {
-        $('container').find('#' + curChooseID + ' .toaDoN').html($('#TOADON').val());
-        $('container').find('#' + curChooseID + ' .toaDoW').html($('#TOADOW').val());
-        geocodeLatLng(geocoder, map, infowindow);
-        window.localStorage.setItem('isProcessed',true);
+        if ($('#TOADOW').val() === '' || $('#TOADON').val() === '') {
 
-        var dataTemp = {};
-        dataTemp.IDCD = ID;
-        dataTemp.TOADON = $('#TOADON').val();
-        dataTemp.TOADOW = $('#TOADOW').val();
-        dataTemp.REVERGEOCODING = $('#REVERCODING').val();
-        dataTemp.STATEREQUEST = "đã định vị";
-        dataTemp.token = window.localStorage.getItem('actoken2');
-        $.ajax({
-            url: 'http://localhost:3000/datxe/updatetoado',
-            type: 'POST',
-            data: JSON.stringify(dataTemp),
-            contentType: 'application/json',
-            timeout: 10000,
-        }).done(function(data2) {
-
-        }).fail(err => {
+            alert('Vui lòng xác định vĩ độ và kinh độ đầy đủ !');
+        } else {
 
 
-        });
+            $('#container').find('#' + curChooseID + ' .toaDoN').html($('#TOADON').val());
+            $('#container').find('#' + curChooseID + ' .toaDoW').html($('#TOADOW').val());
+            $('#container').find('#' + curChooseID + ' .state').html('đã định vị');
+            var newContent = ``;
+            $('#container ul').each(function(index) {
 
+                if (index !== 0) {
+                    var tempUl = ` <ul id="` + $('#container ul:eq(' + index + ')').attr('id') + `">` + $('#container ul:eq(' + index + ')').html() + `</ul>`;
+                    newContent += tempUl;
+                }
+
+            });
+            window.localStorage.setItem('content', newContent);
+
+            geocodeLatLng(geocoder, map, infowindow);
+            window.localStorage.setItem('isProcessed', true);
+
+            var fnSaveNewState = function() {
+                var dataTemp = {};
+                dataTemp.IDCD = window.localStorage.getItem('processingID');
+                dataTemp.TOADON = $('#TOADON').val();
+                dataTemp.TOADOW = $('#TOADOW').val();
+                dataTemp.REVERGEOCODING = $('#address').val();
+                dataTemp.STATEREQUEST = "đã định vị";
+                dataTemp.token = window.localStorage.getItem('actoken2');
+                $.ajax({
+                    url: 'http://localhost:3000/datxe/updatetoado',
+                    type: 'POST',
+                    data: JSON.stringify(dataTemp),
+                    contentType: 'application/json',
+                    timeout: 10000,
+                }).done(function(data2) {
+                    getNewRequest2();
+                }).fail(err => {
+                    fnSaveNewState();
+
+                });
+            }
+            fnSaveNewState();
+
+        }
 
     });
 
+    $(document).on('click', '#btnDangNhap', function() {
 
+        if (window.localStorage.getItem('isProcessed') === 'false') {
+            var initFunc2 = function() {
+                if ($('#container ul:eq(1)').length > 0) {
+
+                    $('#container ul:eq(1)').click();
+
+
+                } else {
+                    setTimeout(initFunc2, 100);
+                }
+            };
+            initFunc2();
+        }
+    });
 
 
     /*$(document).on('click', '.items', function() {
@@ -276,6 +388,7 @@
     });
     */
     </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q&callback=initMap"></script>
 </body>
 
 </html>
