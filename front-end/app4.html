@@ -187,19 +187,23 @@
     }
 
     function themRQ() {
-        $.ajax({
-            url: 'http://localhost:3000/datxe/getcd',
-            type: 'GET',
-            contentType: 'application/json'
-        }).done(function(data) {
-            //alert(JSON.stringify(data));
-            latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
-            title = data.DIEMDI;
-            $('#idcd').val(data.IDCD)
-            setMarker(latlang1, map, title);
-        }).fail(function(err) {
-            alert(err);
-        });
+            $.ajax({
+                url: 'http://localhost:3000/datxe/getcd',
+                headers: {
+                    'x-access-token': window.localStorage.getItem('actoken4'),
+                    'Content-Type': 'application/json'
+                },
+                type: 'GET',
+                contentType: 'application/json'
+            }).done(function(data) {
+                //alert(JSON.stringify(data));
+                latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
+                title = data.DIEMDI;
+                $('#idcd').val(data.IDCD)
+                setMarker(latlang1, map, title);
+            }).fail(function(err) {
+                alert(err);
+            });
 
     }
 
@@ -207,6 +211,7 @@
         var data = {};
         data.IDTX = $('#idtx').val();
         data.IDCD = $('#idcd').val();
+        data.token = window.localStorage.getItem('actoken4');
         $.ajax({
             url: 'http://localhost:3000/datxe/getcd',
             type: 'POST',
@@ -225,20 +230,53 @@
     function tuchoiRQ() {
         var data = {};
         data.IDCD = $('#idcd').val();
+        data.token = window.localStorage.getItem('actoken4');
         $.ajax({
             url: 'http://localhost:3000/datxe/getcdtc',
             type: 'POST',
             data: JSON.stringify(data),
             contentType: 'application/json'
         }).done(function(data) {
-             marker2.setMap(null);
+            marker2.setMap(null);
         }).fail(function(err) {
             alert(err);
         });
-       
+
     }
+    $(function() {        
+        initMap();
+        if (window.localStorage.getItem('user4')) {
+            document.getElementById('chuadangnhap').style.display = 'none';
+            var data1 = {};
+            data1.refeshToken = window.localStorage.getItem('refresh4');
+            var fn = function() {
+                if (window.localStorage.getItem('user4')) {
+                    $.ajax({
+                            url: 'http://localhost:3000/newtoken/createtoken',
+                            type: 'POST',
+                            data: JSON.stringify(data1),
+                            contentType: 'application/json',
+                            timeout: 10000,
+                            success: function(data2, textstatus, xhr) {
+                                // alert(xhr.status);
+                            }
+                        }).done(function(data2) {
+                            window.localStorage.setItem('actoken4', data2.access_token);
+
+                        })
+                        .catch(function(err) {
+                            console.log(err);
+                        });
+
+                    setTimeout(fn, 58000);
+                }
+                fn();
+            }
+        }
+
+    });
     </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBLyWj-3FWtCbCXGW3ysEiI2fDfrv2v0Q"></script>
 </body>
 
 </html>

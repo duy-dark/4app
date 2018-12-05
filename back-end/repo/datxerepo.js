@@ -36,7 +36,7 @@ exports.updatecd = user => {
 	return db.load(sql);
 }
 exports.updatestate1 = IDCD => {
-	var sql = `update chuyendi set STATECD='chưa nhận' where IDCD = ${	IDCD}`;
+	var sql = `update chuyendi set STATECD='chưa nhận' where IDCD = ${IDCD}`;
 	return db.load(sql);
 }
 exports.getNewRequest=()=>{

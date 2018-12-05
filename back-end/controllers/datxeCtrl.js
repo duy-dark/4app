@@ -110,7 +110,7 @@ router.post('/getcd', (req, res) => {
     })
 })
 router.post('/getcdtc', (req, res) => {
-
+    console.log(req.body.IDCD);
     datxerepo.updatestate1(req.body.IDCD).then(rows => {
         res.statusCode = 201;
         res.json({
