@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
     })
 });
 
-app.use('/datxe/', datxeCtrl);
+app.use('/datxe/',verifyAccessToken, datxeCtrl);
 app.use('/account',dangnhapCtrl);
 app.use('/verifytrip',verifyAccessToken,tripCtrl);
 app.use('/requestManage',verifyAccessToken,requestManageCtrl);

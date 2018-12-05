@@ -196,6 +196,7 @@ $(document).ready(function() {
         dataTemp.SDTKH=sdt;
         dataTemp.DIEMDIKH=diaChi;
         dataTemp.GHICHUKH=gc;
+        dataTemp.token= window.localStorage.getItem('actoken1');
         $.ajax({
                 url: 'http://localhost:3000/datxe',
                 type: 'POST',
