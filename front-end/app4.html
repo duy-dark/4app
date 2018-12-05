@@ -11,20 +11,22 @@
 
 <body>
     <form action="">
-        <input id="idtx" type="hidden"></input>
-        <input id="idcd" type="hidden"></input>
+        <input id="idtx" type="text"></input>
+        <input id="idcd" type="text"></input>
     </form>
+    <div class="container">
+    </div>
     <div class="tlphone">
         <div>
             <div id="chuadangnhap">
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" id="btnDN">
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                     Đăng Nhập
                 </button>
-                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1" id="btnDK">
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
                     Đăng Ký
                 </button>
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" style="z-index: 3;">
+                    <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -33,19 +35,15 @@
                             <div class="modal-body" style="height: 168px;">
                                 <div class="form-group">
                                     <div>
-                                        <div class="row">
-                                            <label for="userName" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name:</label>
-                                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                                <input type="text" class="form-control" id="fusername" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
-                                                <p class="help-block with-errors"> </p>
-                                            </div>
+                                        <label for="userName" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">User Name:</label>
+                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
+                                            <input type="text" class="form-control" id="fusername" name="fuserName" placeholder="Nhập username" data-error="Vui lòng nhập tên đăng nhập" required>
+                                            <p class="help-block with-errors"> </p>
                                         </div>
-                                        <div class="row">
-                                            <label for="password" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password:</label>
-                                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
-                                                <input type="password" class="form-control" id="fpassword" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
-                                                <p class="help-block with-errors"> </p>
-                                            </div>
+                                        <label for="password" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 control-label">Password:</label>
+                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
+                                            <input type="password" class="form-control" id="fpassword" name="fpassword" placeholder="Nhập password" data-error="Vui lòng nhập password" required>
+                                            <p class="help-block with-errors"> </p>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 ">
@@ -54,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="doigiaodien()">Close</button>
                                 <button type="button" class="btn btn-primary" onclick="login()">Đăng Nhập</button>
                             </div>
                         </div>
@@ -111,27 +109,24 @@
                     <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="themRQ()">Thêm</button>
                 </div>
                 <div class="col-sm-3" style="width: 70px;">
+                    <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="nhanRQ()">Nhận</button>
+                </div>
+                <div class="col-sm-3" style="width: 70px;">
+                    <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="tuchoiRQ()">Từ Chối</button>
+                </div>
+                <div class="col-sm-3" style="width: 70px;">
                     <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="">bắt đầu</button>
                 </div>
                 <div class="col-sm-3" style="width: 70px;">
                     <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="">Kết thúc</button>
                 </div>
             </div>
-            <div id="hotro">
+            <div>
+                <label for="sel1">Select list (select one):</label>
                 <select class="form-control" id="sel1">
                     <option>READY</option>
                     <option>STANDY</option>
                 </select>
-            </div>
-        </div>
-    </div>
-    <div class="modaFormBackground2">
-        <div id="dialogRequest">
-            <div class="col-sm-3" style="width: 70px;">
-                <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="nhanRQ()">Nhận</button>
-            </div>
-            <div class="col-sm-3" style="width: 70px;">
-                <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="tuchoiRQ()">Từ Chối</button>
             </div>
         </div>
     </div>
@@ -141,56 +136,17 @@
     <script src="assets/js/app4.js"></script>
     <script>
     var latlang1;
-    var marker1, marker2, marker3, map;
-    var dsden = [];
-    if (typeof(Number.prototype.toRad) === "undefined") {
-        Number.prototype.toRad = function() {
-            return this * 3.14 / 180;
-        }
-    }
-
-    function hvs2(latA, longA, latB, longB) {
-        var dLat = (latA - latB).toRad();
-        var dLon = (longA - longB).toRad();
-        var dLatDiv2 = dLat / 2;
-        var dLonDiv2 = dLon / 2;
-        var latBRad = latB.toRad();
-        var latBRadCos = Math.cos(latBRad);
-        var dLatDiv2Sin = Math.sin(dLatDiv2);
-        var dLonDiv2Sin = Math.sin(dLonDiv2);
-        var a = dLatDiv2Sin * dLatDiv2Sin + latBRadCos * latBRadCos * dLonDiv2Sin * dLonDiv2Sin;
-        return parseInt(6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 1000);
-    }
+    var marker1, marker2, map;
 
     function initMap() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(p) {
                 LatLng = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+
                 map = new google.maps.Map(document.getElementById("map"), {
                     center: LatLng,
                     zoom: 15,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-                google.maps.event.addListener(map, 'click', function(event) {
-                    if (hvs2(p.coords.latitude, p.coords.longitude, event.latLng.lat(), event.latLng.lng()) <= 100) {
-                        var data = {};
-
-                        data.lat = event.latLng.lat();
-                        data.lng = event.latLng.lng();
-                        data.IDTX = $('#idtx').val();
-                        alert(data.lat + "," + data.lng);
-                        data.token = window.localStorage.getItem('actoken4');
-                        $.ajax({
-                            url: 'http://localhost:3000/datxe/updateposition',
-                            data: JSON.stringify(data),
-                            type: 'POST',
-                            contentType: 'application/json'
-                        }).done(function(data) {
-                            marker1.setPosition({ lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) });
-                        }).fail(function(err) {
-                            alert(err);
-                        });
-                    }
                 });
                 var image = {
                     url: './assets/image/tx1.png',
@@ -208,12 +164,10 @@
                     icon: image,
                     title: "<div style = 'height:60px;width:200px'><b>Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
                 });
-                marker3 = new google.maps.Marker();
                 google.maps.event.addListener(marker1, "click", function(e) {
                     var infoWindow = new google.maps.InfoWindow();
                     infoWindow.setContent(marker1.title);
                     infoWindow.open(map, marker1);
-
                 });
             });
         } else {
@@ -233,30 +187,24 @@
     }
 
     function themRQ() {
-        var data = {};
-        data.dsden = dsden;
-        
-        var fn = function() {
-            data.IDTX=$('#idtx').val();
-            data.token = window.localStorage.getItem('actoken4');
-            $.ajax({
-                url: 'http://localhost:3000/datxe/getcd12',
-                data: JSON.stringify(data),
-                type: 'POST',
-                contentType: 'application/json',
-                timeout:60000
-            }).done(function(data) {
-                $('.modaFormBackground2').css('display', 'block');
-                //alert(JSON.stringify(data));
-                latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
-                title = data.DIEMDI;
-                $('#idcd').val(data.IDCD)
-                setMarker(latlang1, map, title);
-            }).fail(function(err) {
-                setTimeout(fn,1000);
-            });
-        }
-        fn();
+        $.ajax({
+            url: 'http://localhost:3000/datxe/getcd',
+            headers: {
+                'x-access-token': window.localStorage.getItem('actoken4'),
+                'Content-Type': 'application/json'
+            },
+            type: 'GET',
+            contentType: 'application/json'
+        }).done(function(data) {
+            //alert(JSON.stringify(data));
+            latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
+            title = data.DIEMDI;
+            $('#idcd').val(data.IDCD)
+            setMarker(latlang1, map, title);
+        }).fail(function(err) {
+            alert(err);
+        });
+
     }
 
     function nhanRQ() {
@@ -282,20 +230,6 @@
     function tuchoiRQ() {
         var data = {};
         data.IDCD = $('#idcd').val();
-
-        var storedsden;
-        if (window.localStorage.getItem('dsden')) {
-            storedsden = JSON.parse(localStorage.getItem('dsden'));
-            var lends = storedsden.length;
-            dsden[lends] = $('#idcd').val();
-            window.localStorage.removeItem('dsden');
-            window.localStorage.setItem('dsden', JSON.stringify(dsden));
-
-        } else {
-            dsden[0] = $('#idcd').val();
-            window.localStorage.setItem('dsden', JSON.stringify(dsden));
-        }
-
         data.token = window.localStorage.getItem('actoken4');
         $.ajax({
             url: 'http://localhost:3000/datxe/getcdtc',
@@ -310,7 +244,6 @@
 
     }
     $(function() {
-        document.getElementById('hotro').style.display = 'none';
         initMap();
         if (window.localStorage.getItem('user4')) {
 
@@ -330,14 +263,14 @@
                             }
                         }).done(function(data2) {
                             window.localStorage.setItem('actoken4', data2.access_token);
-                            console.log('askfhkajsfhklsaf');
+                             console.log('askfhkajsfhklsaf');
 
                         })
                         .catch(function(err) {
                             console.log('o day');
                         });
 
-                    setTimeout(fn, 58000);
+                    setTimeout(fn, 2000);
                 }
             }
             fn();
