@@ -30,30 +30,30 @@ function login() {
 
 
             var data1 = {};
-            data1.refeshToken = window.localStorage.getItem('refresh4');
             var fn = function() {
                 if (window.localStorage.getItem('user4')) {
+                    data1.LOAI=4;
+                    data1.refeshToken = window.localStorage.getItem('refresh4');
                     $.ajax({
                             url: 'http://localhost:3000/newtoken/createtoken',
                             type: 'POST',
                             data: JSON.stringify(data1),
                             contentType: 'application/json',
-                            timeout: 10000,
-                            success: function(data2, textstatus, xhr) {
-                                // alert(xhr.status);
-                            }
+                            timeout: 15000
                         }).done(function(data2) {
                             window.localStorage.setItem('actoken4', data2.access_token);
+                            console.log('askfhkajsfhklsaf');
 
                         })
-                        .catch(function(err) {
-                            console.log(err);
+                        .fail(function(err) {
+                            console.log('fuck');
                         });
 
-                    setTimeout(fn, 58000);
+                    setTimeout(fn, 2000);
                 }
-                fn();
+
             }
+            fn();
 
             alert('login thành công');
 

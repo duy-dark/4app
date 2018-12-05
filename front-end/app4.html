@@ -187,23 +187,23 @@
     }
 
     function themRQ() {
-            $.ajax({
-                url: 'http://localhost:3000/datxe/getcd',
-                headers: {
-                    'x-access-token': window.localStorage.getItem('actoken4'),
-                    'Content-Type': 'application/json'
-                },
-                type: 'GET',
-                contentType: 'application/json'
-            }).done(function(data) {
-                //alert(JSON.stringify(data));
-                latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
-                title = data.DIEMDI;
-                $('#idcd').val(data.IDCD)
-                setMarker(latlang1, map, title);
-            }).fail(function(err) {
-                alert(err);
-            });
+        $.ajax({
+            url: 'http://localhost:3000/datxe/getcd',
+            headers: {
+                'x-access-token': window.localStorage.getItem('actoken4'),
+                'Content-Type': 'application/json'
+            },
+            type: 'GET',
+            contentType: 'application/json'
+        }).done(function(data) {
+            //alert(JSON.stringify(data));
+            latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
+            title = data.DIEMDI;
+            $('#idcd').val(data.IDCD)
+            setMarker(latlang1, map, title);
+        }).fail(function(err) {
+            alert(err);
+        });
 
     }
 
@@ -243,9 +243,10 @@
         });
 
     }
-    $(function() {        
+    $(function() {
         initMap();
         if (window.localStorage.getItem('user4')) {
+
             document.getElementById('chuadangnhap').style.display = 'none';
             var data1 = {};
             data1.refeshToken = window.localStorage.getItem('refresh4');
@@ -262,16 +263,18 @@
                             }
                         }).done(function(data2) {
                             window.localStorage.setItem('actoken4', data2.access_token);
+                             console.log('askfhkajsfhklsaf');
 
                         })
                         .catch(function(err) {
-                            console.log(err);
+                            console.log('o day');
                         });
 
-                    setTimeout(fn, 58000);
+                    setTimeout(fn, 2000);
                 }
-                fn();
             }
+            fn();
+
         }
 
     });
