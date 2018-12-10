@@ -167,6 +167,28 @@ router.post('/getcd', (req, res) => {
         res.statusCode = 201;
     })
 })
+router.post('/endcd', (req, res) => {
+    var user = {
+        IDCD: req.body.IDCD,
+        IDTX: req.body.IDTX
+    }
+    var p1=datxerepo.updatecdtxend(user);
+    var p2=datxerepo.updatecdend(user);
+    Promise.all([p1, p2]).then(([rows, rows1]) => {
+        res.statusCode=201;
+    })
+    
+})
+router.post('/logout', (req, res) => {
+    var user = {
+        IDCD: req.body.IDCD,
+        IDTX: req.body.IDTX
+    }
+   datxerepo.updatetxst(user).then(rows => {
+        res.statusCode = 201;
+    })
+    
+})
 router.post('/getcdtc', (req, res) => {
     datxerepo.updatestate1(req.body.IDCD).then(rows => {
         res.statusCode = 201;

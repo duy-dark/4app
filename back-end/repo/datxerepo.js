@@ -29,15 +29,27 @@ exports.loadcdapp4 = () => {
 }
 exports.updatestate = IDCD => {
 	var sql = `update chuyendi set STATECD='đã nhận' where IDCD = ${IDCD}`;
-	return db.load(sql);
+	return db.save(sql);
 }
 exports.updatecd = user => {
 	var sql = `update chuyendi set IDTX='${user.IDTX}',STATECD='đã nhận',TIMEUPDATE='${user.TIMEUPDATE}' where IDCD = ${user.IDCD}`;
-	return db.load(sql);
+	return db.save(sql);
+}
+exports.updatecdend = user => {
+	var sql = `update chuyendi set STATECD='đã xong',TIMEUPDATE='${user.TIMEUPDATE}' where IDCD = ${user.IDCD}`;
+	return db.save(sql);
+}
+exports.updatecdtxend = user => {
+	var sql = `update taixe set STATE='READY' where IDCD = ${user.IDTX}`;
+	return db.save(sql);
+}
+exports.updatetxst = user => {
+	var sql = `update taixe set STATE='OFFLINE' where IDCD = ${user.IDTX}`;
+	return db.save(sql);
 }
 exports.updatestate1 = IDCD => {
 	var sql = `update chuyendi set STATECD='chưa nhận' where IDCD = ${IDCD}`;
-	return db.load(sql);
+	return db.save(sql);
 }
 exports.getNewRequest=()=>{
 	var sql = `select * from chuyendi where STATEREQUEST='chưa định vị'`;

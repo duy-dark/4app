@@ -111,4 +111,19 @@ function logout() {
     document.getElementById('dangnhaproi').style.display = 'none';
     document.getElementById('taixesd').style.display = 'none';
     document.getElementById('hotro').style.display = 'none';
+    var data = {};
+    data.IDTX = $('#idtx').val();
+    data.IDCD = $('#idcd').val();
+    data.token = window.localStorage.getItem('actoken4');
+    $.ajax({
+        url: 'http://localhost:3000/datxe/logout',
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        timeout: 10000
+    }).done(function(data) {
+        
+    }).fail(function(err) {
+       console.log(err);
+    });
 }
