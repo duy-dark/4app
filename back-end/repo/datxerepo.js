@@ -59,3 +59,16 @@ exports.updateStateRequest=(row,state)=>{
 	var sql = `update chuyendi set STATEREQUEST='${state}' where IDCD=${row.IDCD}`;
 	return db.save(sql);
 }
+exports.getRejectRequest=(user)=>{
+	var sql = `select * from rejectrequest where USERNAMETX='${user}'`;
+	return db.load(sql);
+}
+exports.getRequest=()=>{
+	var sql = `select * from chuyendi where STATECD="chưa nhận" or STATECD="không có xe" and STATEREQUEST="đã định vị"`;
+	return db.load(sql);
+}
+exports.getTX=()=>{
+	var sql = `select * from taixe where STATE="READY" `;
+	return db.load(sql);
+}
+

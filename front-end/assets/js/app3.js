@@ -221,7 +221,7 @@ $(document).ready(function() {
                         console.log(err);
                     });
             }
-            setTimeout(fn, 58000);
+            setTimeout(fn, 2000);
         }
         fn();
         updateRequest();

@@ -1,3 +1,7 @@
+$("#closeInformDialog").click(function() {
+    $(".modaFormBackground3").css('display', 'none');
+});
+
 function login() {
 
     var data = {};
@@ -27,9 +31,16 @@ function login() {
             window.localStorage.setItem('actoken4', result.access_token);
             $('#idtx').val(user1.ID);
 
+            $("#chuadangnhap").css('display', 'none');
+            $('#accountArea').css('display', 'block');
+            
+            $('#accountArea #name').html('Username: ' + window.localStorage.getItem('user4'));
+            $('#hotro').css('display', 'block');
+
 
             var data1 = {};
             var fn = function() {
+
                 if (window.localStorage.getItem('user4')) {
                     data1.LOAI = 4;
                     data1.refeshToken = window.localStorage.getItem('refresh4');
@@ -40,6 +51,7 @@ function login() {
                             contentType: 'application/json',
                             timeout: 15000
                         }).done(function(data2) {
+                            console.log('he');
                             window.localStorage.setItem('actoken4', data2.access_token);
 
                         })
@@ -54,10 +66,7 @@ function login() {
             fn();
 
             $('#myModal').css('display', 'none');
-            document.getElementById('chuadangnhap').style.display = 'none';
-            document.getElementById('dangnhaproi').style.display = 'block';
-            document.getElementById('taixesd').style.display = 'block';
-            document.getElementById('hotro').style.display = 'block';
+
         } else {
             document.getElementById('loidangnhap').style.display = 'block';
         }
@@ -80,7 +89,7 @@ $('#btnDK').click(function() {
 function regist() {
     var data = {};
     data.HOTEN = $('#hoten').val();
-
+    data.SDT = $('#sdt').val();
     data.USERNAME = $('#username').val();
     data.PASSWORD = $('#password').val();
     //alert(JSON.stringify(data));
@@ -92,25 +101,49 @@ function regist() {
         contentType: 'application/json',
         timeout: 10000,
         success: function(data) {
-            console.log(data)
-            alert('thanh cong');
-            $('#myModal1').css('display', 'none');
+            console.log(data);
+            if (data.added === true) {
+                $('.modaFormBackground3').css('display', 'block');
+                $('#myModal1').css('display', 'none');
+
+            } else {
+                $('#existAccount').css('display', 'block');
+            }
+
+
         }
     });
 
 };
+$("#sel1").change(function() {
+    var st = $('#sel1').find(":selected").text();
+    var usn = window.localStorage.getItem('user4');
+    var tk = window.localStorage.getItem('actoken4');
+    var postData = {
+        state: st,
+        username: usn,
+        token: tk
+    };
+    $.ajax({
 
+        url: 'http://localhost:3000/verifytrip/updateStateTaixe',
+        type: 'POST',
+        data: JSON.stringify(postData),
+        contentType: 'application/json',
+        timeout: 60000
+    }).done(function(data2) {
+        console.log('đã thay đổi state thành công');
+    });
+
+});
 
 
 function logout() {
     window.localStorage.removeItem('user4');
     window.localStorage.removeItem('refresh4');
     window.localStorage.removeItem('actoken4');
+$('#accountArea').css('display','none');
 
-    document.getElementById('chuadangnhap').style.display = 'block';
-    document.getElementById('dangnhaproi').style.display = 'none';
-    document.getElementById('taixesd').style.display = 'none';
-    document.getElementById('hotro').style.display = 'none';
     var data = {};
     data.IDTX = $('#idtx').val();
     data.IDCD = $('#idcd').val();
@@ -122,8 +155,8 @@ function logout() {
         contentType: 'application/json',
         timeout: 10000
     }).done(function(data) {
-        
+
     }).fail(function(err) {
-       console.log(err);
+        console.log(err);
     });
 }

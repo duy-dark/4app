@@ -1,6 +1,6 @@
 var express = require('express');
 
-var dangnhapRepo = require('./../repo/tripRepo');
+var tripRepo = require('./../repo/tripRepo');
 
 
 
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
             chuyendi:rows
         })
     })
-})
+});
 
 router.post('/', (req, res) => {
     var trips=req.body;
@@ -20,7 +20,18 @@ router.post('/', (req, res) => {
             console.log(value);
             res.statusCode = 201;
             res.json(req.body);
-    })
-})
+    });
+});
 
+router.post('/updateStateTaixe', (req, res) => {
+    var state=req.body.state;
+    var username=req.body.username;
+    tripRepo.updateStateTaixe(state,username).then(value => {
+            res.statusCode = 201;
+            res.json({updated:true});
+    }).catch(err=>{
+        console.log(err);
+    })
+
+})
 module.exports = router;

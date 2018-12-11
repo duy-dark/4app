@@ -6,11 +6,11 @@ var datxerepo = require('./../repo/datxerepo');
 var router = express.Router();
 
 
-function toRad(i) {
+var toRad=function(i) {
     return i * 3.14 / 180;
 }
 
-function hvs2(latA, longA, latB, longB) {
+var hvs2=function(latA, longA, latB, longB) {
     var dLat = toRad(latA - latB);
     var dLon = toRad(longA - longB);
     var dLatDiv2 = dLat / 2;
@@ -112,49 +112,42 @@ router.post('/updatetoado', (req, res) => {
         });
 })
 router.post('/getcd12', (req, res) => {
-    var dsden = req.body.dsden;
-    var IDTX = +req.body.IDTX;
-    var req;
-    var fn = function() {
-        datxerepo.mangchuatc(dsden).then(rows1 => {
-            datxerepo.ycrequest().then(rows2 => {
-                var IDmin = 0;
-                var disMin;
-                for (var i1 = 0; i1 < rows1.length; i1++) {
 
-                    IDmin = 0;
-                    disMin = hvs2(rows1[i1].TOADON, rows1[i1].TOADOW, rows2[0].TOADON, rows2[0].TOADOW);
-                    for (var i2 = 1; i2 < rows2.length; i2++) {
-
-                        var tempDis = hvs2(rows1[i1].TOADON, rows1[i1].TOADOW, rows2[i2].TOADON, rows2[i2].TOADOW);
-                        if (tempDis < disMin) {
-                            disMin = tempDis;
-                            IDmin = rows2[i2].IDTX;
-                        }
+    datxerepo.getRejectRequest(req.body.username).then(rows=>{
+            datxerepo.getRequest().then(rows2=>{
+                var req=[];
+                for(var i1=0;i1<rows2.length;i1++){
+                    var check=true;
+                    for(var i2=0;i2<rows.length;i2++){
+                            if(rows2[i1].IDCD==rows[i2].IDCD){
+                                check=false;
+                            }
                     }
-                    if (rows2.length < 2) {
-                        IDmin = IDTX;
-                    }
-
-                    if (+IDmin === IDTX) {
-                        console.log(11111111111111111111111111111);
-                        console.log(rows1[i1]);
-
-                        break;
+                    if(check==true){
+                        req.push(rows2[i1]);
                     }
                 }
-                //console.log(req);
+                if(req.length==0){
+                     res.statusCode=500;
+                    res.end();
+                }else{
+                    datxerepo.updateStateRequest(req[0],"đang chờ").then(value=>{
+                        res.json({data:req[0]});
+                    }).catch(err3=>{
+                        console.log(err3);
+                    })
+ 
+                }
 
-
-            }).catch(err2 => {
+            }).catch(err2=>{
                 console.log(err2);
             });
 
-        }).catch(err => {
-            console.log(err);
-        });
-    }
-    fn();
+    }).catch(err=>{
+        console.log(err);
+    });
+ 
+   
 
 })
 router.post('/getcd', (req, res) => {

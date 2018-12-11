@@ -76,6 +76,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label for="sdt" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">SĐT:</label>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
+                                        <input type="text" class="form-control" id="sdt" name="sdtTX" placeholder="Nhập họ tên của bạn" data-error="Vui lòng nhập họ tên của bạn" required>
+                                        <p class="help-block with-errors"> </p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="userNameDk" class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">User name:</label>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 ">
                                         <input type="text" class="form-control" id="username" name="fuserNameDk" placeholder="Nhập tên đăng nhập của bạn" data-error="Vui lòng nhập tên đăng nhập của bạn" required>
@@ -89,6 +96,7 @@
                                         <p class="help-block with-errors"> </p>
                                     </div>
                                 </div>
+                                <div id="existAccount" >Tài khoản đã tồn tại!</div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -98,10 +106,10 @@
                     </div>
                 </div>
             </div>
-            <div id="dangnhaproi" style="display: none; left: none; height: 40px;">
-                <div class="col-xs-6"><img src="./assets/image/e.png" style="width: 40px;height: 40px;" alt=""> <input style="width: 110px; height: 40px; " disabled id="daidien"></input>
+            <div id="accountArea" style="display: none; height: 40px;">
+                <div class="col-xs-6" id="name">Username: </input>
                 </div>
-                <div class="col-xs-6"><button type="" class="btn form-control btn-info" onclick="logout()"> Đăng Xuất</button></div>
+                <div class="col-xs-6"><button class="btn form-control btn-info" onclick="logout()"> Đăng Xuất</button></div>
             </div>
             <input type="hidden" id="start">
             <input type="hidden" id="end">
@@ -122,7 +130,7 @@
             <div id="hotro">
                 <select class="form-control" id="sel1">
                     <option>READY</option>
-                    <option>STANDY</option>
+                    <option>BUSY</option>
                 </select>
             </div>
         </div>
@@ -136,6 +144,30 @@
                 <button type="button" id="themcd" class="btn btn-info" style="width: 60px; padding: 5px 5px;" onclick="tuchoiRQ()">Từ Chối</button>
             </div>
         </div>
+    </div>
+    
+    <div class="modaFormBackground3">
+            <div id="informDialog">
+                <h3>Tạo tài khoản thành công!</h3>
+                <button id="closeInformDialog" class="btn btn-success"> Đóng</button>
+            </div>
+    </div>
+    <div class="modaFormBackground4">
+
+        <div>Họ tên khách hàng:</div>
+        <div id="htkh">
+            
+        </div>
+        <div>SĐT:</div>
+        <div id="sdtkh">
+            
+        </div>
+        <div>Địa chỉ:</div>
+        <div id="dckh">
+            
+        </div>
+        <button id="btnAc" class="btn btn-success">Nhận</button>
+        <button id="btnTc" class="btn btn-success">Từ chối</button>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -253,25 +285,21 @@
         })
     }
     function themRQ() {
-        var data = {};
-        data.dsden = dsden;
 
         var fn = function() {
-            data.IDTX = $('#idtx').val();
             data.token = window.localStorage.getItem('actoken4');
+            data.username= window.localStorage.getItem('user4');
             $.ajax({
                 url: 'http://localhost:3000/datxe/getcd12',
                 data: JSON.stringify(data),
                 type: 'POST',
                 contentType: 'application/json',
                 timeout: 60000
-            }).done(function(data) {
-                $('.modaFormBackground2').css('display', 'block');
-                //alert(JSON.stringify(data));
-                latlang1 = { lat: parseFloat(data.TOADON), lng: parseFloat(data.TOADOW) };
-                title = data.DIEMDI;
-                $('#idcd').val(data.IDCD)
-                setMarker(latlang1, map, title);
+            }).done(function(data2) {
+                    $('.modaFormBackground4').css('display','block');
+                    $("#htkh").html(data2.data.HOTENKH);
+                    $("#sdtkh").html(data2.data.SDT);
+                    $("#dckh").html(data2.data.DIEMDI);
             }).fail(function(err) {
                 setTimeout(fn, 1000);
             });
@@ -401,10 +429,15 @@
 
         if (window.localStorage.getItem('user4')) {
 
-            document.getElementById('chuadangnhap').style.display = 'none';
-            var data1 = {};
-            data1.refeshToken = window.localStorage.getItem('refresh4');
+            $('#hotro').css('display','block');
+            $("#chuadangnhap").css('display','none');
+            $('#accountArea').css('display','block');
+            $('#accountArea #name').html('Username: '+ window.localStorage.getItem('user4'));
+    
             var fn = function() {
+                        var data1 = {};
+            data1.refeshToken = window.localStorage.getItem('refresh4');
+
                 if (window.localStorage.getItem('user4')) {
                     $.ajax({
                             url: 'http://localhost:3000/newtoken/createtoken',
@@ -417,7 +450,7 @@
                             }
                         }).done(function(data2) {
                             window.localStorage.setItem('actoken4', data2.access_token);
-                            console.log('askfhkajsfhklsaf');
+                            console.log('he2');
 
                         })
                         .catch(function(err) {

@@ -143,6 +143,7 @@ router.post('/registertx', (req, res) => {
     var user = {
         USERNAME: req.body.USERNAME,
         PASSWORD: req.body.PASSWORD,
+        SDT:req.body.SDT,
         HOTEN: req.body.HOTEN,
         NGAYSINH: null,
         DIACHI: null,

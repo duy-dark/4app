@@ -16,3 +16,7 @@ exports.updatetrip = trips => {
 	var sql = `UPDATE chuyendi SET TOADON ='${trips.TOADON}',TOADOW ='${trips.TOADOW}',STATECD ='${trips.STATECD}',REVERGEOCODING ='${trips.REVERGEOCODING}' `;
 	return db.save(sql);
 }
+exports.updateStateTaixe = (state,username) => {
+	var sql = `UPDATE taixe SET STATE ='${state}' where USERNAME='${username}'`;
+	return db.save(sql);
+}

@@ -81,6 +81,72 @@ body {
     display: none;
 
 }
+.modaFormBackground4 {
+
+    width: 430px;
+    height: 550px;
+
+    padding: 5px 5px;
+    margin: 50px auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    display: none;
+
+}
+#existAccount{
+    display: none;
+    color: red;
+    position: absolute;
+    top:0;
+    width: 100%;
+    text-align: center;
+}
+.modaFormBackground3 {
+
+    width: 430px;
+    height: 550px;
+
+    padding: 5px 5px;
+    margin: 50px auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 2;
+    
+    display: none;
+}
+
+@keyframes animatetop {
+    from {
+        top: -50px;
+        opacity: 0
+    }
+
+    to {
+        top: 0px;
+        opacity: 1
+    }
+}
+#informDialog {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 20%;
+    margin-top: 50px;
+    animation-name: animatetop;
+     animation-duration: 1s;
+    background-color: white;
+    text-align: center;
+    padding-bottom: 10px;
+        border-radius: 6px 6px 6px 6px;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
+}
 
 #dialogRequest {
     position: absolute;
@@ -108,5 +174,13 @@ body {
 #myModal {
     display: none;
     z-index: 100;
+
+}
+#name{
+    background-color: white;
+    font-size: 15pt;
+      border-radius: 6px 6px 6px 6px;
+    -moz-border-radius: 6px 6px 6px 6px;
+    -webkit-border-radius: 6px 6px 6px 6px;
 
 }

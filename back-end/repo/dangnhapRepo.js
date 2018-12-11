@@ -4,12 +4,12 @@ var sha256 = require('crypto-js/sha256');
 
 exports.login = user => {
     var md5_password = sha256(user.PASSWORD);
-    var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}' and LOAI='${user.LOAI}';`
+    var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}' and LOAI=${user.LOAI}`;
     return db.load(sql);
 }
 exports.logintx = user => {
     var md5_password = sha256(user.PASSWORD);
-    var sql = `select * from taixe where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}';`
+    var sql = `select * from taixe where USERNAME = '${user.USERNAME}' and PASSWORD = '${md5_password}'`;
     return db.load(sql);
 }
 
@@ -43,17 +43,17 @@ exports.updatestatenv = userid => {
     return db.save(sql);
 }
 exports.check = user => {
-    var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}'and LOAI='${user.LOAI}';`
+    var sql = `select * from nhanvien where USERNAME = '${user.USERNAME}'and LOAI='${user.LOAI}'`;
     return db.load(sql);
 }
 exports.checktx = user => {
-    var sql = `select * from taixe where USERNAME = '${user.USERNAME}';`
+    var sql = `select * from taixe where USERNAME = '${user.USERNAME}'`;
     return db.load(sql);
 }
 exports.addtx = user => {
     var md5_password = sha256(user.PASSWORD);
-    var sql = `insert into taixe( HOTEN, USERNAME, PASSWORD,NGAYSINH,DIACHI,STATE) 
-	values('${user.HOTEN}','${user.USERNAME}', '${md5_password}', '${user.NGAYSINH}', '${user.DIACHI}','${user.STATE}' )`;
+    var sql = `insert into taixe( HOTEN, USERNAME, PASSWORD,NGAYSINH,DIACHI,STATE,SDT) 
+	values('${user.HOTEN}','${user.USERNAME}', '${md5_password}', '${user.NGAYSINH}', '${user.DIACHI}','${user.STATE}','${user.SDT}' )`;
 
     return db.save(sql);
 }
